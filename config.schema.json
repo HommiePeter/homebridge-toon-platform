@@ -12,7 +12,7 @@
           "default": "Toon"
         },
         "apiToken": {
-          "title": "Name",
+          "title": "apiToken",
           "type": "string",
           "required": true
         }
