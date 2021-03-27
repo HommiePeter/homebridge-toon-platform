@@ -1,5 +1,17 @@
 
-import ToonConfig from "./config";
+import {
+    API,
+    APIEvent,
+    CharacteristicEventTypes,
+    CharacteristicSetCallback,
+    CharacteristicValue,
+    DynamicPlatformPlugin,
+    HAP,
+    Logging,
+    PlatformAccessory,
+    PlatformAccessoryEvent,
+    PlatformConfig,
+  } from "homebridge";
 
 import {
   API_URL,
@@ -21,8 +33,8 @@ export default class ToonConnection {
     private resultjson!: string;
 
     constructor(
-      private config: ToonConfig,
-      private log: (format: string, message?: any) => void,
+      private config: PlatformConfig,
+      private log: Logging,
     /*  private onUpdate: (toonStatus: ToonStatus) => void */
     ) {
       this.token = this.config.apiToken;
@@ -106,16 +118,16 @@ export default class ToonConnection {
     } 
   
     private async getAgreementData() {
-      this.log("Getting agreement...");
+      this.log.info("Getting agreement...");
   
       let agreements: ToonAgreement[] = await this.toonGETRequest(
         `${API_URL}agreements`
       );
 
       if (this.agreementIndex < agreements.length) {
-        this.log(`Currently selected agreementIndex: ${this.agreementIndex}`);
+        this.log.info(`Currently selected agreementIndex: ${this.agreementIndex}`);
         const { street, houseNumber, postalCode, city, heatingType } = agreements[this.agreementIndex];
-        this.log(`Agreement selected for: ${street} ${houseNumber} ${postalCode} ${city} ${heatingType}`);
+        this.log.info(`Agreement selected for: ${street} ${houseNumber} ${postalCode} ${city} ${heatingType}`);
         return agreements[this.agreementIndex];
       } else {
         for (const agreementIndex in agreements) {
@@ -127,7 +139,7 @@ export default class ToonConnection {
             heatingType
           } = agreements[agreementIndex];
   
-          this.log(
+          this.log.info(
             `agreementIndex: [${agreementIndex}]: ${street} ${houseNumber} ${postalCode} ${city} ${heatingType}`
           );
         }
