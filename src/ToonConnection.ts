@@ -100,8 +100,8 @@ export default class ToonConnection {
 
       this.log.info(`GET URL: ${url}`);
 
-      const response =  await fetch( url, {
-          method: "GET",
+      const response = await fetch( url, {
+          method: 'GET',
           headers: this.getHeader
       });
 
