@@ -52,7 +52,7 @@ export = (api: API) => {
 class ToonPlatform implements DynamicPlatformPlugin {
 
   private readonly log: Logging;
-  private readonly config: ToonConfig;
+  private readonly config: PlatformConfig;
   private readonly api: API;
 
   private requestServer?: Server;
@@ -65,7 +65,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
     // probably parse config or something here
     log.info("Toon-Platform: Reading config from config.json");
     this.config = config;
-    log.info(`Toon-Platform: The config is read API Token: ${this.config.apiToken}`)
+    log.info(`Toon-Platform: The config is read API Token: ${this.config.apiToken!}`)
 
     this.api = api;
     log.info("Example platform finished initializing!");
