@@ -1,1 +1,1 @@
-import ToonConfig from "../config";
+import ToonConfig from "../config"
