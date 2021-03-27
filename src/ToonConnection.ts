@@ -114,6 +114,8 @@ export class ToonConnection {
 
       if (this.agreementIndex < agreements.length) {
         this.log(`Currently selected agreementIndex: ${this.agreementIndex}`);
+        const { street, houseNumber, postalCode, city, heatingType } = agreements[this.agreementIndex];
+        this.log(`Agreement selected for: ${street} ${houseNumber} ${postalCode} ${city} ${heatingType}`);
         return agreements[this.agreementIndex];
       } else {
         for (const agreementIndex in agreements) {

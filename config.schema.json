@@ -15,6 +15,11 @@
           "title": "apiToken",
           "type": "string",
           "required": true
+        },
+        "AgreementIndex": {
+          "title": "AgreementIndex",
+          "type": "Number",
+          "required": false
         }
       }
     }
