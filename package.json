@@ -38,6 +38,8 @@
     "@types/node": "10.17.19",
     "typescript": "^3.8.3",
     "rimraf": "^3.0.2",
-    "homebridge": "^1.0.4"
+    "homebridge": "^1.0.4",
+    "@types/request": "^2.0.5",
+    "@types/request-promise": "^4.1.38"
   }
 }
