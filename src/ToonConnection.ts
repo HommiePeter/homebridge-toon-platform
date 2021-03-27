@@ -98,7 +98,7 @@ export default class ToonConnection {
 
       const fetch = require('node-fetch');
 
-      this.log.info('GET URL' url);
+      this.log.info(`GET URL: ${url}`);
 
       const response =  await fetch( url, {
           method: "GET",
