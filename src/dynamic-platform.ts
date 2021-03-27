@@ -59,7 +59,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
 
   private readonly accessories: PlatformAccessory[] = [];
 
-  constructor(log: Logging, config: ToonConfig, api: API) {
+  constructor(log: Logging, config: PlatformConfig, api: API) {
     this.log = log;
     
     // probably parse config or something here
