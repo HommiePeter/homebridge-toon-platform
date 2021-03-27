@@ -14,7 +14,7 @@
   },
   "keywords": [
     "homebridge-plugin",
-    "homebridge-toon",
+    "homebridge-toon-platform",
     "toon"
   ],
   "author": "Peter Scholtens",
