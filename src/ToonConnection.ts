@@ -16,9 +16,10 @@ export class ToonConnection {
     private agreement?: ToonAgreement;
     private toonStatus?: ToonStatus;
     private agreementIndex: number;
-    private resultjson: string; 
+     
     private token?: string;
-  
+    private resultjson!: string;
+
     constructor(
       private config: ToonConfig,
       private log: (format: string, message?: any) => void,
@@ -54,11 +55,17 @@ export class ToonConnection {
       }
       const fetch = require('node-fetch');
 
-      fetch (url, { 
-          method: 'post',
-          body: JSON.stringify(body),
-          headers: this.getHeader(),
-      }).then(res => this.resultjson);
+      const response = await fetch (url, { 
+          method: 'put', 
+          body: JSON.stringify(body), 
+          headers: this.getHeader()
+      });
+
+      // Awaiting response.json()
+      const result = await response.json();
+  
+      // Return response data 
+      return result;
       
       /*
       const result = await request({
@@ -66,16 +73,30 @@ export class ToonConnection {
         method: "PUT",
         headers: this.getHeader(),
         body: JSON.stringify(body)
-      }); */
+      }); 
   
-      return JSON.parse(this.resultjson);
+      return JSON.parse(result); 
+      */
     }
   
     private async toonGETRequest(url: string) {
       if (this.token === undefined) {
         throw Error("GET not authorized");
       }
-  /*
+
+      const fetch = require('node-fetch');
+      
+      const response = await fetch( url, {
+          method: "GET",
+          headers: this.getHeader
+      });
+
+      // Awaiting response.json()
+      const result = await response.json();
+  
+      // Return response data 
+      return result;
+      /*
       return await request({
         url,
         method: "GET",
@@ -90,7 +111,7 @@ export class ToonConnection {
       let agreements: ToonAgreement[] = await this.toonGETRequest(
         `${API_URL}agreements`
       );
-  
+
       if (this.agreementIndex < agreements.length) {
         this.log(`Currently selected agreementIndex: ${this.agreementIndex}`);
         return agreements[this.agreementIndex];
