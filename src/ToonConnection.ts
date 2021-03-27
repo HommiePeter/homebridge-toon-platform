@@ -98,16 +98,16 @@ export default class ToonConnection {
 
       const fetch = require('node-fetch');
       
-      const response = await fetch( url, {
+      return await fetch( url, {
           method: "GET",
           headers: this.getHeader
       });
 
       // Awaiting response.json()
-      const result = await response.json();
+      //const result = await response.json();
   
       // Return response data 
-      return result;
+     // return result;
       /*
       return await request({
         url,
