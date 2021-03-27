@@ -1,5 +1,3 @@
-import { RequestResponse } from "request";
-import * as request from "request-promise";
 
 import ToonConfig from "./config";
 
@@ -18,7 +16,7 @@ export class ToonConnection {
     private agreement?: ToonAgreement;
     private toonStatus?: ToonStatus;
     private agreementIndex: number;
-  
+    private resultjson: string; 
     private token?: string;
   
     constructor(
@@ -54,29 +52,37 @@ export class ToonConnection {
       if (this.token === undefined) {
         throw Error("PUT not authorized");
       }
-  
+      const fetch = require('node-fetch');
+
+      fetch (url, { 
+          method: 'post',
+          body: JSON.stringify(body),
+          headers: this.getHeader(),
+      }).then(res => this.resultjson);
+      
+      /*
       const result = await request({
         url,
         method: "PUT",
         headers: this.getHeader(),
         body: JSON.stringify(body)
-      });
+      }); */
   
-      return JSON.parse(result);
+      return JSON.parse(this.resultjson);
     }
   
     private async toonGETRequest(url: string) {
       if (this.token === undefined) {
         throw Error("GET not authorized");
       }
-  
+  /*
       return await request({
         url,
         method: "GET",
         headers: this.getHeader(),
         json: true
-      });
-    }
+      }); */
+    } 
   
     private async getAgreementData() {
       this.log("Getting agreement...");
