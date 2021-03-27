@@ -99,17 +99,25 @@ export default class ToonConnection {
       const fetch = require('node-fetch');
 
       this.log.info(`GET URL: ${url}`);
-
-      const response = await fetch( url, {
-          method: 'GET',
-          headers: this.getHeader
-      });
+      
+      try {
+        const response = await fetch( url, {
+            method: 'GET',
+            headers: this.getHeader
+        })
+        this.log.info(`Status: ${response.status}`);
+        this.log.info(`StatusText: ${response.statusText}`);
+        return response.json();
+      }
+      catch(err) {
+        this.log.info(`Oeps GET went wrong ${err}`) // Maybe present some error/failure UI to the user here
+      };
 
       // Awaiting response.json()
-      const result = await response.json();
+      //const result = await response.json();
   
       // Return response data 
-     return result;
+    // return result;
       /*
       return await request({
         url,
