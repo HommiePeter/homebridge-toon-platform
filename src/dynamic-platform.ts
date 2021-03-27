@@ -44,9 +44,7 @@ let Accessory: typeof PlatformAccessory;
 export = (api: API) => {
   hap = api.hap;
   Accessory = api.platformAccessory;
-  homebridge.registerPlatform(PLATFORM_NAME, PLATFORM_NAME, DynamicPlatformPlugin, true);
-  
-//  api.registerPlatform(PLATFORM_NAME, ExampleDynamicPlatform);
+  api.registerPlatform(PLATFORM_NAME, ExampleDynamicPlatform);
 };
 
 class ExampleDynamicPlatform implements DynamicPlatformPlugin {
