@@ -13,6 +13,8 @@ import {
   PlatformConfig,
 } from "homebridge";
 
+import ToonConfig from "./config"
+
 const PLUGIN_NAME = "homebridge-toon-platform";
 const PLATFORM_NAME = "ToonPlatform";
 
@@ -50,18 +52,22 @@ export = (api: API) => {
 class ToonPlatform implements DynamicPlatformPlugin {
 
   private readonly log: Logging;
+  private readonly config: ToonConfig;
   private readonly api: API;
 
   private requestServer?: Server;
 
   private readonly accessories: PlatformAccessory[] = [];
 
-  constructor(log: Logging, config: PlatformConfig, api: API) {
+  constructor(log: Logging, config: ToonConfig, api: API) {
     this.log = log;
-    this.api = api;
-
+    
     // probably parse config or something here
+    log.info("Toon-Platform: Reading config from config.json");
+    this.config = config;
+    log.info(`Toon-Platform: The config is read API Token: ${this.config.apiToken}`)
 
+    this.api = api;
     log.info("Example platform finished initializing!");
 
     /*
