@@ -12,7 +12,7 @@ import {
   ToonStatus
 } from "./ToonAPI-Definitions";
 
-export class ToonConnection {
+export default class ToonConnection {
     private agreement?: ToonAgreement;
     private toonStatus?: ToonStatus;
     private agreementIndex: number;
@@ -23,7 +23,7 @@ export class ToonConnection {
     constructor(
       private config: ToonConfig,
       private log: (format: string, message?: any) => void,
-      private onUpdate: (toonStatus: ToonStatus) => void
+    /*  private onUpdate: (toonStatus: ToonStatus) => void */
     ) {
       this.token = this.config.apiToken;
   
@@ -145,11 +145,11 @@ export class ToonConnection {
         let toonStatus: ToonStatus = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/status`
         );
-    
+    /*
         if (toonStatus.thermostatInfo) {
           this.toonStatus = toonStatus;
           this.onUpdate(this.toonStatus);
-        }
+        } */
       }; 
  
   }
