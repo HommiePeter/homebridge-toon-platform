@@ -1,8 +1,10 @@
 {
-  "name": "homebridge-dynamic-platform-example",
+  "private": true,
+  "displayName": "Toon Platform",
+  "name": "homebridge-toon-platform",
   "version": "1.0.0",
   "description": "An example dynamic platform plugin for homebridge written in Typescript",
-  "main": "dist/dynamic-platform.js",
+  "main": "dist/toon-platform.js",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "rimraf ./dist && tsc",
@@ -10,7 +12,7 @@
     "postpublish": "npm run clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Andreas Bauer <mail@anderl-bauer.de>",
+  "author": "Peter Scholtens",
   "engines": {
     "homebridge": ">=1.0.0"
   },
