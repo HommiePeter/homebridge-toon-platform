@@ -14,7 +14,7 @@ import {
 } from "homebridge";
 
 const PLUGIN_NAME = "homebridge-toon-platform";
-const PLATFORM_NAME = "ExampleDynamicPlatform";
+const PLATFORM_NAME = "ToonPlatform";
 
 /*
  * IMPORTANT NOTICE
@@ -44,10 +44,10 @@ let Accessory: typeof PlatformAccessory;
 export = (api: API) => {
   hap = api.hap;
   Accessory = api.platformAccessory;
-  api.registerPlatform(PLATFORM_NAME, ExampleDynamicPlatform);
+  api.registerPlatform(PLATFORM_NAME, ToonPlatform);
 };
 
-class ExampleDynamicPlatform implements DynamicPlatformPlugin {
+class ToonPlatform implements DynamicPlatformPlugin {
 
   private readonly log: Logging;
   private readonly api: API;

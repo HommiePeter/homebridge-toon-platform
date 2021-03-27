@@ -18,5 +18,5 @@
   },
   "include": [
     "src"
-, "src/config.ts"  ]
+,   "src/config.ts"  ]
 }
