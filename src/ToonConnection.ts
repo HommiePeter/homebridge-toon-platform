@@ -67,28 +67,18 @@ export default class ToonConnection {
       }
       const fetch = require('node-fetch');
 
-      const response = await fetch (url, { 
-          method: 'put', 
-          body: JSON.stringify(body), 
-          headers: this.getHeader
-      });
-
-      // Awaiting response.json()
-      const result = await response.json();
-  
-      // Return response data 
-      return result;
+      try {
+        const response = await fetch (url, { 
+          'method': 'put', 
+          'body': JSON.stringify(body), 
+          'headers': this.getHeader
+        })
+        return await response.json();
+      }
+      catch(err) {
+        this.log.info(`Oeps PUT went wrong ${err}`) // Maybe present some error/failure UI to the user here
+      };
       
-      /*
-      const result = await request({
-        url,
-        method: "PUT",
-        headers: this.getHeader(),
-        body: JSON.stringify(body)
-      }); 
-  
-      return JSON.parse(result); 
-      */
     }
   
     private async toonGETRequest(url: string) {
@@ -96,35 +86,17 @@ export default class ToonConnection {
         throw Error("GET not authorized");
       }
       const fetch = require('node-fetch');
-
-      this.log.info(`GET URL: ${url}`);
-      this.log.info(`GET Headers: ${this.getHeader}`);
       
       try {
         const response = await fetch( url, {
             'method': 'GET',
             'headers': this.getHeader()
         })
-        this.log.info(`Status: ${response.status}`);
-        this.log.info(`StatusText: ${response.statusText}`);
         return await response.json();
       }
       catch(err) {
         this.log.info(`Oeps GET went wrong ${err}`) // Maybe present some error/failure UI to the user here
       };
-    
-      // Awaiting response.json()
-      //const result = await response.json();
-  
-      // Return response data 
-    // return result;
-      /*
-      return await request({
-        url,
-        method: "GET",
-        headers: this.getHeader(),
-        json: true
-      }); */
     } 
   
     private async getAgreementData() {
@@ -139,16 +111,11 @@ export default class ToonConnection {
         const { street, houseNumber, postalCode, city, heatingType } = agreements[this.agreementIndex];
         this.log.info(`Agreement selected for: ${street} ${houseNumber} ${postalCode} ${city} ${heatingType}`);
         return agreements[this.agreementIndex];
+
       } else {
         for (const agreementIndex in agreements) {
-          const {
-            street,
-            houseNumber,
-            postalCode,
-            city,
-            heatingType
-          } = agreements[agreementIndex];
-  
+          const {street,houseNumber,postalCode,city,heatingType } = agreements[agreementIndex];
+
           this.log.info(
             `agreementIndex: [${agreementIndex}]: ${street} ${houseNumber} ${postalCode} ${city} ${heatingType}`
           );

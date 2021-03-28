@@ -66,7 +66,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
     this.log = log;
     
     // probably parse config or something here
-    log.info("Toon-Platform: Reading config from config.json");
+    log.info("Toon-Platform: Reading config");
     this.config = config;
     
     log.info(`Toon-Platform: Setting up the Connection ${this.config.apiToken}`)
