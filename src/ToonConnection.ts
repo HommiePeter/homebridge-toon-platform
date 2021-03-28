@@ -100,7 +100,8 @@ export default class ToonConnection {
 
       this.log.info(`GET URL: ${url}`);
       this.log.info(`GET Headers: ${this.getHeader}`);
-      
+      return fetch ( url, {method:'GET', headers: this.getHeader}).then((response) => response.json());      
+      /*
       try {
         const response = fetch( url, {
             method: 'GET',
@@ -113,7 +114,7 @@ export default class ToonConnection {
       catch(err) {
         this.log.info(`Oeps GET went wrong ${err}`) // Maybe present some error/failure UI to the user here
       };
-
+    */
       // Awaiting response.json()
       //const result = await response.json();
   
