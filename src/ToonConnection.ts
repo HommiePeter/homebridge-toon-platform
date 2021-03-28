@@ -24,9 +24,9 @@ import {
   ToonStatus
 } from "./ToonAPI-Definitions";
 
-export default class ToonConnection {
-    private agreement?: ToonAgreement;
-    private toonStatus?: ToonStatus;
+export class ToonConnection {
+ /*   private agreement?: ToonAgreement; */
+   
     private agreementIndex: number;
      
     private token?: string;
@@ -35,7 +35,8 @@ export default class ToonConnection {
     constructor(
       private config: PlatformConfig,
       private log: Logging,
-    /*  private onUpdate: (toonStatus: ToonStatus) => void */
+      private toonstatus: ToonStatus,
+      private agreement: ToonAgreement 
     ) {
       this.token = config.apiToken;
   
@@ -135,9 +136,9 @@ export default class ToonConnection {
           `${API_URL}${this.agreement.agreementId}/status`
         );
     /*
-        if (toonStatus.thermostatInfo) {
-          this.toonStatus = toonStatus;
-          this.onUpdate(this.toonStatus);
+        if (toonStatus.thermostatInfo) { */
+          this.toonstatus = toonStatus;
+    /*      this.onUpdate(this.toonStatus);
         } */
       }; 
  

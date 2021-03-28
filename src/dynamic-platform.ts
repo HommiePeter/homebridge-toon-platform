@@ -13,8 +13,9 @@ import {
   PlatformConfig,
 } from "homebridge";
 
-import ToonConfig from "./config"
-import ToonConnection from "./ToonConnection"
+
+import { ToonConnection } from "./ToonConnection"
+import { ToonStatus, ThermostatInfo, ToonAgreement } from "./ToonAPI-Definitions"
 
 const PLUGIN_NAME = "homebridge-toon-platform";
 const PLATFORM_NAME = "Toon-Platform";
@@ -55,12 +56,12 @@ class ToonPlatform implements DynamicPlatformPlugin {
   private readonly log: Logging;
   private readonly config: PlatformConfig;
   private readonly api: API;
-
+  
   private requestServer?: Server;
-
   private readonly accessories: PlatformAccessory[] = [];
-
   private connection: ToonConnection;
+  private toonstatus!: ToonStatus;
+  private agreement! :ToonAgreement;
 
   constructor(log: Logging, config: PlatformConfig, api: API) {
     this.log = log;
@@ -68,12 +69,10 @@ class ToonPlatform implements DynamicPlatformPlugin {
     // probably parse config or something here
     log.info("Toon-Platform: Reading config");
     this.config = config;
-    
-    log.info(`Toon-Platform: Setting up the Connection ${this.config.apiToken}`)
-/*
-    this.connection = new ToonConnection(this.config, this.log, this.onUpdate);*/
 
-    this.connection = new ToonConnection(this.config, this.log );
+    this.connection = new ToonConnection(this.config, this.log, this.toonstatus, this.agreement);
+
+  /*  this.connection = new ToonConnection(this.config, this.log ); */
 
     this.api = api;
     log.info("Example platform finished initializing!");
