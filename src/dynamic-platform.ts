@@ -52,7 +52,7 @@ export = (api: API) => {
 };
 
 class ToonPlatform implements DynamicPlatformPlugin {
-  Thermostat? : ToonThermostat;
+  Thermostat! : ToonThermostat;
 
   private readonly log: Logging;
   private readonly config: PlatformConfig;
@@ -88,7 +88,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
       log.info("Example platform 'didFinishLaunching'");
 
       // The idea of this plugin is that we open a http service which exposes api calls to add or remove accessories
-      this.createHttpService();
+      this.addThermostat
     });
   }
 
@@ -114,6 +114,18 @@ class ToonPlatform implements DynamicPlatformPlugin {
 
   // --------------------------- CUSTOM METHODS ---------------------------
 
+  addThermostat() {
+    if (this.Thermostat !== undefined) {
+      return;
+    }
+    this.log.info("Adding accessory Thermostat")
+
+    const accessory = new Accessory( "Toon Thermostaat", hap.uuid.generate("Toon Thermostaat") );
+    this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
+
+    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+  }
+  /* Original
   addAccessory(name: string) {
     this.log.info("Adding new accessory with name %s", name);
 
@@ -126,7 +138,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
     this.configureAccessory(accessory); // abusing the configureAccessory here
 
     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-  }
+  } */
 
   removeAccessories() {
     // we don't have any special identifiers, we just remove all our accessories
@@ -137,21 +149,23 @@ class ToonPlatform implements DynamicPlatformPlugin {
     this.accessories.splice(0, this.accessories.length); // clear out the array
   }
 
+  /*
   createHttpService() {
     this.requestServer = http.createServer(this.handleRequest.bind(this));
     this.requestServer.listen(18081, () => this.log.info("Http server listening on 18081..."));
-  }
+  } */
 
+  /*
   private handleRequest(request: IncomingMessage, response: ServerResponse) {
     if (request.url === "/add") {
       this.addAccessory(new Date().toISOString());
     } else if (request.url === "/remove") {
       this.removeAccessories();
-    }
+    } 
 
     response.writeHead(204); // 204 No content
     response.end();
-  }
+  } */
 
   // ----------------------------------------------------------------------
 
