@@ -55,7 +55,7 @@ export default class ToonConnection {
   
     private getHeader() {
       return {
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${config.apiToken}`,
         "content-type": "application/json",
         "cache-control": "no-cache"
       };
