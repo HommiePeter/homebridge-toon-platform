@@ -1,18 +1,31 @@
 
-/*import ToonConfig from './config';
+
 import { ToonStatus } from './ToonAPI-Definitions';
 import { ToonConnection } from './ToonConnection';
+import {
+    API,
+    APIEvent,
+    CharacteristicEventTypes,
+    CharacteristicSetCallback,
+    CharacteristicValue,
+    DynamicPlatformPlugin,
+    HAP,
+    Logging,
+    PlatformAccessory,
+    PlatformAccessoryEvent,
+    PlatformConfig,
+  } from "homebridge";
+
 
 var Accessory: any, Service: any, Characteristic: any, UUIDGen: any;
 
-
-class ToonThermostat {
+export class ToonThermostat {
     private deviceId: string;
     private connection: ToonConnection;
   
     constructor(
       private accessory: any,
-      private config: ToonConfig,
+      private config: PlatformConfig,
       private log: any
     ) {
       this.deviceId = this.accessory.context.deviceId;
@@ -204,4 +217,4 @@ class ToonThermostat {
         .getCharacteristic(Characteristic.TemperatureDisplayUnits)
         .on("get", this.getTemperatureDisplayUnits);
     }
-  } */
+  } 

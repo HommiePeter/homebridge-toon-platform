@@ -19,14 +19,12 @@ import {
   ThermostatInfo,
   Token,
   ToonAgreement,
-  ToonAuthorize,
-  ToonAuthorizeLegacy,
   ToonStatus
 } from "./ToonAPI-Definitions";
 
 export class ToonConnection {
- /*   private agreement?: ToonAgreement; */
-   
+    private agreement?: ToonAgreement; 
+    private toonStatus?: ToonStatus;
     private agreementIndex: number;
      
     private token?: string;
@@ -35,8 +33,9 @@ export class ToonConnection {
     constructor(
       private config: PlatformConfig,
       private log: Logging,
-      private toonstatus: ToonStatus,
-      private agreement: ToonAgreement 
+    /*  private toonstatus: ToonStatus,
+      private agreement: ToonAgreement */
+      private onUpdate: (toonStatus: ToonStatus) => void 
     ) {
       this.token = config.apiToken;
   
@@ -135,11 +134,80 @@ export class ToonConnection {
         let toonStatus: ToonStatus = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/status`
         );
-    /*
-        if (toonStatus.thermostatInfo) { */
-          this.toonstatus = toonStatus;
-    /*      this.onUpdate(this.toonStatus);
-        } */
+    
+        if (toonStatus.thermostatInfo) { 
+          this.toonStatus = toonStatus;
+          this.onUpdate(this.toonStatus);
+        } 
       }; 
- 
+      private async setToonTemperature(temperature: number) {
+        if (!this.agreement) {
+          throw Error("Setting temperature but there is no agreement.");
+        }
+    
+        if (!this.toonStatus) {
+          throw Error("Setting temperature but there is no status information.");
+        }
+    
+        this.log(`Setting Toon Temperature to ${temperature / 100}`);
+    
+        let currentThermostatInfo: ThermostatInfo = await this.toonGETRequest(
+          `${API_URL}${this.agreement.agreementId}/thermostat`
+        );
+    
+        const payload = {
+          ...currentThermostatInfo,
+          currentSetpoint: temperature,
+          activeState: -1,
+          programState: 2
+        };
+    
+        const newThermostatInfo = await this.toonPUTRequest(
+          `${API_URL}${this.agreement.agreementId}/thermostat`,
+          payload
+        );
+    
+        this.log(`Successfully set Toon Temperature to ${temperature / 100}`);
+    
+        this.toonStatus.thermostatInfo = newThermostatInfo;
+        this.onUpdate(this.toonStatus);
+      }
+    
+      public async setTemperature(temperature: number) {
+        const destination_temperature = Math.round(
+          (Math.round(temperature * 2) / 2) * 100
+        );
+    
+        await this.setToonTemperature(destination_temperature);
+      }
+    
+      public getDisplayCommonName() {
+        return this.agreement ? this.agreement.displayCommonName : "-";
+      }
+    
+      public getHardwareVersion() {
+        return this.agreement ? this.agreement.displayHardwareVersion : "-";
+      }
+    
+      public getSoftwareVersion() {
+        return this.agreement ? this.agreement.displaySoftwareVersion : "-";
+      }
+    
+      public getBurnerInfo() {
+        return this.toonStatus
+          ? this.toonStatus.thermostatInfo.burnerInfo
+          : undefined;
+      }
+    
+      public getCurrentTemperature() {
+        return this.toonStatus
+          ? this.toonStatus.thermostatInfo.currentDisplayTemp / 100
+          : undefined;
+      }
+    
+      public getCurrentSetpoint() {
+        return this.toonStatus
+          ? this.toonStatus.thermostatInfo.currentSetpoint / 100
+          : undefined;
+      }
   }

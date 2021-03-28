@@ -14,7 +14,7 @@ import {
 } from "homebridge";
 
 
-import { ToonConnection } from "./ToonConnection"
+import { ToonThermostat } from "./ToonThermostat"
 import { ToonStatus, ThermostatInfo, ToonAgreement } from "./ToonAPI-Definitions"
 
 const PLUGIN_NAME = "homebridge-toon-platform";
@@ -52,14 +52,15 @@ export = (api: API) => {
 };
 
 class ToonPlatform implements DynamicPlatformPlugin {
-  
+  Thermostat? : ToonThermostat;
+
   private readonly log: Logging;
   private readonly config: PlatformConfig;
   private readonly api: API;
   
   private requestServer?: Server;
   private readonly accessories: PlatformAccessory[] = [];
-  private connection: ToonConnection;
+ 
   private toonstatus!: ToonStatus;
   private agreement! :ToonAgreement;
 
@@ -70,7 +71,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
     log.info("Toon-Platform: Reading config");
     this.config = config;
 
-    this.connection = new ToonConnection(this.config, this.log, this.toonstatus, this.agreement);
+  /*  this.connection = new ToonConnection(this.config, this.log, this.toonstatus, this.agreement);
 
   /*  this.connection = new ToonConnection(this.config, this.log ); */
 
