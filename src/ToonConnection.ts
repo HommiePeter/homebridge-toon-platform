@@ -29,7 +29,7 @@ export default class ToonConnection {
     private toonStatus?: ToonStatus;
     private agreementIndex: number;
      
-    private Toonconfig: PlatformConfig;
+    private token?: string;
     private resultjson!: string;
 
     constructor(
@@ -37,7 +37,7 @@ export default class ToonConnection {
       private log: Logging,
     /*  private onUpdate: (toonStatus: ToonStatus) => void */
     ) {
-      this.Toonconfig = config;
+      this.token = config.apiToken;
   
       // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
       this.agreementIndex = this.config.agreementIndex
@@ -55,14 +55,14 @@ export default class ToonConnection {
   
     private getHeader() {
       return {
-        Authorization: `Bearer ${this.Toonconfig.apiToken}`,
+        Authorization: `Bearer ${this.token}`,
         "content-type": "application/json",
         "cache-control": "no-cache"
       };
     }
   
     private async toonPUTRequest(url: string, body: any) {
-      if (this.Toonconfig.apiToken === undefined) {
+      if (this.token === undefined) {
         throw Error("PUT not authorized");
       }
       const fetch = require('node-fetch');
@@ -70,7 +70,7 @@ export default class ToonConnection {
       const response = await fetch (url, { 
           method: 'put', 
           body: JSON.stringify(body), 
-          headers: this.getHeader()
+          headers: this.getHeader
       });
 
       // Awaiting response.json()
@@ -92,7 +92,7 @@ export default class ToonConnection {
     }
   
     private async toonGETRequest(url: string) {
-      if (this.Toonconfig.apiToken === undefined) {
+      if (this.token === undefined) {
         throw Error("GET not authorized");
       }
 
@@ -102,7 +102,7 @@ export default class ToonConnection {
       this.log.info(`GET Headers: ${this.getHeader}`);
       
       try {
-        const response = await fetch( url, {
+        const response = fetch( url, {
             method: 'GET',
             headers: this.getHeader
         })
