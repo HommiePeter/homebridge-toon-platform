@@ -34,9 +34,6 @@
   "bugs": {
     "url": "http://github.com/homebridge/homebridge-examples/issues"
   },
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  },
   "devDependencies": {
     "@types/node": "10.17.19",
     "typescript": "^3.8.3",
@@ -44,6 +41,6 @@
     "homebridge": "^1.0.4",
     "@types/request": "^2.0.5",
     "@types/request-promise": "^4.1.38",
-    "node-fetch": "2.6.1"
+    "@types/node-fetch": "2.6.1"
   }
 }
