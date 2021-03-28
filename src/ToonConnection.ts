@@ -104,7 +104,7 @@ export default class ToonConnection {
       try {
         const response = await fetch( url, {
             'method': 'GET',
-            'headers': this.getHeader
+            'headers': this.getHeader()
         })
         this.log.info(`Status: ${response.status}`);
         this.log.info(`StatusText: ${response.statusText}`);
