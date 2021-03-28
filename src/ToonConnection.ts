@@ -37,7 +37,7 @@ export default class ToonConnection {
       private log: Logging,
     /*  private onUpdate: (toonStatus: ToonStatus) => void */
     ) {
-      this.token = this.config.apiToken;
+      this.token = config.apiToken;
   
       // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
       this.agreementIndex = this.config.agreementIndex
