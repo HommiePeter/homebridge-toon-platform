@@ -17,7 +17,7 @@ import ToonConfig from "./config"
 import ToonConnection from "./ToonConnection"
 
 const PLUGIN_NAME = "homebridge-toon-platform";
-const PLATFORM_NAME = "ToonPlatform";
+const PLATFORM_NAME = "Toon-Platform";
 
 /*
  * IMPORTANT NOTICE
