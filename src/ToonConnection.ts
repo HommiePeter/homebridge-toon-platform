@@ -29,7 +29,7 @@ export default class ToonConnection {
     private toonStatus?: ToonStatus;
     private agreementIndex: number;
      
-    private token?: string;
+    private Toonconfig: PlatformConfig;
     private resultjson!: string;
 
     constructor(
@@ -37,7 +37,7 @@ export default class ToonConnection {
       private log: Logging,
     /*  private onUpdate: (toonStatus: ToonStatus) => void */
     ) {
-      this.token = config.apiToken;
+      this.Toonconfig = config;
   
       // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
       this.agreementIndex = this.config.agreementIndex
@@ -55,14 +55,14 @@ export default class ToonConnection {
   
     private getHeader() {
       return {
-        Authorization: `Bearer ${config.apiToken}`,
+        Authorization: `Bearer ${this.Toonconfig.apiToken}`,
         "content-type": "application/json",
         "cache-control": "no-cache"
       };
     }
   
     private async toonPUTRequest(url: string, body: any) {
-      if (this.token === undefined) {
+      if (this.Toonconfig.apiToken === undefined) {
         throw Error("PUT not authorized");
       }
       const fetch = require('node-fetch');
@@ -92,7 +92,7 @@ export default class ToonConnection {
     }
   
     private async toonGETRequest(url: string) {
-      if (this.token === undefined) {
+      if (this.Toonconfig.apiToken === undefined) {
         throw Error("GET not authorized");
       }
 
