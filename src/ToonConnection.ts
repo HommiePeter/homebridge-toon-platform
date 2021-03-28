@@ -24,8 +24,6 @@ import {
   ToonStatus
 } from "./ToonAPI-Definitions";
 
-import fetch from 'node-fetch';
-
 export default class ToonConnection {
     private agreement?: ToonAgreement;
     private toonStatus?: ToonStatus;
@@ -97,6 +95,7 @@ export default class ToonConnection {
       if (this.token === undefined) {
         throw Error("GET not authorized");
       }
+      const fetch = require('node-fetch');
 
       this.log.info(`GET URL: ${url}`);
       this.log.info(`GET Headers: ${this.getHeader}`);
