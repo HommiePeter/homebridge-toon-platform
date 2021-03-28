@@ -88,7 +88,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
       log.info("Example platform 'didFinishLaunching'");
 
       // The idea of this plugin is that we open a http service which exposes api calls to add or remove accessories
-      this.addThermostat
+      this.addThermostat();
     });
   }
 
@@ -116,9 +116,10 @@ class ToonPlatform implements DynamicPlatformPlugin {
 
   addThermostat() {
     if (this.Thermostat !== undefined) {
+      this.log.info("accessory Thermostat already existing");
       return;
     }
-    this.log.info("Adding accessory Thermostat")
+    this.log.info("Adding accessory Thermostat");
 
     const accessory = new Accessory( "Toon Thermostaat", hap.uuid.generate("Toon Thermostaat") );
     this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
