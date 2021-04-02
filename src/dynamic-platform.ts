@@ -122,6 +122,9 @@ class ToonPlatform implements DynamicPlatformPlugin {
     this.log.info("Adding accessory Thermostat");
 
     const accessory = new Accessory( "Toon Thermostaat", hap.uuid.generate("Toon Thermostaat") );
+   
+    this.log.info("Added accessory Thermostat");
+    
     this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
 
     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);

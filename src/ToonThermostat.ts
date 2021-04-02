@@ -17,7 +17,7 @@ import {
   } from "homebridge";
 
 
-var Accessory: any, Service: any, Characteristic: any, UUIDGen: any;
+var Accessory: any, Service: any, Characteristic: any
 
 export class ToonThermostat {
     private deviceId: string;
@@ -29,9 +29,10 @@ export class ToonThermostat {
       private log: any
     ) {
       this.deviceId = this.accessory.context.deviceId;
+      this.log.info(`Device ID is ${this.deviceId}`);
       this.connection = new ToonConnection(this.config, this.log, this.onUpdate);
-
-      this.configure();
+      this.log.info("ToonConnection is completed");
+     //* this.configure(); 
     }
     onUpdate = (toonStatus: ToonStatus) => {
       const thermostatService = this.accessory.getService(Service.Thermostat);

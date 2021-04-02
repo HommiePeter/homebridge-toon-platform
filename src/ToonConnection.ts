@@ -45,8 +45,9 @@ export class ToonConnection {
         : 0;
   
       this.initialize().then(() => {
-        setInterval(this.getToonStatus, 10000);
-      });
+            setInterval(this.getToonStatus, 10000);
+            this.log("interval is set based on toon status")
+        });
     }
   
     private async initialize() {
