@@ -107,9 +107,9 @@ class ToonPlatform implements DynamicPlatformPlugin {
     });
 
     accessory.getService(hap.Service.Thermostat)!
-      .on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
-        this.log.info("%s Light was set to: " + value);
-        callback();
+      //.on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
+        this.log.info("%s Light was set to: ");
+      //  callback();
       });
 
     this.accessories.push(accessory);
