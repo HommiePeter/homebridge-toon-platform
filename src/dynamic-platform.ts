@@ -110,7 +110,8 @@ class ToonPlatform implements DynamicPlatformPlugin {
       //.on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
         this.log.info("%s Light was set to: ");
       //  callback();
-      });
+      //}
+      );
 
     this.accessories.push(accessory);
   }
