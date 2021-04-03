@@ -91,6 +91,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
 
       // The idea of this plugin is that we open a http service which exposes api calls to add or remove accessories
       this.log ("Toon-Platform : Start Add Thermostat");
+
       this.addThermostat();
     });
   }
@@ -106,15 +107,15 @@ class ToonPlatform implements DynamicPlatformPlugin {
       this.log("%s identified!", accessory.displayName);
     });
 
-    accessory.getService(hap.Service.Thermostat)!
-      //.on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
+/*  accessory.getService(hap.Service.Thermostat)!
+      .on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
         this.log.info("%s Light was set to: ");
-      //  callback();
-      //}
-      );
+        callback();
+      } 
+      ); */
 
     this.accessories.push(accessory);
-  }
+  } 
 
   // --------------------------- CUSTOM METHODS ---------------------------
 
