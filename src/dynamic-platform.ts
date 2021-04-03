@@ -44,10 +44,13 @@ const PLATFORM_NAME = "Toon-Platform";
  */
 let hap: HAP;
 let Accessory: typeof PlatformAccessory;
+var Service: any, Characteristic: any
 
 export = (api: API) => {
   hap = api.hap;
   Accessory = api.platformAccessory;
+  Service = api.hap.Service;
+  Characteristic = api.hap.Characteristic
   api.registerPlatform(PLATFORM_NAME, ToonPlatform);
 };
 
@@ -88,6 +91,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
       log.info("Example platform 'didFinishLaunching'");
 
       // The idea of this plugin is that we open a http service which exposes api calls to add or remove accessories
+      this.log ("Toon-Platform : Start Add Thermostat");
       this.addThermostat();
     });
   }
@@ -103,7 +107,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
       this.log("%s identified!", accessory.displayName);
     });
 
-    accessory.getService(hap.Service.Lightbulb)!.getCharacteristic(hap.Characteristic.On)
+    accessory.getService(hap.Service.Thermostat)!
       .on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
         this.log.info("%s Light was set to: " + value);
         callback();
@@ -116,16 +120,22 @@ class ToonPlatform implements DynamicPlatformPlugin {
 
   addThermostat() {
     if (this.Thermostat !== undefined) {
-      this.log.info("accessory Thermostat already existing");
+      this.log.info("addThermostat: Thermostat already existing");
       return;
     }
-    this.log.info("Adding accessory Thermostat");
+    this.log.info("addThermostat: Adding accessory Thermostat");
 
     const accessory = new Accessory( "Toon Thermostaat", hap.uuid.generate("Toon Thermostaat") );
    
-    this.log.info("Added accessory Thermostat");
-    
+    this.log.info("addThermostat: Added accessory Thermostat");
+
+    this.log.info("addThermostat: Setup new Toon Thermostat");
+
     this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
+
+    this.log.info("addThermostat: new Toon Thermostat was Setup");
+
+    this.log.info("addThermostat: registerPlaformAccessories")
 
     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
   }

@@ -16,9 +16,6 @@ import {
     PlatformConfig,
   } from "homebridge";
 
-
-var Accessory: any, Service: any, Characteristic: any
-
 export class ToonThermostat {
     private deviceId: string;
     private connection: ToonConnection;
