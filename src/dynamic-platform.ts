@@ -90,16 +90,28 @@ class ToonPlatform implements DynamicPlatformPlugin {
       log.info("Example platform 'didFinishLaunching'");
 
       // The idea of this plugin is that we open a http service which exposes api calls to add or remove accessories
-      this.log ("Toon-Platform : Start Add Thermostat");
+      this.log.info ("Toon-Platform : Start Add Thermostat");
 
       this.addThermostat();
     });
+  }
+ /**
+   * This function is invoked when homebridge restores cached accessories from disk at startup.
+   * It should be used to setup event handlers for characteristics and update respective values.
+   */
+  configureAccessory(accessory: PlatformAccessory) {
+    this.log.info('Loading accessory from cache:', accessory.displayName);
+    accessory.reachable = true;
+    // add the restored accessory to the accessories cache so we can track if it has already been registered
+    // this.accessories.push(accessory);
+
+    this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
   }
 
   /*
    * This function is invoked when homebridge restores cached accessories from disk at startup.
    * It should be used to setup event handlers for characteristics and update respective values.
-   */
+   
   configureAccessory(accessory: PlatformAccessory): void {
     this.log("Configuring accessory %s", accessory.displayName);
 
@@ -112,10 +124,10 @@ class ToonPlatform implements DynamicPlatformPlugin {
         this.log.info("%s Light was set to: ");
         callback();
       } 
-      ); */
+      ); 
 
     this.accessories.push(accessory);
-  } 
+  } */
 
   // --------------------------- CUSTOM METHODS ---------------------------
 
@@ -155,7 +167,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
   } */
 
-  removeAccessories() {
+  removeAccessory(device : any) {
     // we don't have any special identifiers, we just remove all our accessories
 
     this.log.info("Removing all accessories");
