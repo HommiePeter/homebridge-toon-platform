@@ -29,7 +29,8 @@ export class ToonThermostat {
       this.log.info(`ToonThermoStat: Device ID is ${this.deviceId}`);
       this.connection = new ToonConnection(this.config, this.log, this.onUpdate);
       this.log.info("ToonThermoStat: ToonConnection is completed");
-     //* this.configure(); 
+     
+      this.configure(); 
     }
     onUpdate = (toonStatus: ToonStatus) => {
       const thermostatService = this.accessory.getService(Service.Thermostat);
