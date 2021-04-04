@@ -21,7 +21,7 @@ export class ToonThermostat {
     private connection: ToonConnection;
   
     constructor(
-      private accessory: any,
+      private accessory: PlatformAccessory,
       private config: PlatformConfig,
       private log: any
     ) {
