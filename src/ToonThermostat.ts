@@ -14,8 +14,6 @@ import {
     PlatformConfig,
   } from "homebridge";
 
-
-
 var Service: any, Characteristic: any
 
 export class ToonThermostat {
@@ -193,7 +191,7 @@ export class ToonThermostat {
       }
   
       const thermostatService = this.accessory.getService(Service.Thermostat);
-  
+      /** 
       thermostatService
         .getCharacteristic(Characteristic.TargetHeatingCoolingState)
         .setProps({
@@ -220,7 +218,7 @@ export class ToonThermostat {
   
       thermostatService
         .getCharacteristic(Characteristic.TemperatureDisplayUnits)
-        .on("get", this.getTemperatureDisplayUnits);
+        .on("get", this.getTemperatureDisplayUnits); **/
     }
   } 
 
