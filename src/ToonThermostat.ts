@@ -33,6 +33,7 @@ export class ToonThermostat {
       this.log.info("ToonThermoStat: ToonConnection is completed");
     
       Service = API.hap.AccessoryInformation;
+      Characteristic = API.hap.Characteristic;
 
       this.configure(); 
     }
