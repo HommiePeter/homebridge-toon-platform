@@ -23,16 +23,16 @@ export class ToonThermostat {
     constructor(
       private accessory: PlatformAccessory,
       private config: PlatformConfig,
+      private ToonService: any,
       private log: any
     ) {
       this.deviceId = this.accessory.context.deviceId;
+      Service = ToonService;
+      
       this.log.info(`ToonThermoStat: Device ID is ${this.deviceId}`);
       this.connection = new ToonConnection(this.config, this.log, this.onUpdate);
       this.log.info("ToonThermoStat: ToonConnection is completed");
     
-      Service = HAP.AccessoryInformation;
-      //*Characteristic = API.hap.Characteristic;
-
       this.configure(); 
     }
     onUpdate = (toonStatus: ToonStatus) => {

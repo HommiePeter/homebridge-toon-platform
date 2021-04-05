@@ -44,18 +44,19 @@ const PLATFORM_NAME = "Toon-Platform";
  */
 let hap: HAP;
 let Accessory: typeof PlatformAccessory;
-
+var ToonService: any; 
 
 export = (api: API) => {
   hap = api.hap;
   Accessory = api.platformAccessory;
-  
+  ToonService = api.hap.Service;
 
   api.registerPlatform(PLATFORM_NAME, ToonPlatform);
 };
 
 class ToonPlatform implements DynamicPlatformPlugin {
   Thermostat! : ToonThermostat;
+  Service! : any;
 
   private readonly log: Logging;
   private readonly config: PlatformConfig;
@@ -70,6 +71,8 @@ class ToonPlatform implements DynamicPlatformPlugin {
   constructor(log: Logging, config: PlatformConfig, api: API) {
     this.log = log;
     
+    this.Service = api.ToonService;
+    this.log(`Configure: getService AccessoryInformatie ${This.Service.AccessoryInformation}`);
     // probably parse config or something here
     log.info("Toon-Platform: Reading config");
     this.config = config;
@@ -106,7 +109,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
     // add the restored accessory to the accessories cache so we can track if it has already been registered
     // this.accessories.push(accessory);
 
-    this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
+    this.Thermostat = new ToonThermostat(accessory, this.config, this.Service, this.log);
   }
 
   /*
