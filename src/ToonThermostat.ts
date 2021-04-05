@@ -182,7 +182,7 @@ export class ToonThermostat {
       const informationService = this.accessory.getService(
         Service.AccessoryInformation
       );
-  
+      /* 
       informationService.setCharacteristic(Characteristic.Name, this.config.name);
       informationService.setCharacteristic(Characteristic.Manufacturer, "Eneco");
   
@@ -191,7 +191,7 @@ export class ToonThermostat {
       }
   
       const thermostatService = this.accessory.getService(Service.Thermostat);
-      /** 
+      
       thermostatService
         .getCharacteristic(Characteristic.TargetHeatingCoolingState)
         .setProps({
