@@ -28,7 +28,7 @@ export class ToonThermostat {
     ) {
       this.deviceId = this.accessory.context.deviceId;
       Service = ToonService;
-      
+
       this.log.info(`ToonThermoStat: Device ID is ${this.deviceId}`);
       this.connection = new ToonConnection(this.config, this.log, this.onUpdate);
       this.log.info("ToonThermoStat: ToonConnection is completed");
@@ -39,7 +39,7 @@ export class ToonThermostat {
       const thermostatService = this.accessory.getService(Service.Thermostat);
       const { thermostatInfo } = toonStatus;
   
-      thermostatService.updateCharacteristic(
+     /* thermostatService.updateCharacteristic(
         Characteristic.CurrentTemperature,
         thermostatInfo.currentDisplayTemp / 100
       );
@@ -79,7 +79,7 @@ export class ToonThermostat {
         .setCharacteristic(
           Characteristic.HardwareRevision,
           this.connection.getHardwareVersion()
-        );
+        );*/
     };
   
     identify(callback: () => void) {

@@ -71,8 +71,8 @@ class ToonPlatform implements DynamicPlatformPlugin {
   constructor(log: Logging, config: PlatformConfig, api: API) {
     this.log = log;
     
-    this.Service = api.ToonService;
-    this.log(`Configure: getService AccessoryInformatie ${This.Service.AccessoryInformation}`);
+    this.Service = ToonService;
+    this.log(`Configure: getService AccessoryInformatie ${this.Service.AccessoryInformation}`);
     // probably parse config or something here
     log.info("Toon-Platform: Reading config");
     this.config = config;
@@ -148,7 +148,7 @@ class ToonPlatform implements DynamicPlatformPlugin {
 
     this.log.info("addThermostat: Setup new Toon Thermostat");
 
-    this.Thermostat = new ToonThermostat(accessory, this.config, this.log);
+    this.Thermostat = new ToonThermostat(accessory, this.config, this.Service, this.log);
 
     this.log.info("addThermostat: new Toon Thermostat was Setup");
 
