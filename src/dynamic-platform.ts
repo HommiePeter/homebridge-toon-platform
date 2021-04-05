@@ -49,7 +49,8 @@ let Accessory: typeof PlatformAccessory;
 export = (api: API) => {
   hap = api.hap;
   Accessory = api.platformAccessory;
- 
+  
+
   api.registerPlatform(PLATFORM_NAME, ToonPlatform);
 };
 

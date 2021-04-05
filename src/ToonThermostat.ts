@@ -14,6 +14,8 @@ import {
     PlatformConfig,
   } from "homebridge";
 
+
+
 var Service: any, Characteristic: any
 
 export class ToonThermostat {
@@ -29,10 +31,9 @@ export class ToonThermostat {
       this.log.info(`ToonThermoStat: Device ID is ${this.deviceId}`);
       this.connection = new ToonConnection(this.config, this.log, this.onUpdate);
       this.log.info("ToonThermoStat: ToonConnection is completed");
+    
+      Service = API.hap.AccessoryInformation;
 
-      Service = API.hap.Service;
-      Characteristic = API.hap.Characteristic;
-     
       this.configure(); 
     }
     onUpdate = (toonStatus: ToonStatus) => {
