@@ -135,11 +135,13 @@ export class ToonConnection {
         let toonStatus: ToonStatus = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/status`
         );
-    
+        
+        this.log.info(`getToonStatus: thermostatInfo ${toonStatus.thermostatInfo}`);
+/*
         if (toonStatus.thermostatInfo) { 
           this.toonStatus = toonStatus;
           this.onUpdate(this.toonStatus);
-        } 
+        } */
       }; 
       private async setToonTemperature(temperature: number) {
         if (!this.agreement) {
