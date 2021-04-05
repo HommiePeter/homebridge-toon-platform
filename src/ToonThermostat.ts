@@ -173,6 +173,7 @@ export class ToonThermostat {
     };
   
     configure() {
+      this.log(`Configure: getService AccessoryInformatie ${Service.AccessoryInformation}`);
       if (!this.accessory.getService(Service.AccessoryInformation)) {
         this.accessory.addService(
           Service.AccessoryInformation,
