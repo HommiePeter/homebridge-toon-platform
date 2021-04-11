@@ -32,7 +32,7 @@ export class Toon {
         this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
 
         for ( let i=0; i < NrSmokeDectectors; i++) {
-            const devUuid = this.connection.toonstatus.smokeDetectors.device[i].name;
+            const devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
             const devType = DEV_TYPE_SmokeSensor;
             this.log.info (`Device Type = ${devType} and device DevUUID ${devUuid}`);
 //            this.devicelist.device.push(device);
