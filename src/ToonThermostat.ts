@@ -16,6 +16,7 @@ import {
 
 var Service: any, Characteristic: any
 
+
 export class ToonThermostat {
     private deviceId: string;
     private connection: ToonConnection;
@@ -30,9 +31,10 @@ export class ToonThermostat {
       
       this.connection = connect;
       
-      this.configure(); 
+ //     this.configure(); 
     }
-
+}
+/*
     configure() {
         if (!this.accessory.getService(Service.AccessoryInformation)) 
         {
@@ -89,7 +91,7 @@ export class ToonThermostat {
       const thermostatService = this.accessory.getService(Service.Thermostat);
       const { thermostatInfo } = toonStatus;
   
-     /* thermostatService.updateCharacteristic(
+      thermostatService.updateCharacteristic(
         Characteristic.CurrentTemperature,
         thermostatInfo.currentDisplayTemp / 100
       );
@@ -129,7 +131,7 @@ export class ToonThermostat {
         .setCharacteristic(
           Characteristic.HardwareRevision,
           this.connection.getHardwareVersion()
-        );*/
+        );
     };
   
     identify(callback: () => void) {
@@ -220,7 +222,7 @@ export class ToonThermostat {
       callback(null, this.connection.getSoftwareVersion());
     };
   } 
-
+*/
 
 
 
