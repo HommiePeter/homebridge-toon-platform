@@ -81,23 +81,14 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       this.log.info('Executed didFinishLaunching callback');
       
-      this.toon.update_devicelist();
-
-     // this.toon.show_devicelist();
-      // run the method to discover / register your devices as accessories
-
-    
-
-// Nog even niet tijdelijkt uit gezet
-//      this.discoverDevices();
-//
-//        setInterval(() => { this.discoverDevices() }, 30000);
-
+      this.discoverDevices();
+      setInterval(() => {
+        this.discoverDevices()
+      }, 10000);
     });
+
   }
- 
-
-
+  
   /**
    * This function is invoked when homebridge restores cached accessories from disk at startup.
    * It should be used to setup event handlers for characteristics and update respective values.
@@ -110,11 +101,11 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.accessories.push(accessory);
   }
 
- 
- /* Nog even niet dus  Hoofd Comment regel
-
   async discoverDevices() {
- 
+    this.toon.update_devicelist();
+    this.toon.show_devicelist();
+  }
+  /*
     this.log.info("discover & update-devices: Update Thermostat")
     this.toon.thermostat.onUpdate;
 
