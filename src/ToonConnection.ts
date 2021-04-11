@@ -7,7 +7,7 @@ import {
     CharacteristicValue,
     DynamicPlatformPlugin,
     HAP,
-    Logging,
+    Logger,
     PlatformAccessory,
     PlatformAccessoryEvent,
     PlatformConfig,
@@ -38,7 +38,7 @@ export class ToonConnection {
  
     constructor(
       private config: PlatformConfig,
-      private log: Logging,
+      private log: Logger,
     ) {
       this.token = config.apiToken;
   
