@@ -56,8 +56,12 @@ export class ToonConnection {
     private async initialize() {
       this.log.info("ToonConnection.initialize - getAgreementData");
       this.agreement = await this.getAgreementData();
-
+      
       await this.getToonStatus();
+
+      const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
+      this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
+
     }
   
     private getHeader() {

@@ -33,8 +33,7 @@ export class Toon {
 
     public async update_devicelist () {
        // await this.connection.getToonStatus();
-        
-
+       
         const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
         
         this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
@@ -43,7 +42,14 @@ export class Toon {
             const devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
             const devName = this.connection.toonstatus.smokeDetectors.device[i].name;
             const devType = DEV_TYPE_SmokeSensor;
-            this.devicelist.push({devUuid, devType, devName });
+        
+            const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
+        
+            if (existingDevice) {
+                // the device already exists
+            } else {
+                this.devicelist.push({devUuid, devType, devName });
+            }
         }
         // To DO
         // For toonstatus.deviceConfig ....
