@@ -34,7 +34,7 @@ export class Toon {
         for ( let i=0; i < NrSmokeDectectors; i++) {
             const devUuid = this.connection.toonstatus.smokeDetectors.device[i].name;
             const devType = DEV_TYPE_SmokeSensor;
-            this.log.info (`Device Type = ${devType} and device DevUUID ${devUUID}`);
+            this.log.info (`Device Type = ${devType} and device DevUUID ${devUuid}`);
 //            this.devicelist.device.push(device);
         }
         // To DO
