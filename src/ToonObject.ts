@@ -1,4 +1,4 @@
-import { ToonStatus, ToonAgreement ,DEV_TYPE_SmokeSensor } from "./ToonAPI-Definitions";
+import { ToonStatus, ToonAgreement ,DEV_TYPE_SmokeSensor, DEV_TYPE_HueLight, DEV_TYPE_SmartPlug } from "./ToonAPI-Definitions";
 import { ToonConnection } from './ToonConnection';
 import { ToonHomebridgePlatform } from './dynamic-platform';
 import { ToonThermostat } from "./ToonThermostat";
@@ -33,15 +33,16 @@ export class Toon {
 
     public async update_devicelist () {
        // await this.connection.getToonStatus();
-       
+        var devUuid: string;
+        var devName: string;
+        var devType: string;
+
         const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
-        
-        this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
 
         for ( let i=0; i < NrSmokeDectectors; i++) {
-            const devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
-            const devName = this.connection.toonstatus.smokeDetectors.device[i].name;
-            const devType = DEV_TYPE_SmokeSensor;
+            devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
+            devName = this.connection.toonstatus.smokeDetectors.device[i].name;
+            devType = DEV_TYPE_SmokeSensor;
         
             const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
         
@@ -51,11 +52,33 @@ export class Toon {
                 this.devicelist.push({devUuid, devType, devName });
             }
         }
-        // To DO
-        // For toonstatus.deviceConfig ....
-        //     if toonstatus.deviceConfig.Type containts -> DEV_HUE -> Add Lights to Dev list
-        //     if toonstatus.deviceConfig.Type containts -> DEV_SMART -> Add SmartPlug to dev list
+        const NrDeviceConfig = this.connection.toonstatus.deviceConfigInfo.device.length
 
+        for ( let i=0; i < NrDeviceConfig; i++) {
+            devUuid = this.connection.toonstatus.deviceConfigInfo.device[i].devUUID;
+            devName = this.connection.toonstatus.deviceConfigInfo.device[i].name;
+
+            const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
+
+            if (existingDevice) {
+                // the device already exists
+            } else {
+                if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_HueLight) != -1 ) {
+                // device config is a Philips Hue light
+                    devType = DEV_TYPE_HueLight;
+                    this.devicelist.push({devUuid, devType, devName });
+                } else {
+                    if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_SmartPlug) != -1 ) {
+                        // device config is not a Philips Hue light but a Fibaro Smart WallPlug
+                        devType = DEV_TYPE_SmartPlug;
+                        this.devicelist.push({devUuid, devType, devName });
+                    } else {
+                        /// device config is not a Philips Hue light and not a Fibaro Smart WallPlug
+                        /// do nothing
+                    }
+                }
+            }
+        }            
     }
 
     public show_devicelist() {

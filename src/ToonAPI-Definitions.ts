@@ -50,10 +50,11 @@ export interface ToonAgreement {
 }
 
 export interface ToonStatus {
+    thermostatStates: ThermostatStates;
     thermostatInfo: ThermostatInfo;
-    smokeDetectors: Devices;
-// SmartPlugs : Devices
-
+    smokeDetectors: SmokeDevices;
+    deviceConfigInfo: Configinfo;
+    deviceStatusInfo: Statusinfo;
 }
 
 export interface ThermostatInfo {
@@ -72,10 +73,28 @@ export interface ThermostatInfo {
   currentModulationLevel: number;
 }
 
-export interface Devices {
+export interface ThermostatStates {
+  state: Array<ThermostatState> 
+}
+
+export interface ThermostatState { 
+  id: number,
+  tempValue: number,
+  dhw: number,
+}
+
+export interface SmokeDevices {
     device: Array<SmokeDetector>;
 }
-  
+
+export interface Configinfo {
+  device : Array<DeviceConfigInfo>,
+}
+
+export interface Statusinfo {
+  device: Array<DeviceStatusInfo>,
+}
+
 export interface SmokeDetector {
      intAddr: string; 
      devUuid: string; 
@@ -98,4 +117,32 @@ export interface ToonConnectedDevices {
 export interface ToonConnectedDevice {
   devUuid: string;
   devType: string;
+}
+
+export interface DeviceConfigInfo {
+  devUUID: string,
+  devType: string, 
+  name: string,
+  flowGraphUuid: string, 
+  quantityGraphUuid: string,
+  position: number,
+  inSwitchAll: boolean,
+  inSwitchSchedule: boolean,
+  switchLocked: boolean,
+  usageCapable: boolean,
+  currentState: number,
+  rgbColor: string,
+  zwuuid : string,
+}
+
+export interface DeviceStatusInfo {
+  devUUID:string,
+  name: string,
+  currentUsage: number,
+  dayUsage: number,
+  avgUsage: number,
+  currentState: boolean,
+  isConnected: boolean,
+  networkHealthState: number,
+  rgbColor:number,
 }

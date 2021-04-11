@@ -62,6 +62,13 @@ export class ToonConnection {
       const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
       this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
 
+      const HueLights = this.toonstatus.deviceConfigInfo.device.filter(device => device.devType.search(DEV_TYPE_HueLight) != -1);
+      const NrHueLigts = HueLights.length;
+      this.log.info(`Number of connected Hue lights found is: ${NrHueLigts}`);
+
+      const SmartPlugs = this.toonstatus.deviceConfigInfo.device.filter( device => device.devType.search(DEV_TYPE_SmartPlug) != -1);
+      const NrSmartPlugs = SmartPlugs.length;
+      this.log.info(`Number of connected Hue lights found is: ${NrSmartPlugs}`);
     }
   
     private getHeader() {
