@@ -8,7 +8,7 @@ import {
     CharacteristicValue,
     DynamicPlatformPlugin,
     HAP,
-    Logging,
+    Logger,
     PlatformAccessory,
     PlatformAccessoryEvent,
     PlatformConfig,
@@ -22,19 +22,69 @@ export class ToonThermostat {
   
     constructor(
       private accessory: PlatformAccessory,
-      private config: PlatformConfig,
-      private ToonService: any,
-      private log: any
+      private config : PlatformConfig,
+      private connect: ToonConnection,
+      private log: Logger,
     ) {
       this.deviceId = this.accessory.context.deviceId;
-      Service = ToonService;
-
-      this.log.info(`ToonThermoStat: Device ID is ${this.deviceId}`);
-      this.connection = new ToonConnection(this.config, this.log, this.onUpdate);
-      this.log.info("ToonThermoStat: ToonConnection is completed");
-    
+      
+      this.connection = connect;
+      
       this.configure(); 
     }
+
+    configure() {
+        if (!this.accessory.getService(Service.AccessoryInformation)) 
+        {
+          this.accessory.addService(
+            Service.AccessoryInformation,
+            "Toon Thermostaat"
+          );
+        }
+    
+        const informationService = this.accessory.getService(
+          Service.AccessoryInformation
+        );
+    
+        informationService.setCharacteristic(Characteristic.Name, this.config.name);
+        informationService.setCharacteristic(Characteristic.Manufacturer, "Eneco");
+    
+        if (!this.accessory.getService(Service.Thermostat)) {
+          this.accessory.addService(Service.Thermostat, "Toon Thermostaat");
+        }
+    
+        const thermostatService = this.accessory.getService(Service.Thermostat);
+    
+        thermostatService
+          .getCharacteristic(Characteristic.TargetHeatingCoolingState)
+          .setProps({
+            validValues: [Characteristic.TargetHeatingCoolingState.AUTO]
+          });
+    
+        thermostatService
+          .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
+          .on("get", this.getCurrentHeatingCoolingState);
+    
+        thermostatService
+          .getCharacteristic(Characteristic.TargetHeatingCoolingState)
+          .on("set", this.setTargetHeatingCoolingState)
+          .on("get", this.getTargetHeatingCoolingState);
+    
+        thermostatService
+          .getCharacteristic(Characteristic.CurrentTemperature)
+          .on("get", this.getCurrentTemperature);
+    
+        thermostatService
+          .getCharacteristic(Characteristic.TargetTemperature)
+          .on("set", this.setTargetTemperature)
+          .on("get", this.getTargetTemperature);
+    
+        thermostatService
+          .getCharacteristic(Characteristic.TemperatureDisplayUnits)
+          .on("get", this.getTemperatureDisplayUnits);
+      }
+
+
     onUpdate = (toonStatus: ToonStatus) => {
       const thermostatService = this.accessory.getService(Service.Thermostat);
       const { thermostatInfo } = toonStatus;
@@ -169,57 +219,6 @@ export class ToonThermostat {
     getFirmareRevision = (callback: (err: Error | null, value?: any) => void) => {
       callback(null, this.connection.getSoftwareVersion());
     };
-  
-    configure() {
-      this.log(`Configure: getService AccessoryInformatie ${Service.AccessoryInformation}`);
-      if (!this.accessory.getService(Service.AccessoryInformation)) {
-        this.accessory.addService(
-          Service.AccessoryInformation,
-          "Toon Thermostaat"
-        );
-      }
-  
-      const informationService = this.accessory.getService(
-        Service.AccessoryInformation
-      );
-      /* 
-      informationService.setCharacteristic(Characteristic.Name, this.config.name);
-      informationService.setCharacteristic(Characteristic.Manufacturer, "Eneco");
-  
-      if (!this.accessory.getService(Service.Thermostat)) {
-        this.accessory.addService(Service.Thermostat, "Toon Thermostaat");
-      }
-  
-      const thermostatService = this.accessory.getService(Service.Thermostat);
-      
-      thermostatService
-        .getCharacteristic(Characteristic.TargetHeatingCoolingState)
-        .setProps({
-          validValues: [Characteristic.TargetHeatingCoolingState.AUTO]
-        });
-  
-      thermostatService
-        .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
-        .on("get", this.getCurrentHeatingCoolingState);
-  
-      thermostatService
-        .getCharacteristic(Characteristic.TargetHeatingCoolingState)
-        .on("set", this.setTargetHeatingCoolingState)
-        .on("get", this.getTargetHeatingCoolingState);
-  
-      thermostatService
-        .getCharacteristic(Characteristic.CurrentTemperature)
-        .on("get", this.getCurrentTemperature);
-  
-      thermostatService
-        .getCharacteristic(Characteristic.TargetTemperature)
-        .on("set", this.setTargetTemperature)
-        .on("get", this.getTargetTemperature);
-  
-      thermostatService
-        .getCharacteristic(Characteristic.TemperatureDisplayUnits)
-        .on("get", this.getTemperatureDisplayUnits); **/
-    }
   } 
 
 

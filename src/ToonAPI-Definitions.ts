@@ -50,7 +50,10 @@ export interface ToonAgreement {
 }
 
 export interface ToonStatus {
-  thermostatInfo: ThermostatInfo;
+    thermostatInfo: ThermostatInfo;
+    smokeDetectors: Devices;
+// SmartPlugs : Devices
+
 }
 
 export interface ThermostatInfo {
@@ -67,4 +70,32 @@ export interface ThermostatInfo {
   burnerInfo: string;
   otCommError: string;
   currentModulationLevel: number;
+}
+
+export interface Devices {
+    device: Array<SmokeDetector>;
+}
+  
+export interface SmokeDetector {
+     intAddr: string; 
+     devUuid: string; 
+     name: string; 
+     type: string; 
+     connected: boolean;
+     lastConnectedChange: number; 
+     batteryLevel: number;
+     sensitivityLevel: number;
+}
+
+export const DEV_TYPE_SmokeSensor = "smoke";
+export const DEV_TYPE_HueLight = "hue_light-";
+export const DEV_TYPE_SmartPlug = "FGWP"; 
+
+export interface ToonConnectedDevices {
+  device : Array<ToonConnectedDevice>;
+}
+
+export interface ToonConnectedDevice {
+  devUuid: string;
+  devType: string;
 }

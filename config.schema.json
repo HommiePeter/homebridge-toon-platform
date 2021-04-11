@@ -17,7 +17,7 @@
           "required": true
         },
         "AgreementIndex": {
-          "title": "AgreementIndex",
+          "title": "agreementIndex",
           "type": "Number",
           "required": false
         }

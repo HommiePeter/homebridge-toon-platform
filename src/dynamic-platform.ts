@@ -1,24 +1,24 @@
-import http, {IncomingMessage, Server, ServerResponse} from "http";
+
 import {
   API,
   APIEvent,
   CharacteristicEventTypes,
   CharacteristicSetCallback,
   CharacteristicValue,
+  Characteristic,
   DynamicPlatformPlugin,
+  Service,
   HAP,
-  Logging,
+  Logger,
   PlatformAccessory,
   PlatformAccessoryEvent,
   PlatformConfig,
 } from "homebridge";
 
-
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { ToonThermostat } from "./ToonThermostat"
 import { ToonStatus, ThermostatInfo, ToonAgreement } from "./ToonAPI-Definitions"
-
-const PLUGIN_NAME = "homebridge-toon-platform";
-const PLATFORM_NAME = "Toon-Platform";
+import { Toon } from './ToonObject';
 
 /*
  * IMPORTANT NOTICE
@@ -46,95 +46,132 @@ let hap: HAP;
 let Accessory: typeof PlatformAccessory;
 var ToonService: any; 
 
-export = (api: API) => {
-  hap = api.hap;
-  Accessory = api.platformAccessory;
-  ToonService = api.hap.Service;
 
-  api.registerPlatform(PLATFORM_NAME, ToonPlatform);
-};
 
-class ToonPlatform implements DynamicPlatformPlugin {
-  Thermostat! : ToonThermostat;
-  Service! : any;
+export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
+  public readonly Service: typeof Service = this.api.hap.Service;
+  public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 
-  private readonly log: Logging;
-  private readonly config: PlatformConfig;
-  private readonly api: API;
-  
-  private requestServer?: Server;
-  private readonly accessories: PlatformAccessory[] = [];
- 
+// this is used to track restored cached accessories
+  public readonly accessories: PlatformAccessory[] = [];
+  private readonly toon : Toon; 
   private toonstatus!: ToonStatus;
-  private agreement! :ToonAgreement;
+  private agreement!: ToonAgreement; 
 
-  constructor(log: Logging, config: PlatformConfig, api: API) {
-    this.log = log;
+  constructor (
+    public readonly log: Logger,
+    public readonly config: PlatformConfig,
+    public readonly api: API,
+  ) {
+    this.log.debug('Finished initializing Toon platform:', this.config.name);
     
-    this.Service = ToonService;
-    this.log(`Configure: getService AccessoryInformatie ${this.Service.AccessoryInformation}`);
-    // probably parse config or something here
-    log.info("Toon-Platform: Reading config");
-    this.config = config;
+    this.toon = new Toon(this.config, this);
 
-  /*  this.connection = new ToonConnection(this.config, this.log, this.toonstatus, this.agreement);
+    this.toon.update_devicelist();
 
-  /*  this.connection = new ToonConnection(this.config, this.log ); */
+    this.toon.show_devicelist();
 
-    this.api = api;
-    log.info("Example platform finished initializing!");
+    // When this event is fired it means Homebridge has restored all cached accessories from disk.
+    // Dynamic Platform plugins should only register new accessories after this event was fired,
+    // in order to ensure they weren't added to homebridge already. This event can also be used
+    // to start discovery of new accessories.
 
-    /*
+        /*
      * When this event is fired, homebridge restored all cached accessories from disk and did call their respective
      * `configureAccessory` method for all of them. Dynamic Platform plugins should only register new accessories
      * after this event was fired, in order to ensure they weren't added to homebridge already.
      * This event can also be used to start discovery of new accessories.
      */
-    api.on(APIEvent.DID_FINISH_LAUNCHING, () => {
-      log.info("Example platform 'didFinishLaunching'");
+    this.api.on('didFinishLaunching', () => {
+      log.debug('Executed didFinishLaunching callback');
+      // run the method to discover / register your devices as accessories
 
-      // The idea of this plugin is that we open a http service which exposes api calls to add or remove accessories
-      this.log.info ("Toon-Platform : Start Add Thermostat");
+// Nog even niet tijdelijkt uit gezet
+//      this.discoverDevices();
+//
+//        setInterval(() => { this.discoverDevices() }, 30000);
 
-      this.addThermostat();
     });
   }
- /**
+ 
+
+
+  /**
    * This function is invoked when homebridge restores cached accessories from disk at startup.
    * It should be used to setup event handlers for characteristics and update respective values.
    */
-  configureAccessory(accessory: PlatformAccessory) {
+   configureAccessory(accessory: PlatformAccessory) {
     this.log.info('Loading accessory from cache:', accessory.displayName);
+
     accessory.reachable = true;
     // add the restored accessory to the accessories cache so we can track if it has already been registered
-    // this.accessories.push(accessory);
-
-    this.Thermostat = new ToonThermostat(accessory, this.config, this.Service, this.log);
+    this.accessories.push(accessory);
   }
 
-  /*
-   * This function is invoked when homebridge restores cached accessories from disk at startup.
-   * It should be used to setup event handlers for characteristics and update respective values.
-   
-  configureAccessory(accessory: PlatformAccessory): void {
-    this.log("Configuring accessory %s", accessory.displayName);
+ 
+ /* Nog even niet dus  Hoofd Comment regel
 
-    accessory.on(PlatformAccessoryEvent.IDENTIFY, () => {
-      this.log("%s identified!", accessory.displayName);
-    });
+  async discoverDevices() {
+ 
+    this.log.info("discover & update-devices: Update Thermostat")
+    this.toon.thermostat.onUpdate;
 
-/*  accessory.getService(hap.Service.Thermostat)!
-      .on(CharacteristicEventTypes.SET, (value: CharacteristicValue, callback: CharacteristicSetCallback) => {
-        this.log.info("%s Light was set to: ");
-        callback();
-      } 
-      ); 
+    this.toon.connection.getToonStatus();
 
-    this.accessories.push(accessory);
+    const formulars = await this.hueApi.getLabsFormulars();
+
+    // loop over the discovered devices and register each one if it has not already been registered
+    for (const device of formulars) {
+
+      // generate a unique id for the accessory this should be generated from
+      // something globally unique, but constant, for example, the device serial
+      // number or MAC address
+      const uuid = this.api.hap.uuid.generate(device.uniqueid);
+
+      // see if an accessory with the same uuid has already been registered and restored from
+      // the cached devices we stored in the `configureAccessory` method above
+      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+
+      if (existingAccessory) {
+        // the accessory already exists
+        this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+
+        // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
+        // existingAccessory.context.device = device;
+        // this.api.updatePlatformAccessories([existingAccessory]);
+
+        // create the accessory handler for the restored accessory
+        // this is imported from `platformAccessory.ts`
+        new HueLabsAccessory(this, existingAccessory, device.id, this.hueApi);
+
+        // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
+        // remove platform accessories when no longer present
+        // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
+        // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
+      } else {
+        // the accessory does not yet exist, so we need to create it
+        this.log.info('Adding new accessory:', device.name);
+
+        // create a new accessory
+        const accessory = new this.api.platformAccessory(device.name, uuid);
+
+        // store a copy of the device object in the `accessory.context`
+        // the `context` property can be used to store any data about the accessory you may need
+        accessory.context.device = device;
+
+        // create the accessory handler for the newly create accessory
+        // this is imported from `platformAccessory.ts`
+        new HueLabsAccessory(this, accessory, device.id, this.hueApi);
+
+        // link the accessory to your platform
+        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+      }
+    }
   } */
 
   // --------------------------- CUSTOM METHODS ---------------------------
 
+/* Nog oude code bekijken wat er mee moet 
   addThermostat() {
     if (this.Thermostat !== undefined) {
       this.log.info("addThermostat: Thermostat already existing");
@@ -179,25 +216,4 @@ class ToonPlatform implements DynamicPlatformPlugin {
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, this.accessories);
     this.accessories.splice(0, this.accessories.length); // clear out the array
   }
-
-  /*
-  createHttpService() {
-    this.requestServer = http.createServer(this.handleRequest.bind(this));
-    this.requestServer.listen(18081, () => this.log.info("Http server listening on 18081..."));
-  } */
-
-  /*
-  private handleRequest(request: IncomingMessage, response: ServerResponse) {
-    if (request.url === "/add") {
-      this.addAccessory(new Date().toISOString());
-    } else if (request.url === "/remove") {
-      this.removeAccessories();
-    } 
-
-    response.writeHead(204); // 204 No content
-    response.end();
-  } */
-
-  // ----------------------------------------------------------------------
-
 }

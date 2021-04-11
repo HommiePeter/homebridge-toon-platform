@@ -19,23 +19,26 @@ import {
   ThermostatInfo,
   Token,
   ToonAgreement,
-  ToonStatus
+  ToonStatus,
+  ToonConnectedDevices,
+  ToonConnectedDevice,
+  DEV_TYPE_SmokeSensor,
+  DEV_TYPE_HueLight,
+  DEV_TYPE_SmartPlug, 
 } from "./ToonAPI-Definitions";
 
 export class ToonConnection {
-    private agreement?: ToonAgreement; 
-    private toonStatus?: ToonStatus;
+    public agreement?: ToonAgreement; 
+    public toonstatus! : ToonStatus; 
+    public devicelist! : ToonConnectedDevices;
+    private device!: ToonConnectedDevice;  
     private agreementIndex: number;
-     
     private token?: string;
-    private resultjson!: string;
-
+    
+ 
     constructor(
       private config: PlatformConfig,
       private log: Logging,
-    /*  private toonstatus: ToonStatus,
-      private agreement: ToonAgreement */
-      private onUpdate: (toonStatus: ToonStatus) => void 
     ) {
       this.token = config.apiToken;
   
@@ -43,11 +46,11 @@ export class ToonConnection {
       this.agreementIndex = this.config.agreementIndex
         ? this.config.agreementIndex
         : 0;
-  
-      this.initialize().then(() => {
-            setInterval(this.getToonStatus, 10000);
-            this.log("interval is set based on toon status")
-        });
+      this.initialize()
+ //     this.initialize().then(() => {
+ //           setInterval(this.getToonStatus, 10000);
+ //           this.log("interval is set based on toon status")
+ //       });
     }
   
     private async initialize() {
@@ -127,28 +130,28 @@ export class ToonConnection {
         );
       }
     }
-    private getToonStatus = async () => {
+    
+    public getToonStatus = async () => {        
+        
         if (!this.agreement) {
           throw Error("Requested status but there is no agreement.");
         }
     
-        let toonStatus: ToonStatus = await this.toonGETRequest(
+        let status: ToonStatus = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/status`
         );
+
+        this.toonstatus = status;
+        // Moet nog uitbreiden met actuele infor
         
-        this.log.info(`getToonStatus: thermostatInfo ${toonStatus.thermostatInfo}`);
-/*
-        if (toonStatus.thermostatInfo) { 
-          this.toonStatus = toonStatus;
-          this.onUpdate(this.toonStatus);
-        } */
       }; 
+
       private async setToonTemperature(temperature: number) {
         if (!this.agreement) {
           throw Error("Setting temperature but there is no agreement.");
         }
     
-        if (!this.toonStatus) {
+        if (!this.toonstatus) {
           throw Error("Setting temperature but there is no status information.");
         }
     
@@ -172,8 +175,8 @@ export class ToonConnection {
     
         this.log(`Successfully set Toon Temperature to ${temperature / 100}`);
     
-        this.toonStatus.thermostatInfo = newThermostatInfo;
-        this.onUpdate(this.toonStatus);
+        this.toonstatus.thermostatInfo = newThermostatInfo;
+       // this.onUpdate(this.toonStatus);
       }
     
       public async setTemperature(temperature: number) {
@@ -197,20 +200,20 @@ export class ToonConnection {
       }
     
       public getBurnerInfo() {
-        return this.toonStatus
-          ? this.toonStatus.thermostatInfo.burnerInfo
+        return this.toonstatus
+          ? this.toonstatus.thermostatInfo.burnerInfo
           : undefined;
       }
     
       public getCurrentTemperature() {
-        return this.toonStatus
-          ? this.toonStatus.thermostatInfo.currentDisplayTemp / 100
+        return this.toonstatus
+          ? this.toonstatus.thermostatInfo.currentDisplayTemp / 100
           : undefined;
       }
     
       public getCurrentSetpoint() {
-        return this.toonStatus
-          ? this.toonStatus.thermostatInfo.currentSetpoint / 100
+        return this.toonstatus
+          ? this.toonstatus.thermostatInfo.currentSetpoint / 100
           : undefined;
       }
   }
