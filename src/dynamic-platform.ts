@@ -66,11 +66,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.log.debug('Finished initializing Toon platform:', this.config.name);
     
     this.toon = new Toon(this.config, this);
-
-    this.toon.update_devicelist();
-
-    this.toon.show_devicelist();
-
+  
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
     // in order to ensure they weren't added to homebridge already. This event can also be used
@@ -84,6 +80,10 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
      */
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
+      
+      this.toon.update_devicelist();
+
+      this.toon.show_devicelist();
       // run the method to discover / register your devices as accessories
 
 // Nog even niet tijdelijkt uit gezet
