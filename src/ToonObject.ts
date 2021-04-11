@@ -1,12 +1,15 @@
-import { ToonStatus, ToonAgreement, ToonConnectedDevice,ToonConnectedDevices,DEV_TYPE_SmokeSensor } from "./ToonAPI-Definitions";
+import { ToonStatus, ToonAgreement ,DEV_TYPE_SmokeSensor } from "./ToonAPI-Definitions";
 import { ToonConnection } from './ToonConnection';
 import { ToonHomebridgePlatform } from './dynamic-platform';
 import { ToonThermostat } from "./ToonThermostat";
 import { PlatformConfig, Logger, PlatformAccessory } from "homebridge";
 
+// Nog uitzoeken waarom dit niet  via de import interface werkt. 
+
 interface ConnectedDevice {
     devUuid: string;
     devType: String;
+    devName: String;
 }
 
 export class Toon {
@@ -38,9 +41,9 @@ export class Toon {
 
         for ( let i=0; i < NrSmokeDectectors; i++) {
             const devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
+            const devName = this.connection.toonstatus.smokeDetectors.device[i].name;
             const devType = DEV_TYPE_SmokeSensor;
-  //          this.log.info (`Device Type = ${devType} and device DevUUID ${devUuid}`);
-            this.devicelist.push({devUuid,devType });
+            this.devicelist.push({devUuid, devType, devName });
         }
         // To DO
         // For toonstatus.deviceConfig ....
