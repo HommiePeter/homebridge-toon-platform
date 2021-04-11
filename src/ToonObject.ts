@@ -23,8 +23,8 @@ export class Toon {
  //       this.connection.getToonStatus();
  //       this.thermostat = new ToonThermostat (Toonplatform.accessories, Config this.connection,  Toonplatform.log )
     }
-    public update_devicelist () {
-        this.connection.getToonStatus();
+    public async update_devicelist () {
+        await this.connection.getToonStatus();
 
         const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
         
