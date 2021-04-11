@@ -4,7 +4,7 @@
   "name": "homebridge-toon-platform",
   "version": "1.0.0",
   "description": "An example dynamic platform plugin for homebridge written in Typescript",
-  "main": "dist/dynamic-platform.js",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "rimraf ./dist && tsc",
