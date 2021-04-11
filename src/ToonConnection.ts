@@ -54,6 +54,7 @@ export class ToonConnection {
     }
   
     private async initialize() {
+      this.log.info("ToonConnection.initialize - getAgreementData");
       this.agreement = await this.getAgreementData();
     }
   

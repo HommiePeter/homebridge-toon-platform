@@ -81,10 +81,12 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       this.log.info('Executed didFinishLaunching callback');
       
-     // this.toon.update_devicelist();
+      this.toon.update_devicelist();
 
      // this.toon.show_devicelist();
       // run the method to discover / register your devices as accessories
+
+    
 
 // Nog even niet tijdelijkt uit gezet
 //      this.discoverDevices();
