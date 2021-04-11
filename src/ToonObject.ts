@@ -8,7 +8,7 @@ export class Toon {
     public connection: ToonConnection;
     public thermostat!: ToonThermostat;
     public devicelist!: ToonConnectedDevices;
-    private device!: ToonConnectedDevice;
+  //  private device: ToonConnectedDevice;
     private log: Logger;
 
     constructor(
@@ -23,18 +23,19 @@ export class Toon {
  //       this.connection.getToonStatus();
  //       this.thermostat = new ToonThermostat (Toonplatform.accessories, Config this.connection,  Toonplatform.log )
     }
-    
+
     public async update_devicelist () {
-        await this.connection.getToonStatus();
+       // await this.connection.getToonStatus();
 
         const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
         
         this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
 
         for ( let i=0; i < NrSmokeDectectors; i++) {
-            this.device.devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
-            this.device.devType = DEV_TYPE_SmokeSensor;
-            this.devicelist.device.push(this.device);
+            const devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
+            const devType = DEV_TYPE_SmokeSensor;
+            this.log.info (`Device Type = ${devType} and device DevUUID ${devUUID}`);
+//            this.devicelist.device.push(device);
         }
         // To DO
         // For toonstatus.deviceConfig ....
