@@ -56,6 +56,8 @@ export class ToonConnection {
     private async initialize() {
       this.log.info("ToonConnection.initialize - getAgreementData");
       this.agreement = await this.getAgreementData();
+
+      await this.getToonStatus();
     }
   
     private getHeader() {
@@ -143,6 +145,7 @@ export class ToonConnection {
         );
 
         this.toonstatus = status;
+        this.log.info("getToonStatus: Toon status data is retrieved");
         // Moet nog uitbreiden met actuele infor
         
       }; 
