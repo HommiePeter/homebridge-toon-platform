@@ -81,7 +81,6 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       this.log.info('Executed didFinishLaunching callback');
       
-      this.discoverDevices();
       setInterval(() => {
         this.discoverDevices()
       }, 10000);
