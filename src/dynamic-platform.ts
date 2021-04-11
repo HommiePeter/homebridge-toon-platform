@@ -102,6 +102,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices() {
+    this.log.info ("discoverDevices: update devicelist");
     this.toon.update_devicelist();
    // this.toon.show_devicelist();
   }
