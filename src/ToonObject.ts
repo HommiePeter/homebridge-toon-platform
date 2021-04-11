@@ -4,12 +4,15 @@ import { ToonHomebridgePlatform } from './dynamic-platform';
 import { ToonThermostat } from "./ToonThermostat";
 import { PlatformConfig, Logger, PlatformAccessory } from "homebridge";
 
-var device : ToonConnectedDevice;
+interface ConnectedDevice {
+    devUuid: string;
+    devType: String;
+}
 
 export class Toon {
     public connection: ToonConnection;
     public thermostat!: ToonThermostat;
-    public devicelist: PlatformAccessory[] = [];
+    public devicelist: ConnectedDevice[] = [];
     private log: Logger;
     
     
@@ -35,9 +38,9 @@ export class Toon {
 
         for ( let i=0; i < NrSmokeDectectors; i++) {
             const devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
+            const devType = DEV_TYPE_SmokeSensor;
   //          this.log.info (`Device Type = ${devType} and device DevUUID ${devUuid}`);
-            const device = new PlatformAccessory(devUuid, DEV_TYPE_SmokeSensor);
-            this.devicelist.push(new PlatformAccessory(devUuid, DEV_TYPE_SmokeSensor));
+            this.devicelist.push({devUuid,devType });
         }
         // To DO
         // For toonstatus.deviceConfig ....
