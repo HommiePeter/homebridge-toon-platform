@@ -63,7 +63,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API,
   ) {
-    this.log.debug('Finished initializing Toon platform:', this.config.name);
+    this.log.info('Finished initializing Toon platform:', this.config.name);
     
     this.toon = new Toon(this.config, this);
   
@@ -79,7 +79,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
      * This event can also be used to start discovery of new accessories.
      */
     this.api.on('didFinishLaunching', () => {
-      this.log.debug('Executed didFinishLaunching callback');
+      this.log.info('Executed didFinishLaunching callback');
       
      // this.toon.update_devicelist();
 
