@@ -8,7 +8,7 @@ export class Toon {
     public connection: ToonConnection;
     public thermostat!: ToonThermostat;
     public devicelist!: ToonConnectedDevices;
-    private device: ToonConnectedDevice;
+    private device!: ToonConnectedDevice;
     private log: Logger;
 
     constructor(
