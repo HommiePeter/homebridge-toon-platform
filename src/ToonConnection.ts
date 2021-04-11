@@ -155,7 +155,7 @@ export class ToonConnection {
           throw Error("Setting temperature but there is no status information.");
         }
     
-        this.log(`Setting Toon Temperature to ${temperature / 100}`);
+        this.log.info(`Setting Toon Temperature to ${temperature / 100}`);
     
         let currentThermostatInfo: ThermostatInfo = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/thermostat`
@@ -173,7 +173,7 @@ export class ToonConnection {
           payload
         );
     
-        this.log(`Successfully set Toon Temperature to ${temperature / 100}`);
+        this.log.info(`Successfully set Toon Temperature to ${temperature / 100}`);
     
         this.toonstatus.thermostatInfo = newThermostatInfo;
        // this.onUpdate(this.toonStatus);
