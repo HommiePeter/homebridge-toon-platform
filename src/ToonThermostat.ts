@@ -16,9 +16,6 @@ import {
     PlatformConfig,
   } from "homebridge";
 
-var Service: any, Characteristic: any
-
-
 export class ToonThermostat {
     private thermostatService: Service;
     private log : Logger;

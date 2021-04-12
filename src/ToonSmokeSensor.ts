@@ -38,8 +38,7 @@ export class ToonSmokeDetector {
 
          this.smokesensorService = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
      
-         this.smokesensorService
-           .getCharacteristic(this.platform.Characteristic.SmokeDetected)
+         this.smokesensorService.getCharacteristic(this.platform.Characteristic.SmokeDetected)
            .onGet(this.handleSmokeDetected.bind(this));
 
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
