@@ -19,7 +19,7 @@ import {
 
  
 export class ToonSmokeDetector {
-    private smokesensorService: Service;
+    private service: Service;
     private smokedetector?: SmokeDetector;
     private log : Logger;
     
@@ -36,30 +36,31 @@ export class ToonSmokeDetector {
          .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
          .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL");
 
-         this.smokesensorService = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
+         this.service = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
      
-         this.smokesensorService.getCharacteristic(this.platform.Characteristic.SmokeDetected)
-           .onGet(this.handleSmokeDetected.bind(this));
+
 
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
         
         if (result) {
             this.smokedetector = result;
 
-            this.smokesensorService.updateCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
-            this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
+            this.service.setCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
+            this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
 
             if (this.smokedetector.batteryLevel < 10) {
-                this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
+                this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
             } else {
-                this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
+                this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
             }
-        }else {
+        } else {
             this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
         }
+        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
+          .onGet(this.handleSmokeDetected.bind(this));
     }
 
-    handleSmokeDetected(): Promise<CharacteristicValue> {
+    handleSmokeDetected() {
         this.log.debug('Triggered GET SmokeDetected');
     
         // set this to a valid value for SmokeDetected

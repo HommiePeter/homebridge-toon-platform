@@ -46,8 +46,6 @@ import { ToonAccessory} from "./ToonAccessorry";
  */
 let hap: HAP;
 let Accessory: typeof PlatformAccessory;
-var ToonService: any; 
-
 
 
 export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
