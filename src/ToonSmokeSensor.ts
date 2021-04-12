@@ -38,7 +38,7 @@ export class ToonSmokeDetector {
 
          this.smokesensorService = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
      
-         this.smokesensorService.getCharacteristic(this.platform.Characteristic.SmokeDetected)
+         this.smokesensorService.getCharacteristic(this.platform.Characteristic.SmokeDetected)!
            .onGet(this.handleSmokeDetected.bind(this));
 
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
@@ -46,6 +46,7 @@ export class ToonSmokeDetector {
         if (result) {
             this.smokedetector = result;
 
+            this.smokesensorService.updateCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
             this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
 
             if (this.smokedetector.batteryLevel < 10) {
@@ -58,7 +59,7 @@ export class ToonSmokeDetector {
         }
     }
 
-    handleSmokeDetected() {
+    handleSmokeDetected(): Promise<CharacteristicValue> {
         this.log.debug('Triggered GET SmokeDetected');
     
         // set this to a valid value for SmokeDetected
