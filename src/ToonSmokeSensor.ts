@@ -40,7 +40,7 @@ export class ToonSmokeDetector {
      
          this.smokesensorService
            .getCharacteristic(this.platform.Characteristic.SmokeDetected)
-           .on("get", this.handleSmokeDetected);
+           .onGet(this.handleSmokeDetected.bind(this));
 
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
         
@@ -58,7 +58,7 @@ export class ToonSmokeDetector {
             this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
         }
     }
-    
+
     handleSmokeDetected() {
         this.log.debug('Triggered GET SmokeDetected');
     
