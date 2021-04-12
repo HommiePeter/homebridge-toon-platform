@@ -57,9 +57,8 @@ export class ToonSmokeDetector {
         }else {
             this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
         }
-
-       
     }
+    
     handleSmokeDetected() {
         this.log.debug('Triggered GET SmokeDetected');
     
