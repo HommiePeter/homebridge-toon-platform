@@ -12,7 +12,7 @@ interface ConnectedDevice {
     devName: String;
 }
 
-export class Toon {
+export class ToonAPI {
     public connection: ToonConnection;
     public thermostat!: ToonThermostat;
     public devicelist: ConnectedDevice[] = [];
@@ -27,8 +27,6 @@ export class Toon {
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
 
- //       this.connection.getToonStatus();
- //       this.thermostat = new ToonThermostat (Toonplatform.accessories, Config this.connection,  Toonplatform.log )
     }
 
     public async update_devicelist () {
@@ -78,7 +76,7 @@ export class Toon {
                     }
                 }
             }
-        }            
+        }
     }
 
     public show_devicelist() {

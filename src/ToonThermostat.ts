@@ -1,5 +1,6 @@
 import { ToonStatus } from './ToonAPI-Definitions';
-import { ToonConnection } from './ToonConnection';
+import { ToonAPI } from  './ToonObject';
+import { ToonHomebridgePlatform } from './dynamic-platform';
 import {
     API,
     APIEvent,
@@ -9,6 +10,7 @@ import {
     DynamicPlatformPlugin,
     HAP,
     Logger,
+    Service,
     PlatformAccessory,
     PlatformAccessoryEvent,
     PlatformConfig,
@@ -18,75 +20,58 @@ var Service: any, Characteristic: any
 
 
 export class ToonThermostat {
-    private deviceId: string;
-    private connection: ToonConnection;
-  
+    private thermostatService: Service;
+    private log : Logger;
+
     constructor(
-      private accessory: PlatformAccessory,
-      private config : PlatformConfig,
-      private connect: ToonConnection,
-      private log: Logger,
+        private readonly platform: ToonHomebridgePlatform,
+        private readonly accessory: PlatformAccessory,
+        private devType: string,
+        private devUuid: string,
+        private toon: ToonAPI,
     ) {
-      this.deviceId = this.accessory.context.deviceId;
-      
-      this.connection = connect;
-      
- //     this.configure(); 
-    }
-}
-/*
-    configure() {
-        if (!this.accessory.getService(Service.AccessoryInformation)) 
-        {
-          this.accessory.addService(
-            Service.AccessoryInformation,
-            "Toon Thermostaat"
-          );
-        }
+        this.log = platform.log;
+     // set accessory information TO DO Nog eigenschappen uit Agreement toevoegen
+        this.accessory.getService(this.platform.Service.AccessoryInformation)!
+          .setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name)
+          .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Eneco')
+          .setCharacteristic(this.platform.Characteristic.Model, 'Toon Thermostaat Model 1')
+          .setCharacteristic(this.platform.Characteristic.SerialNumber, this.toon.connection.getDisplayCommonName() )
+          .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())
+          .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
+
+        this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
     
-        const informationService = this.accessory.getService(
-          Service.AccessoryInformation
-        );
-    
-        informationService.setCharacteristic(Characteristic.Name, this.config.name);
-        informationService.setCharacteristic(Characteristic.Manufacturer, "Eneco");
-    
-        if (!this.accessory.getService(Service.Thermostat)) {
-          this.accessory.addService(Service.Thermostat, "Toon Thermostaat");
-        }
-    
-        const thermostatService = this.accessory.getService(Service.Thermostat);
-    
-        thermostatService
-          .getCharacteristic(Characteristic.TargetHeatingCoolingState)
+        this.thermostatService
+          .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
           .setProps({
-            validValues: [Characteristic.TargetHeatingCoolingState.AUTO]
-          });
+             validValues: [this.platform.Characteristic.TargetHeatingCoolingState.AUTO]
+           });
     
-        thermostatService
-          .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
+        this.thermostatService
+          .getCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState)
           .on("get", this.getCurrentHeatingCoolingState);
     
-        thermostatService
-          .getCharacteristic(Characteristic.TargetHeatingCoolingState)
+        this.thermostatService
+          .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
           .on("set", this.setTargetHeatingCoolingState)
           .on("get", this.getTargetHeatingCoolingState);
     
-        thermostatService
+        this.thermostatService
           .getCharacteristic(Characteristic.CurrentTemperature)
           .on("get", this.getCurrentTemperature);
     
-        thermostatService
+        this.thermostatService
           .getCharacteristic(Characteristic.TargetTemperature)
           .on("set", this.setTargetTemperature)
           .on("get", this.getTargetTemperature);
     
-        thermostatService
+        this.thermostatService
           .getCharacteristic(Characteristic.TemperatureDisplayUnits)
           .on("get", this.getTemperatureDisplayUnits);
-      }
-
-
+    }
+/*
+    public 
     onUpdate = (toonStatus: ToonStatus) => {
       const thermostatService = this.accessory.getService(Service.Thermostat);
       const { thermostatInfo } = toonStatus;
@@ -132,7 +117,7 @@ export class ToonThermostat {
           Characteristic.HardwareRevision,
           this.connection.getHardwareVersion()
         );
-    };
+    }; */
   
     identify(callback: () => void) {
       callback();
@@ -141,13 +126,13 @@ export class ToonThermostat {
     getCurrentHeatingCoolingState = (
       callback: (err: Error | null, value?: any) => void
     ) => {
-      const burnerInfo = this.connection.getBurnerInfo();
+      const burnerInfo = this.toon.connection.getBurnerInfo();
   
       // Toon can only activate the heating, so return heat or off.
-      var heatingCoolingState = Characteristic.CurrentHeatingCoolingState.OFF;
+      var heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
   
       if (burnerInfo === "1") {
-        heatingCoolingState = Characteristic.CurrentHeatingCoolingState.HEAT;
+        heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
       }
   
       if (burnerInfo !== undefined) {
@@ -161,31 +146,31 @@ export class ToonThermostat {
       _: any,
       callback: (err: Error | null, value?: any) => void
     ) => {
-      const thermostatService = this.accessory.getService(Service.Thermostat);
-      callback(null, Characteristic.TargetHeatingCoolingState.AUTO);
+      const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
+      callback(null, this.platform.Characteristic.TargetHeatingCoolingState.AUTO);
     };
   
     getTargetHeatingCoolingState = (
       callback: (err: Error | null, value?: any) => void
     ) => {
-      callback(null, Characteristic.TargetHeatingCoolingState.AUTO);
+      callback(null, this.platform.Characteristic.TargetHeatingCoolingState.AUTO);
     };
   
     getCurrentTemperature = (
       callback: (err: Error | null, value?: any) => void
     ) => {
-      const currentTemp = this.connection.getCurrentTemperature();
+      const currentTemp = this.toon.connection.getCurrentTemperature();
   
-      this.log("Current Temperature: ", currentTemp);
+      this.log.info("Current Temperature: ", currentTemp);
       callback(null, currentTemp);
     };
   
     getTargetTemperature = (
       callback: (err: Error | null, value?: any) => void
     ) => {
-      const currentSetpoint = this.connection.getCurrentSetpoint();
+      const currentSetpoint = this.toon.connection.getCurrentSetpoint();
   
-      this.log("Current Target Temperature: ", currentSetpoint);
+      this.log.info("Current Target Temperature: ", currentSetpoint);
       callback(null, currentSetpoint);
     };
   
@@ -193,36 +178,35 @@ export class ToonThermostat {
       value: any,
       callback: (err?: Error | null, value?: any) => void
     ) => {
-      if (value === this.connection.getCurrentSetpoint()) {
+      if (value === this.toon.connection.getCurrentSetpoint()) {
         callback();
         return;
       }
   
-      this.connection.setTemperature(value);
+      this.toon.connection.setTemperature(value);
       callback();
     };
   
     getTemperatureDisplayUnits = (
       callback: (err: Error | null, value?: any) => void
     ) => {
-      callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS);
+      callback(null, this.platform.Characteristic.TemperatureDisplayUnits.CELSIUS);
     };
   
     getDisplayCommonName = (
       callback: (err: Error | null, value?: any) => void
     ) => {
-      callback(null, this.connection.getDisplayCommonName());
+      callback(null, this.toon.connection.getDisplayCommonName());
     };
   
     getHardwareVersion = (callback: (err: Error | null, value?: any) => void) => {
-      callback(null, this.connection.getHardwareVersion());
+      callback(null, this.toon.connection.getHardwareVersion());
     };
   
-    getFirmareRevision = (callback: (err: Error | null, value?: any) => void) => {
-      callback(null, this.connection.getSoftwareVersion());
+    getFirmwareRevision = (callback: (err: Error | null, value?: any) => void) => {
+      callback(null, this.toon.connection.getSoftwareVersion());
     };
-  } 
-*/
+} 
 
 
 

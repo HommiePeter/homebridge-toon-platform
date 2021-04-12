@@ -15,10 +15,12 @@ import {
   PlatformConfig,
 } from "homebridge";
 
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
+import { PLATFORM_NAME, PLUGIN_NAME } from "./settings";
 import { ToonThermostat } from "./ToonThermostat"
 import { ToonStatus, ThermostatInfo, ToonAgreement } from "./ToonAPI-Definitions"
-import { Toon } from './ToonObject';
+import { ToonAPI } from "./ToonObject";
+import { ToonAccessory} from "./ToonAccessorry";
+
 
 /*
  * IMPORTANT NOTICE
@@ -54,7 +56,8 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
-  private readonly toon : Toon; 
+  public readonly toon : ToonAPI;
+  public config: PlatformConfig;  
   private toonstatus!: ToonStatus;
   private agreement!: ToonAgreement; 
 
@@ -63,9 +66,11 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API,
   ) {
-    this.log.info('Finished initializing Toon platform:', this.config.name);
-    
-    this.toon = new Toon(this.config, this);
+    config = this.config; 
+
+    this.log.info('Finished initializing Toon platform:', config.name);
+  
+    this.toon = new ToonAPI(config, this);
   
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
@@ -139,7 +144,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this is imported from `platformAccessory.ts`
 
 // tijdelijk buiten gebruik
-//        new HueLabsAccessory(this, existingAccessory, device.id, this.hueApi);
+//        new ToonAccessory(this, existingAccessory, device.devType, this.hueApi);
 
         // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
         // remove platform accessories when no longer present
@@ -158,10 +163,10 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
- //       new HueLabsAccessory(this, accessory, device.id, this.hueApi);
+ c       new ToonAccessory(this, accessory, device.devType, device.devUuid this.toon);
 
         // link the accessory to your platform
- //       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
     }
   } 

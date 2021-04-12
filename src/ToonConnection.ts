@@ -47,10 +47,6 @@ export class ToonConnection {
         ? this.config.agreementIndex
         : 0;
       this.initialize()
- //     this.initialize().then(() => {
- //           setInterval(this.getToonStatus, 10000);
- //           this.log("interval is set based on toon status")
- //       });
     }
   
     private async initialize() {
@@ -68,7 +64,7 @@ export class ToonConnection {
 
       const SmartPlugs = this.toonstatus.deviceConfigInfo.device.filter( device => device.devType.search(DEV_TYPE_SmartPlug) != -1);
       const NrSmartPlugs = SmartPlugs.length;
-      this.log.info(`Number of connected Hue lights found is: ${NrSmartPlugs}`);
+      this.log.info(`Number of connected Smart Wall Plugs found is: ${NrSmartPlugs}`);
     }
   
     private getHeader() {
