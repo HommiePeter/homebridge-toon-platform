@@ -47,7 +47,7 @@ export class ToonThermostat {
     
         this.thermostatService
           .getCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState)
-          .on("get", this.getCurrentHeatingCoolingState);
+          .onGet(this.getCurrentHeatingCoolingState.bind(this));
     
         this.thermostatService
           .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)

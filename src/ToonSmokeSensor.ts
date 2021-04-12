@@ -38,8 +38,6 @@ export class ToonSmokeDetector {
 
          this.service = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
      
-
-
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
         
         if (result) {
@@ -56,8 +54,8 @@ export class ToonSmokeDetector {
         } else {
             this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
         }
-        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
-          .onGet(this.handleSmokeDetected.bind(this));
+//        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
+  //        .onGet(this.handleSmokeDetected.bind(this));
     }
 
     handleSmokeDetected() {
@@ -68,4 +66,5 @@ export class ToonSmokeDetector {
     
         return currentValue;
       }
+
 } 
