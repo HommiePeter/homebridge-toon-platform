@@ -55,16 +55,16 @@ export class ToonThermostat {
           .on("get", this.getTargetHeatingCoolingState);
     
         this.thermostatService
-          .getCharacteristic(Characteristic.CurrentTemperature)
+          .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
           .on("get", this.getCurrentTemperature);
     
         this.thermostatService
-          .getCharacteristic(Characteristic.TargetTemperature)
+          .getCharacteristic(this.platform.Characteristic.TargetTemperature)
           .on("set", this.setTargetTemperature)
           .on("get", this.getTargetTemperature);
     
         this.thermostatService
-          .getCharacteristic(Characteristic.TemperatureDisplayUnits)
+          .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
           .on("get", this.getTemperatureDisplayUnits);
     }
 /*
