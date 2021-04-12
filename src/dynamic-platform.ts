@@ -57,7 +57,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
   public readonly toon : ToonAPI;
-  public config: PlatformConfig;  
+  public toonconfig: PlatformConfig;  
   private toonstatus!: ToonStatus;
   private agreement!: ToonAgreement; 
 
@@ -66,11 +66,11 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API,
   ) {
-    config = this.config; 
+    this.toonconfig = this.config; 
 
-    this.log.info('Finished initializing Toon platform:', config.name);
+    this.log.info('Finished initializing Toon platform:', this.toonconfig.name);
   
-    this.toon = new ToonAPI(config, this);
+    this.toon = new ToonAPI(this.toonconfig, this);
   
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
@@ -155,18 +155,18 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         this.log.info('Adding new accessory:', device.devName);
 
         // create a new accessory
- //       const accessory = new this.api.platformAccessory(device.name, uuid);
+        const accessory = new this.api.platformAccessory(device.devName, uuid);
 
         // store a copy of the device object in the `accessory.context`
         // the `context` property can be used to store any data about the accessory you may need
- //       accessory.context.device = device;
+        accessory.context.device = device;
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
- c       new ToonAccessory(this, accessory, device.devType, device.devUuid this.toon);
+        new ToonAccessory(this, accessory, device.devType, device.devUuid, this.toon);
 
         // link the accessory to your platform
-         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
     }
   } 

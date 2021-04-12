@@ -8,8 +8,8 @@ import { PlatformConfig, Logger, PlatformAccessory } from "homebridge";
 
 interface ConnectedDevice {
     devUuid: string;
-    devType: String;
-    devName: String;
+    devType: string;
+    devName: string;
 }
 
 export class ToonAPI {

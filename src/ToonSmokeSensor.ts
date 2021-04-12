@@ -26,7 +26,7 @@ export class ToonSmokeDetector {
     constructor(
         private readonly platform: ToonHomebridgePlatform,
         private readonly accessory: PlatformAccessory,
-        private devType: string,
+       // private devType: string,
         private devUuid: string,
         private toon: ToonAPI,
     ) {
@@ -47,7 +47,7 @@ export class ToonSmokeDetector {
         if (result) {
             this.smokedetector = result;
 
-            this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected 0);
+            this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
 
             if (this.smokedetector.batteryLevel < 10) {
                 this.smokesensorService.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low

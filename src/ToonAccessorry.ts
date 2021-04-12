@@ -27,8 +27,9 @@ export class ToonAccessory {
       if (devType == DEV_TYPE_HueLight) {
       // new ToonSmokeDetector (platform, accessory, devUuid, toon);
       }
-      if (devType == "")
+      if (devType == "") {
       // new ToonThermoStat (platform, accessory, devUuid, toon);
-
+     
+      }
     }
 }
