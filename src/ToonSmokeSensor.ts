@@ -54,8 +54,8 @@ export class ToonSmokeDetector {
         } else {
             this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
         }
-//        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
-  //        .onGet(this.handleSmokeDetected.bind(this));
+        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
+          .onGet(this.handleSmokeDetected.bind(this));
     }
 
     handleSmokeDetected() {
