@@ -34,11 +34,11 @@ export class ToonSmokeDetector {
         // set accessory information TO DO Nog eigenschappen uit Agreement toevoegen
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
          .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
-         .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL")
+         .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL");
 
          this.smokesensorService = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
      
-         this.smokesensorService.getCharacteristic(this.platform.Characteristic.SmokeDetected)!
+         this.smokesensorService.getCharacteristic(this.platform.Characteristic.SmokeDetected)
            .onGet(this.handleSmokeDetected.bind(this));
 
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
