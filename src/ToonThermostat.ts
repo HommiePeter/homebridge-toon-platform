@@ -45,27 +45,27 @@ export class ToonThermostat {
              validValues: [this.platform.Characteristic.TargetHeatingCoolingState.AUTO]
            });
     
-        this.thermostatService
-          .getCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState)
-          .onGet(this.getCurrentHeatingCoolingState.bind(this));
+  //      this.thermostatService
+  //        .getCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState)
+  //        .onGet(this.getCurrentHeatingCoolingState.bind(this));
     
-        this.thermostatService
-          .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
-          .on("set", this.setTargetHeatingCoolingState)
-          .on("get", this.getTargetHeatingCoolingState);
+  //      this.thermostatService
+  //        .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
+  //        .on("set", this.setTargetHeatingCoolingState)
+  //        .on("get", this.getTargetHeatingCoolingState);
     
-        this.thermostatService
-          .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
-          .on("get", this.getCurrentTemperature);
+  //      this.thermostatService
+  //        .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
+  //        .on("get", this.getCurrentTemperature);
     
-        this.thermostatService
-          .getCharacteristic(this.platform.Characteristic.TargetTemperature)
-          .on("set", this.setTargetTemperature)
-          .on("get", this.getTargetTemperature);
+  //      this.thermostatService
+  //        .getCharacteristic(this.platform.Characteristic.TargetTemperature)
+  //        .on("set", this.setTargetTemperature)
+  //        .on("get", this.getTargetTemperature);
     
-        this.thermostatService
-          .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
-          .on("get", this.getTemperatureDisplayUnits);
+  //      this.thermostatService
+  //        .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
+  //        .on("get", this.getTemperatureDisplayUnits);
     }
 /*
     public 

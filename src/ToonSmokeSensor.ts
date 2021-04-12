@@ -14,7 +14,7 @@ import {
     PlatformAccessory,
     PlatformAccessoryEvent,
     PlatformConfig,
-  } from "homebridge";
+  } from 'homebridge';
 
 
  
