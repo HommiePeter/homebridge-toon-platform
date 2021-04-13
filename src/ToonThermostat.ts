@@ -33,7 +33,7 @@ export class ToonThermostat {
         
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
-            .setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name)
+            .setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.devName)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Eneco')
             .setCharacteristic(this.platform.Characteristic.Model, 'Toon Thermostaat Model 1')
             .setCharacteristic(this.platform.Characteristic.SerialNumber, this.toon.connection.getDisplayCommonName() )
