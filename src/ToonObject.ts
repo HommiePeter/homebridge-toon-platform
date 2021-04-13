@@ -14,16 +14,18 @@ interface ConnectedDevice {
 
 export class ToonAPI {
     public connection: ToonConnection;
-    public thermostat!: ToonThermostat;
+  //  public thermostat!: ToonThermostat;
     public devicelist: ConnectedDevice[] = [];
     private log: Logger;
+    config: PlatformConfig;
     
     
     constructor(
-        public readonly config: PlatformConfig, 
+        public readonly Toonconfig: PlatformConfig, 
         public Toonplatform : ToonHomebridgePlatform ) 
     {
-        this.connection = new ToonConnection (config, Toonplatform.log);
+        this.config = Toonconfig
+        this.connection = new ToonConnection (this.config, Toonplatform.log);
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
 
