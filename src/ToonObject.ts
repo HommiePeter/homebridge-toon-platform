@@ -17,14 +17,14 @@ export class ToonAPI {
   //  public thermostat!: ToonThermostat;
     public devicelist: ConnectedDevice[] = [];
     private log: Logger;
-    config: PlatformConfig;
+    private toonconfig: PlatformConfig;
     
     
     constructor(
-        public readonly Toonconfig: PlatformConfig, 
+        public readonly config: PlatformConfig, 
         public Toonplatform : ToonHomebridgePlatform ) 
     {
-        this.config = Toonconfig
+        this.toonconfig = config;
         this.connection = new ToonConnection (this.config, Toonplatform.log);
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
@@ -45,7 +45,7 @@ export class ToonAPI {
         if (existingDevice) {
             // Thermostaat al in de devicelist er hoeft niets te gebeuren
         }else{
-            devName = this.config.Name;
+            devName = this.toonconfig.name;
             devType = DEV_TYPE_Thermostat;
             this.devicelist.push({devUuid, devType, devName });
         }
