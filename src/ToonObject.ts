@@ -39,12 +39,12 @@ export class ToonAPI {
         devUuid = this.Toonplatform.api.hap.uuid.generate("Toon Thermostaat");
 
         const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
-        
+
         if (existingDevice) {
             // Thermostaat al in de devicelist er hoeft niets te gebeuren
         }else{
-            devName = this.config.Name
-            devType = DEV_TYPE_Thermostat
+            devName = this.config.Name;
+            devType = DEV_TYPE_Thermostat;
             this.devicelist.push({devUuid, devType, devName });
         }
         const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
