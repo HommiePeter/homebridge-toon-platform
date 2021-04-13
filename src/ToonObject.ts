@@ -45,7 +45,7 @@ export class ToonAPI {
         if (existingDevice) {
             // Thermostaat al in de devicelist er hoeft niets te gebeuren
         }else{
-            devName = this.toonconfig.name;
+            devName = "Toon Thermostaat";
             devType = DEV_TYPE_Thermostat;
             this.devicelist.push({devUuid, devType, devName });
         }
