@@ -35,17 +35,18 @@ export class ToonSmokeDetector {
 
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
 
-        if (create_new) {
+    
         // setup new homekit accessory
-            this.accessory.getService(this.platform.Service.AccessoryInformation)!
-                .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
-                .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL");
+        this.accessory.getService(this.platform.Service.AccessoryInformation)!
+            .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
+            .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL");
 
-            this.service = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
+        this.service = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
      
-            if (result) {
-                this.smokedetector = result;
+        if (result) {
+            this.smokedetector = result;
 
+            if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
                 this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
 
@@ -54,15 +55,8 @@ export class ToonSmokeDetector {
                 } else {
                     this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
                 }
-            } else {
-                this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
-            }
-            this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
-            .onGet(this.handleSmokeDetected.bind(this));
 
-        } else {
-            if (result) {
-                this.smokedetector=result;
+            } else {
                 this.service.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
 
                 if (this.smokedetector.batteryLevel < 10) {
@@ -70,9 +64,13 @@ export class ToonSmokeDetector {
                 } else {
                     this.service.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
                 }
-            } 
-
+            }
+        } else {
+            this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
         }
+        
+        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
+        .onGet(this.handleSmokeDetected.bind(this));
     }
 
     handleSmokeDetected() {
@@ -82,6 +80,6 @@ export class ToonSmokeDetector {
         const currentValue = this.platform.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED;
     
         return currentValue;
-      }
+    }
 
 } 
