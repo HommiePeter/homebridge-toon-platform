@@ -1,4 +1,4 @@
-import { ToonStatus, ToonAgreement ,DEV_TYPE_SmokeSensor, DEV_TYPE_HueLight, DEV_TYPE_SmartPlug } from "./ToonAPI-Definitions";
+import { ToonStatus, ToonAgreement ,DEV_TYPE_SmokeSensor, DEV_TYPE_HueLight, DEV_TYPE_SmartPlug, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions";
 import { ToonConnection } from './ToonConnection';
 import { ToonHomebridgePlatform } from './dynamic-platform';
 import { ToonThermostat } from "./ToonThermostat";
@@ -20,10 +20,10 @@ export class ToonAPI {
     
     
     constructor(
-        public readonly Config: PlatformConfig, 
+        public readonly config: PlatformConfig, 
         public Toonplatform : ToonHomebridgePlatform ) 
     {
-        this.connection = new ToonConnection (Config, Toonplatform.log);
+        this.connection = new ToonConnection (config, Toonplatform.log);
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
 
@@ -35,6 +35,18 @@ export class ToonAPI {
         var devName: string;
         var devType: string;
 
+
+        devUuid = this.Toonplatform.api.hap.uuid.generate("Toon Thermostaat");
+
+        const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
+        
+        if (existingDevice) {
+            // Thermostaat al in de devicelist er hoeft niets te gebeuren
+        }else{
+            devName = this.config.Name
+            devType = DEV_TYPE_Thermostat
+            this.devicelist.push({devUuid, devType, devName });
+        }
         const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
 
         for ( let i=0; i < NrSmokeDectectors; i++) {

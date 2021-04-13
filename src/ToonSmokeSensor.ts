@@ -29,33 +29,50 @@ export class ToonSmokeDetector {
        // private devType: string,
         private devUuid: string,
         private toon: ToonAPI,
+        private create_new: boolean,
     ) {
         this.log = platform.log;
-        // set accessory information TO DO Nog eigenschappen uit Agreement toevoegen
-        this.accessory.getService(this.platform.Service.AccessoryInformation)!
-         .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
-         .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL");
 
-         this.service = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
-     
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
-        
-        if (result) {
-            this.smokedetector = result;
 
-            this.service.setCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
-            this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
+        if (create_new) {
+        // setup new homekit accessory
+            this.accessory.getService(this.platform.Service.AccessoryInformation)!
+                .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
+                .setCharacteristic(this.platform.Characteristic.Model, "FSGD-002-NL");
 
-            if (this.smokedetector.batteryLevel < 10) {
-                this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
+            this.service = this.accessory.getService(this.platform.Service.SmokeSensor) || this.accessory.addService(this.platform.Service.SmokeSensor);
+     
+            if (result) {
+                this.smokedetector = result;
+
+                this.service.setCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
+                this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
+
+                if (this.smokedetector.batteryLevel < 10) {
+                    this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
+                } else {
+                    this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
+                }
             } else {
-                this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
+                this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
             }
+            this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
+            .onGet(this.handleSmokeDetected.bind(this));
+
         } else {
-            this.log.info(`Smoke detector with DEVUUID ${devUuid} not found`);
+            if (result) {
+                this.smokedetector=result;
+                this.service.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
+
+                if (this.smokedetector.batteryLevel < 10) {
+                    this.service.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
+                } else {
+                    this.service.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
+                }
+            } 
+
         }
-        this.service.getCharacteristic(this.platform.Characteristic.SmokeDetected)
-          .onGet(this.handleSmokeDetected.bind(this));
     }
 
     handleSmokeDetected() {
