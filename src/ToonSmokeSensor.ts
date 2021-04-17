@@ -32,8 +32,9 @@ export class ToonSmokeDetector {
         private create_new: boolean,
     ) {
         this.log = platform.log;
+    
 
-        const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === devUuid);
+        const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === this.devUuid);
 
     
         // setup new homekit accessory

@@ -17,6 +17,7 @@ import {
   API_URL,
   BASE_URL,
   ThermostatInfo,
+  DeviceConfigInfo,
   Token,
   ToonAgreement,
   ToonStatus,
@@ -227,4 +228,51 @@ export class ToonConnection {
           ? this.toonstatus.thermostatInfo.currentSetpoint / 100
           : undefined;
       }
+      public async setToonDeviceOn(devUuid: string) {
+        var newstate: boolean;
+
+        if (!this.agreement) {
+          throw Error("Setting Device, but there is no agreement.");
+        }
+    
+        if (!this.toonstatus) {
+          throw Error("Setting Device, but there is no status information.");
+        }
+        const device = this.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid)
+        
+        if(!device) {
+            throw Error (`Device with DevUuid ${devUuid} was not found`)
+        }
+        
+        this.log.info(`Setting Device ${device.name} to On`);
+    
+        let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
+          `${API_URL}${this.agreement.agreementId}/thermostat/${devUuid}`
+        );
+          
+        if (currentDeviceInfo.currentState == true) {
+             newstate = false;
+        } else {
+            newstate = true;
+        }
+        
+        const payload = {
+          ...currentDeviceInfo,
+          currentState: newstate,
+        };
+    
+        const newThermostatInfo = await this.toonPUTRequest(
+          `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`,
+          payload
+        );
+    
+        this.log.info(`Successfully set Device ${device.name}`);
+    
+        this.toonstatus.thermostatInfo = newThermostatInfo;
+       // this.onUpdate(this.toonStatus);
+      }
+
+
+
+
   }

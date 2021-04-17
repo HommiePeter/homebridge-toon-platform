@@ -131,7 +131,7 @@ export interface DeviceConfigInfo {
   inSwitchSchedule: boolean,
   switchLocked: boolean,
   usageCapable: boolean,
-  currentState: number,
+  currentState: boolean,
   rgbColor: string,
   zwuuid : string,
 }
