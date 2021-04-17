@@ -68,7 +68,7 @@ export class ToonWallPlug {
     
         const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
     
-        return currentValue;
+     //   return currentValue;
     }
 
     handleOnSet() {
@@ -76,7 +76,7 @@ export class ToonWallPlug {
     
         const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
     
-        return currentValue;
+     //   return currentValue;
     }
 
 } 
