@@ -51,24 +51,28 @@ export class ToonConnection {
     }
   
     private async initialize() {
-      this.log.info("ToonConnection.initialize - getAgreementData");
-      this.agreement = await this.getAgreementData();
+        this.log.info("ToonConnection.initialize - getAgreementData");
+        this.agreement = await this.getAgreementData();
       
-      await this.getToonStatus();
-      if (this.toonstatus.smokeDetectors) {
-        const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
-        this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
-      } else {
-        this.log.info(`No Smoke detectors reported in ToonStatus`);
-      }
+        await this.getToonStatus();
+        if (this.toonstatus.smokeDetectors) {
+            const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
+            this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
+        } else {
+            this.log.info(`No Smoke detectors reported in ToonStatus`);
+        }
 
-      const HueLights = this.toonstatus.deviceConfigInfo.device.filter(device => device.devType.search(DEV_TYPE_HueLight) != -1);
-      const NrHueLigts = HueLights.length;
-      this.log.info(`Number of connected Hue lights found is: ${NrHueLigts}`);
+        if (this.toonstatus.deviceConfigInfo) {
+            const HueLights = this.toonstatus.deviceConfigInfo.device.filter(device => device.devType.search(DEV_TYPE_HueLight) != -1);
+            const NrHueLigts = HueLights.length;
+            this.log.info(`Number of connected Hue lights found is: ${NrHueLigts}`);
 
-      const SmartPlugs = this.toonstatus.deviceConfigInfo.device.filter( device => device.devType.search(DEV_TYPE_SmartPlug) != -1);
-      const NrSmartPlugs = SmartPlugs.length;
-      this.log.info(`Number of connected Smart Wall Plugs found is: ${NrSmartPlugs}`);
+            const SmartPlugs = this.toonstatus.deviceConfigInfo.device.filter( device => device.devType.search(DEV_TYPE_SmartPlug) != -1);
+            const NrSmartPlugs = SmartPlugs.length;
+            this.log.info(`Number of connected Smart Wall Plugs found is: ${NrSmartPlugs}`);
+        } else {
+            this.log.info(`Other devices reported in ToonStatus`);
+        }
     }
   
     private getHeader() {
