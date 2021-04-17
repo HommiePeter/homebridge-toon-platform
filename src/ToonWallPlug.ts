@@ -59,7 +59,7 @@ export class ToonWallPlug {
         }
         
         this.service.getCharacteristic(this.platform.Characteristic.On)
-       // .onGet(this.handleOnGet.bind(this))
+        .onGet(this.handleOnGet.bind(this))
         .onSet(this.handleOnSet.bind(this));
     }
 
