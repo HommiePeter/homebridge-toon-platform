@@ -58,12 +58,12 @@ export class ToonWallPlug {
             this.log.info(`Plug Wall or Status with DEVUUID ${devUuid} not found`);
         }
         
-        this.service.getCharacteristic(this.platform.Characteristic.On)
-        .onGet(this.handleOnGet.bind(this))
-        .onSet(this.handleOnSet.bind(this));
+        this.service.getCharacteristic(this.platform.Characteristic.OutletInUse)
+        .onGet(this.handleOutletInUseGet.bind(this))
+        .onSet(this.handleOutletInUseSet.bind(this));
     }
 
-    async handleOnSet(value: CharacteristicValue) {
+    async handleOutletInUseSet(value: CharacteristicValue) {
         const newValue = value as boolean;
         this.log.info(`Triggered SET On Outlet ${newValue}`);
           
@@ -72,7 +72,7 @@ export class ToonWallPlug {
      //   return currentValue;
     }
 
-    async handleOnGet():Promise<CharacteristicValue> { 
+    async handleOutletInUseGet():Promise<CharacteristicValue> { 
         this.log.info('Triggered GET On Outlet');
 
         const response = await this.toon.connection.getToonDevice(this.devUuid);
