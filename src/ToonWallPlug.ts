@@ -65,7 +65,7 @@ export class ToonWallPlug {
 
     async handleOnSet(value: CharacteristicValue) {
         const newValue = value as boolean;
-        this.log.debug(`Triggered SET On Outlet ${newValue}`);
+        this.log.info(`Triggered SET On Outlet ${newValue}`);
           
        // const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
     
@@ -73,7 +73,7 @@ export class ToonWallPlug {
     }
 
     async handleOnGet():Promise<CharacteristicValue> { 
-        this.log.debug('Triggered GET On Outlet');
+        this.log.info('Triggered GET On Outlet');
 
         const response = await this.toon.connection.getToonDevice(this.devUuid);
         const isOn = response.currentState !== false;
