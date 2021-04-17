@@ -62,9 +62,14 @@ export class ToonWallPlug {
         .onGet(this.handleOutletInUseGet.bind(this))
         .onSet(this.handleOutletInUseSet.bind(this));
 
-        this.service.getCharacteristic(this.platform.Characteristic.On)
-        .onGet(this.handleOnGet.bind(this))
-        .onSet(this.handleOnSet.bind(this));
+    //    this.service.getCharacteristic(this.platform.Characteristic.On)
+    //    .onGet(this.handleOnGet.bind(this))
+    //    .onSet(this.handleOnSet.bind(this));
+
+        this.service
+                .getCharacteristic(this.platform.Characteristic.On)
+                .on("set", this.handleOnSet)
+                .on("get", this.handleOnGet);
     }
 
     handleOutletInUseSet(value: CharacteristicValue) {
