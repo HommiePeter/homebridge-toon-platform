@@ -73,12 +73,12 @@ export class ToonThermostat {
             this.log.info("ToonThermostat Const:Thermostat Update")
             const { thermostatInfo } = this.toon.connection.toonstatus;
   
-            this.thermostatService.updateCharacteristic(
+            this.thermostatService.setCharacteristic(
                 this.platform.Characteristic.CurrentTemperature,
                 thermostatInfo.currentDisplayTemp / 100
             );
 
-            this.thermostatService.updateCharacteristic(
+            this.thermostatService.setCharacteristic(
                 this.platform.Characteristic.TargetTemperature,
                 thermostatInfo.currentSetpoint / 100
             );
