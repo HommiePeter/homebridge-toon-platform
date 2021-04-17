@@ -49,48 +49,55 @@ export class ToonAPI {
             devType = DEV_TYPE_Thermostat;
             this.devicelist.push({devUuid, devType, devName });
         }
-        const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
 
-        for ( let i=0; i < NrSmokeDectectors; i++) {
-            devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
-            devName = this.connection.toonstatus.smokeDetectors.device[i].name;
-            devType = DEV_TYPE_SmokeSensor;
+        if (this.connection.toonstatus.smokeDetectors) {
+            const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
+
+            for ( let i=0; i < NrSmokeDectectors; i++) {
+                devUuid = this.connection.toonstatus.smokeDetectors.device[i].devUuid;
+                devName = this.connection.toonstatus.smokeDetectors.device[i].name;
+                devType = DEV_TYPE_SmokeSensor;
         
-            const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
+                const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
         
-            if (existingDevice) {
-                // the device already exists
-            } else {
-                this.devicelist.push({devUuid, devType, devName });
-            }
-        }
-        const NrDeviceConfig = this.connection.toonstatus.deviceConfigInfo.device.length
-
-        for ( let i=0; i < NrDeviceConfig; i++) {
-            devUuid = this.connection.toonstatus.deviceConfigInfo.device[i].devUUID;
-            devName = this.connection.toonstatus.deviceConfigInfo.device[i].name;
-
-            const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
-
-            if (existingDevice) {
-                // the device already exists
-            } else {
-                if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_HueLight) != -1 ) {
-                // device config is a Philips Hue light
-                    devType = DEV_TYPE_HueLight;
-                    this.devicelist.push({devUuid, devType, devName });
+                if (existingDevice) {
+                    // the device already exists
                 } else {
-                    if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_SmartPlug) != -1 ) {
-                        // device config is not a Philips Hue light but a Fibaro Smart WallPlug
-                        devType = DEV_TYPE_SmartPlug;
-                        this.devicelist.push({devUuid, devType, devName });
-                    } else {
-                        /// device config is not a Philips Hue light and not a Fibaro Smart WallPlug
-                        /// do nothing
-                    }
+                    this.devicelist.push({devUuid, devType, devName });
                 }
             }
         }
+        
+        if (this.connection.toonstatus.deviceConfigInfo){
+            const NrDeviceConfig = this.connection.toonstatus.deviceConfigInfo.device.length
+
+            for ( let i=0; i < NrDeviceConfig; i++) {
+                devUuid = this.connection.toonstatus.deviceConfigInfo.device[i].devUUID;
+                devName = this.connection.toonstatus.deviceConfigInfo.device[i].name;
+
+                const existingDevice = this.devicelist.find(device => device.devUuid === devUuid);
+
+                if (existingDevice) {
+                    // the device already exists
+                } else {
+                    if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_HueLight) != -1 ) 
+                    {
+                // device config is a Philips Hue light
+                    devType = DEV_TYPE_HueLight;
+                    this.devicelist.push({devUuid, devType, devName });
+                    } else {
+                        if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_SmartPlug) != -1 ) {
+                        // device config is not a Philips Hue light but a Fibaro Smart WallPlug
+                            devType = DEV_TYPE_SmartPlug;
+                            this.devicelist.push({devUuid, devType, devName });
+                        } else {
+                            /// device config is not a Philips Hue light and not a Fibaro Smart WallPlug
+                        /// do nothing
+                        }
+                    }
+                }
+            }
+        }   
     }
 
     public show_devicelist() {
