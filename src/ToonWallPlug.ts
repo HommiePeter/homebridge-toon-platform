@@ -50,9 +50,9 @@ export class ToonWallPlug {
 
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug?.name);
-                this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.isConnected);
+                this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
             } else {
-                this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.isConnected);
+                this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
             }
         } else {
             this.log.info(`Plug Wall or Status with DEVUUID ${devUuid} not found`);
@@ -72,13 +72,13 @@ export class ToonWallPlug {
      //   return currentValue;
     }
 
- /*   handleOnGet():Promise<CharacteristicValue> { 
+    async handleOnGet():Promise<CharacteristicValue> { 
         this.log.debug('Triggered GET On Outlet');
-        const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
-      //  const response = await this.toon.connection.getDeviceConfig(this.devUuid);
-      //  const isOn = response.state.status !== 0;
+
+        const response = await this.toon.connection.getToonDevice(this.devUuid);
+        const isOn = response.currentState !== false;
       //  const isOn;
-        return device; 
-    } */
+        return isOn; 
+    } 
 
 } 

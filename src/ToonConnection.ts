@@ -235,6 +235,7 @@ export class ToonConnection {
           ? this.toonstatus.thermostatInfo.currentSetpoint / 100
           : undefined;
       }
+
       public async setToonDeviceOn(devUuid: string) {
         var newstate: boolean;
 
@@ -248,13 +249,13 @@ export class ToonConnection {
         const device = this.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid)
         
         if(!device) {
-            throw Error (`Device with DevUuid ${devUuid} was not found`)
+            throw Error (`Device with DevUuid ${devUuid} was not found in Toonstatus`)
         }
         
         this.log.info(`Setting Device ${device.name} to On`);
     
         let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
-          `${API_URL}${this.agreement.agreementId}/thermostat/${devUuid}`
+          `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`
         );
           
         if (currentDeviceInfo.currentState == true) {
@@ -268,18 +269,37 @@ export class ToonConnection {
           currentState: newstate,
         };
     
-        const newThermostatInfo = await this.toonPUTRequest(
+        const newDeviceInfo = await this.toonPUTRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`,
           payload
         );
     
         this.log.info(`Successfully set Device ${device.name}`);
     
-        this.toonstatus.thermostatInfo = newThermostatInfo;
+// NOG TO DO: Interne data nog updaten
+       // this.toonstatus.thermostatInfo = newThermostatInfo;
        // this.onUpdate(this.toonStatus);
       }
 
+      public async getToonDevice(devUuid: string) {
 
+        if (!this.agreement) {
+          throw Error("Setting Device, but there is no agreement.");
+        }
+    
+        if (!this.toonstatus) {
+          throw Error("Setting Device, but there is no status information.");
+        }
+        const device = this.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid)
+        
+        if(!device) {
+            throw Error (`Device with DevUuid ${devUuid} was not found in ToonStatus`)
+        }
+    
+        let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
+          `${API_URL}${this.agreement.agreementId}/device/${devUuid}`
+        );
 
-
+        return currentDeviceInfo;
+      }
   }
