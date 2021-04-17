@@ -132,7 +132,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
       if (existingAccessory) {
         // the accessory already exists
-       // this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+        this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
 
         // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
         existingAccessory.context.device = device;
@@ -149,7 +149,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
       } else {
         // the accessory does not yet exist, so we need to create it
-       // this.log.info('Adding new accessory:', device.devName, device.devType);
+        this.log.info('Adding new accessory:', device.devName, device.devType);
 
         // create a new accessory
         const accessory = new this.api.platformAccessory(device.devName, uuid);

@@ -107,8 +107,8 @@ export interface SmokeDetector {
 }
 
 export const DEV_TYPE_SmokeSensor = "smoke";
-export const DEV_TYPE_HueLight = "hue_light-";
-export const DEV_TYPE_SmartPlug = "FGWP";
+export const DEV_TYPE_HueLight = "hue_lightT-";
+export const DEV_TYPE_SmartPlug = "FGWPP";
 export const DEV_TYPE_Thermostat = "Thermo"; 
 
 export interface ToonConnectedDevices {
