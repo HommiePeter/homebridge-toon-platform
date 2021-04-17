@@ -50,7 +50,7 @@ export class ToonAPI {
             this.devicelist.push({devUuid, devType, devName });
         }
 
-        if (this.connection.toonstatus.smokeDetectors) {
+        if ((this.connection.toonstatus.smokeDetectors) && (this.config.switch_smoke)) {
             const NrSmokeDectectors = this.connection.toonstatus.smokeDetectors.device.length
 
             for ( let i=0; i < NrSmokeDectectors; i++) {
@@ -83,13 +83,17 @@ export class ToonAPI {
                     if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_HueLight) != -1 ) 
                     {
                 // device config is a Philips Hue light
-                    devType = DEV_TYPE_HueLight;
-                    this.devicelist.push({devUuid, devType, devName });
+                        if (this.config.switch_hue) {
+                            devType = DEV_TYPE_HueLight;
+                            this.devicelist.push({devUuid, devType, devName });
+                        }
                     } else {
                         if (this.connection.toonstatus.deviceConfigInfo.device[i].devType.search(DEV_TYPE_SmartPlug) != -1 ) {
                         // device config is not a Philips Hue light but a Fibaro Smart WallPlug
-                            devType = DEV_TYPE_SmartPlug;
-                            this.devicelist.push({devUuid, devType, devName });
+                            if (this.config.switch_wallplug) {
+                                devType = DEV_TYPE_SmartPlug;
+                                this.devicelist.push({devUuid, devType, devName });
+                            }
                         } else {
                             /// device config is not a Philips Hue light and not a Fibaro Smart WallPlug
                         /// do nothing
