@@ -55,9 +55,12 @@ export class ToonConnection {
       this.agreement = await this.getAgreementData();
       
       await this.getToonStatus();
-
-      const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
-      this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
+      if (this.toonstatus.smokeDetectors) {
+        const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
+        this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
+      } else {
+        this.log.info(`No Smoke detectors reported in ToonStatus`);
+      }
 
       const HueLights = this.toonstatus.deviceConfigInfo.device.filter(device => device.devType.search(DEV_TYPE_HueLight) != -1);
       const NrHueLigts = HueLights.length;
