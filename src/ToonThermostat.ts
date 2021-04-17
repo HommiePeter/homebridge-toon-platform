@@ -41,7 +41,7 @@ export class ToonThermostat {
 
         this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
         if (create_new) {
-            this.log.info("Thermostat Create")
+            this.log.info("ToonThermostat Const: Thermostat Create")
             this.thermostatService
                 .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
                 .setProps({
@@ -70,7 +70,7 @@ export class ToonThermostat {
                 .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
                 .on("get", this.getTemperatureDisplayUnits);
         } else {  
-            this.log.info("Thermostat Update")
+            this.log.info("ToonThermostat Const:Thermostat Update")
             const { thermostatInfo } = this.toon.connection.toonstatus;
   
             this.thermostatService.updateCharacteristic(

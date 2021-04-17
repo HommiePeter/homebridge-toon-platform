@@ -51,27 +51,34 @@ export class ToonConnection {
     }
   
     private async initialize() {
-        this.log.info("ToonConnection.initialize - getAgreementData");
+        this.log.info("ToonConnection.initialize: getAgreementData");
         this.agreement = await this.getAgreementData();
       
         await this.getToonStatus();
-        if (this.toonstatus.smokeDetectors) {
+        if ((this.toonstatus.smokeDetectors) && (this.config.switch_smoke)) {
             const NrSmokeDectectors = this.toonstatus.smokeDetectors.device.length  
-            this.log.info(`Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
+            this.log.info(`ToonConnection.initialize: Number of connected Smoke Detectors found is: ${NrSmokeDectectors}`);
         } else {
-            this.log.info(`No Smoke detectors reported in ToonStatus`);
+            this.log.info(`ToonConnection.initialize: No Smoke detectors imported from ToonStatus`);
         }
 
         if (this.toonstatus.deviceConfigInfo) {
-            const HueLights = this.toonstatus.deviceConfigInfo.device.filter(device => device.devType.search(DEV_TYPE_HueLight) != -1);
-            const NrHueLigts = HueLights.length;
-            this.log.info(`Number of connected Hue lights found is: ${NrHueLigts}`);
-
-            const SmartPlugs = this.toonstatus.deviceConfigInfo.device.filter( device => device.devType.search(DEV_TYPE_SmartPlug) != -1);
-            const NrSmartPlugs = SmartPlugs.length;
-            this.log.info(`Number of connected Smart Wall Plugs found is: ${NrSmartPlugs}`);
+            if (this.config.switch_hue) {
+                const HueLights = this.toonstatus.deviceConfigInfo.device.filter(device => device.devType.search(DEV_TYPE_HueLight) != -1);
+                const NrHueLigts = HueLights.length;
+                this.log.info(`ToonConnection.initialize: Number of connected Hue lights found is: ${NrHueLigts}`);
+            } else {
+              this.log.info(`ToonConnection.initialize: No Hue Lights imported from ToonStatus`); 
+            } 
+            if (this.config.switch_wallplug) {
+                const SmartPlugs = this.toonstatus.deviceConfigInfo.device.filter( device => device.devType.search(DEV_TYPE_SmartPlug) != -1);
+                const NrSmartPlugs = SmartPlugs.length;
+                this.log.info(`ToonConnection.initialize: Number of connected Wall Plugs found is: ${NrSmartPlugs}`);
+            } else {
+                this.log.info(`ToonConnection.initialize: No Wall plugs imported from ToonStatus`);
+            }
         } else {
-            this.log.info(`Other devices reported in ToonStatus`);
+            this.log.info(`ToonConnection.initialize: Other devices reported in ToonStatus`);
         }
     }
   
@@ -161,7 +168,7 @@ export class ToonConnection {
 
         this.toonstatus = status;
         this.log.info("getToonStatus: Toon status data is retrieved");
-        // Moet nog uitbreiden met actuele infor
+    // TO DO: Moet nog uitbreiden met actuele infor
         
       }; 
 
