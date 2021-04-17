@@ -29,7 +29,6 @@ export class ToonAccessory {
       // new ToonSmokeDetector (platform, accessory, devUuid, toon);
       }
       if (devType == DEV_TYPE_Thermostat) {
-        platform.log.info ("ToonAccessory: Setting up new Toon Thermostat");
         new ToonThermostat (platform, accessory, devUuid, toon, create_new);
      
       }
