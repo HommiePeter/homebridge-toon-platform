@@ -36,7 +36,8 @@
         "Enable Wall Plugs": {
           "title": "switch_wallplug",
           "type": "Number",
-          "required": false
+          "required": true,
+          "default": true 
         }
       }
     }
