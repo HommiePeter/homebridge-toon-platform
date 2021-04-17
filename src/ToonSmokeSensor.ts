@@ -75,7 +75,7 @@ export class ToonSmokeDetector {
     }
 
     handleSmokeDetected() {
-        this.log.debug('Triggered GET SmokeDetected');
+        this.log.info('Triggered GET SmokeDetected');
     
         // set this to a valid value for SmokeDetected
         const currentValue = this.platform.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED;

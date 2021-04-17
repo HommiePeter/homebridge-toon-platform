@@ -18,7 +18,6 @@ export class ToonAccessory {
     ) {
       
       if (devType == DEV_TYPE_SmokeSensor) {
-        platform.log.info ("Setting up new Toon SmokeDetector");
         new ToonSmokeDetector (platform, accessory, devUuid, toon, create_new);
       }
 
