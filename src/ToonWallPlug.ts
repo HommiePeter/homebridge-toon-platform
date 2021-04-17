@@ -67,7 +67,7 @@ export class ToonWallPlug {
         .onSet(this.handleOnSet.bind(this));
     }
 
-    async handleOutletInUseSet(value: CharacteristicValue) {
+    handleOutletInUseSet(value: CharacteristicValue) {
         const newValue = value as boolean;
         this.log.info(`Triggered SET On Outlet ${newValue}`);
           
@@ -94,12 +94,12 @@ export class ToonWallPlug {
      //   return currentValue;
     }
 
-    handleOnGet():Boolean { 
+    async handleOnGet():Promise<CharacteristicValue> { 
         this.log.info('Triggered GET On Outlet');
 
-      //  const response = await this.toon.connection.getToonDevice(this.devUuid);
-      //  const isOn = response.currentState !== false;
-        const isOn = true;
+        const response = await this.toon.connection.getToonDevice(this.devUuid);
+        const isOn = response.currentState !== false;
+      
         return isOn; 
     } 
 
