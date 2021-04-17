@@ -50,33 +50,35 @@ export class ToonWallPlug {
 
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug?.name);
-                this.service.setCharacteristic(this.platform.Characteristic.OutletinUse, this.wallplug_status?.isConnected);
+                this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.isConnected);
             } else {
-                this.service.updateCharacteristic(this.platform.Characteristic.OutletinUse, this.wallplug_status?.isConnected);
+                this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.isConnected);
             }
         } else {
             this.log.info(`Plug Wall or Status with DEVUUID ${devUuid} not found`);
         }
         
         this.service.getCharacteristic(this.platform.Characteristic.On)
-        .onGet(this.handleOnGet.bind(this))
+       // .onGet(this.handleOnGet.bind(this))
         .onSet(this.handleOnSet.bind(this));
     }
 
-    handleOnGet() {
-        this.log.debug('Triggered GET On Outlet');
-    
-        const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
+    async handleOnSet(value: CharacteristicValue) {
+        const newValue = value as boolean;
+        this.log.debug(`Triggered SET On Outlet ${newValue}`);
+          
+       // const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
     
      //   return currentValue;
     }
 
-    handleOnSet() {
-        this.log.debug('Triggered SET On Outlet');
-    
+ /*   handleOnGet():Promise<CharacteristicValue> { 
+        this.log.debug('Triggered GET On Outlet');
         const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
-    
-     //   return currentValue;
-    }
+      //  const response = await this.toon.connection.getDeviceConfig(this.devUuid);
+      //  const isOn = response.state.status !== 0;
+      //  const isOn;
+        return device; 
+    } */
 
 } 

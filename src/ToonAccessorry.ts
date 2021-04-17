@@ -2,7 +2,6 @@ import { DEV_TYPE_HueLight, DEV_TYPE_SmartPlug, DEV_TYPE_SmokeSensor, DEV_TYPE_T
 import { ToonHomebridgePlatform } from './dynamic-platform';
 import { ToonThermostat } from "./ToonThermostat";
 import {ToonSmokeDetector} from "./ToonSmokeSensor";
-import {ToonWallPlug} from "./ToonWallPlug";
 import { PlatformConfig, Logger, PlatformAccessory } from "homebridge";
 import { ToonAPI } from "./ToonObject";
 import { ToonWallPlug } from "./ToonWallPlug";
@@ -24,7 +23,7 @@ export class ToonAccessory {
       }
 
       if (devType == DEV_TYPE_SmartPlug) {
-        new ToonSmartPlug (platform, accessory, devUuid, toon,create_new);
+        new ToonWallPlug (platform, accessory, devUuid, toon,create_new);
       }
       
       if (devType == DEV_TYPE_HueLight) {
