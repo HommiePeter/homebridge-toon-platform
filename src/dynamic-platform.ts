@@ -119,7 +119,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     const Nrdevices = this.toon.devicelist.length;
 
     this.log.info(`Entering loop for NrDevices is ${Nrdevices}`);
-    
+
     // loop over the discovered devices and register each one if it has not already been registered
     for ( let i=0; i < Nrdevices; i++) {
 
@@ -166,6 +166,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this is imported from `platformAccessory.ts`
         new ToonAccessory(this, accessory, device.devType, device.devUuid, this.toon, true);
 
+        this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
