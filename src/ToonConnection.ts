@@ -254,7 +254,7 @@ export class ToonConnection {
       }
 
       public async setToonDeviceOn(devUuid: string, newState: boolean) {
-        var newstate: boolean;
+       // var newstate: boolean;
 
         if (!this.agreement) {
           throw Error("Setting Device, but there is no agreement.");
@@ -274,7 +274,7 @@ export class ToonConnection {
         let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`
         );
-        
+        currentDeviceInfo.currentState = newState;
      //   currentDeviceInfo.currentState = newState;
      //   if (currentDeviceInfo.currentState == true) {
      //        newstate = false;
@@ -284,7 +284,7 @@ export class ToonConnection {
         
         const payload = {
           ...currentDeviceInfo,
-          currentState: newState,
+          currentState: newState
         };
     
         const newDeviceInfo = await this.toonPUTRequest(
