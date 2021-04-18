@@ -105,16 +105,14 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices() {
-    this.log.info ("discoverDevices: GetToonStatus");
+ //   this.log.info ("discoverDevices: GetToonStatus");
     this.toon.connection.getToonStatus();
     
-    this.log.info ("discoverDevices: update_devicelist");
+ //   this.log.info ("discoverDevices: update_devicelist");
     this.toon.update_devicelist();
     
-    this.log.info ("discoverDevices: show_devicelist");
-    this.toon.show_devicelist();
-  //  this.log.info("discover & update-devices: Update Thermostat")
-  //  this.toon.thermostat.onUpdate;
+ //   this.log.info ("discoverDevices: show_devicelist");
+ //   this.toon.show_devicelist();
 
    // this.toon.connection.getToonStatus();
 
@@ -131,17 +129,18 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
       // see if an accessory with the same uuid has already been registered and restored from
       // the cached devices we stored in the `configureAccessory` method above
-      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);    
 
       if (existingAccessory) {
         // the accessory already exists
-        this.log.info('discoverDevices: Updating existing accessory from cache:', existingAccessory.displayName);
+ //       this.log.info('discoverDevices: Updating existing accessory from cache:', existingAccessory.displayName);
 
         // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
         existingAccessory.context.device = device;
 
         new ToonAccessory(this, existingAccessory, device.devType, device.devUuid, this.toon, false);
-        //this.api.updatePlatformAccessories([existingAccessory]);
+        
+        this.api.updatePlatformAccessories([existingAccessory]);
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
