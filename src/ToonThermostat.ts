@@ -109,35 +109,6 @@ export class ToonThermostat {
             }
         } 
     }
-    
-    UpdateThermostat() {
-        this.log.info("UpdateThermostat");
-
-        const { thermostatInfo } = this.toon.connection.toonstatus;
-
-        this.thermostatService.setCharacteristic(
-            this.platform.Characteristic.CurrentTemperature,
-            thermostatInfo.currentDisplayTemp / 100
-        );
-
-        this.thermostatService.setCharacteristic(
-            this.platform.Characteristic.TargetTemperature,
-            thermostatInfo.currentSetpoint / 100
-        );
-          
-        var heatingCoolingState;
-        if (thermostatInfo.burnerInfo === "1") {
-            heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
-        } else {
-            heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
-        }
-
-        this.thermostatService.updateCharacteristic(
-            this.platform.Characteristic.CurrentHeatingCoolingState,
-            heatingCoolingState
-        );
-    }
-
 
     identify(callback: () => void) {
       callback();
