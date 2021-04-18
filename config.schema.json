@@ -16,11 +16,6 @@
           "type": "string",
           "required": true
         },
-        "AgreementIndex": {
-          "title": "agreementIndex",
-          "type": "Number",
-          "required": false
-        },
         "Enable Hue Lights": {
           "title": "switch_hue",
           "type": "Boolean",
@@ -38,6 +33,11 @@
           "type": "Number",
           "required": true,
           "default": true 
+        },
+        "AgreementIndex": {
+          "title": "agreementIndex",
+          "type": "Number",
+          "required": false
         }
       }
     }

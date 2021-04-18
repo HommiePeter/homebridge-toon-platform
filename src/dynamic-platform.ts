@@ -147,7 +147,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
       // the cached devices we stored in the `configureAccessory` method above
       const existingAccessory = this.registered_accessories.find(accessory => accessory.UUID === uuid);    
       
-      this.log.info(`Aantal accessories is ${this.registered_accessories.length}`);
+ //     this.log.info(`Aantal accessories is ${this.registered_accessories.length}`);
 
       if (existingAccessory) {
         // the accessory already exists
@@ -169,7 +169,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
       } else {
         // the accessory does not yet exist, so we need to create it
-        this.log.info('discoverDevices: Adding new accessory:', device.devName, device.devType);
+  //      this.log.info('discoverDevices: Adding new accessory:', device.devName, device.devType);
 
         // create a new accessory
         const accessory = new this.api.platformAccessory(device.devName, uuid);
@@ -182,15 +182,12 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this is imported from `platformAccessory.ts`
         new ToonAccessory(this, accessory, device.devType, device.devUuid, this.toon, true);
         
-        //let registered = accessory;
         let registered = accessory;
         this.registered_accessories.push(registered);
 
-        this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
+  //      this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-
-       
       }
     }
   } 

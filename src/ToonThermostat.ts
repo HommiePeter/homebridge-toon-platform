@@ -52,7 +52,7 @@ export class ToonThermostat {
 
             if (create_new) {
             
-                this.log.info("ToonThermostat Const: Thermostat Create")
+     //           this.log.info("ToonThermostat Const: Thermostat Create")
     //           this.accessory.addService(this.platform.Service.Thermostat);
             
                 this.thermostatService
@@ -89,7 +89,7 @@ export class ToonThermostat {
                 
                 if (thermostatService) {
                     this.thermostatService= thermostatService
-                    this.log.info("ToonThermostat Const:Thermostat Update")
+            //        this.log.info("ToonThermostat Const:Thermostat Update")
                     this.thermostatService.updateCharacteristic(
                         this.platform.Characteristic.CurrentTemperature,
                         thermostatInfo.currentDisplayTemp / 100
