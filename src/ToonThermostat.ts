@@ -39,6 +39,9 @@ export class ToonThermostat {
             .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())                
             .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
 
+        const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
+        if (thermostatService) { this.thermostatService = thermostatService}
+
        // this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
         
     /*    this.thermostatService
@@ -72,7 +75,7 @@ export class ToonThermostat {
         if (create_new) {
             
             this.log.info("ToonThermostat Const: Thermostat Create")
-            this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
+            this.accessory.addService(this.platform.Service.Thermostat);
             
             this.thermostatService
                 .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
@@ -103,10 +106,10 @@ export class ToonThermostat {
                 .on("get", this.getTemperatureDisplayUnits);
         } else {  
             this.log.info("ToonThermostat Const:Thermostat Update")
-            const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
+         //   const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
             const { thermostatInfo } = this.toon.connection.toonstatus;
             if (thermostatService) {
-                this.thermostatService= thermostatService
+            //    this.thermostatService= thermostatService
             
                 this.thermostatService.updateCharacteristic(
                     this.platform.Characteristic.CurrentTemperature,
