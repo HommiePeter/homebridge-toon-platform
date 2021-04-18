@@ -43,7 +43,7 @@ export class ToonThermostat {
 
         const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
         this.log.info("Thermostat Constr: Const Called");
-        if (thermostatService) {
+        if (thermostatService !== undefined) {
             this.log.info("Thermostat Constr: Passed of thermostatService")
             this.thermostatService = thermostatService
 
