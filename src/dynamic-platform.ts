@@ -140,7 +140,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
       // see if an accessory with the same uuid has already been registered and restored from
       // the cached devices we stored in the `configureAccessory` method above
-      const existingAccessory = this.registered_accessories.find(accessory => accessory.Uuid === uuid);    
+      const existingAccessory = this.registered_accessories.find(accessory => accessory.UUID === uuid);    
       
       this.log.info(`Aantal accessories is ${this.registered_accessories.length}`);
 
