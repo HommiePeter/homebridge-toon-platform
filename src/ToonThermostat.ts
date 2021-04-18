@@ -42,6 +42,7 @@ export class ToonThermostat {
         const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
         
         if (thermostatService) {
+            this.log.info("Thermostat Constr: Passed of thermostatService")
             this.thermostatService = thermostatService
 
             if (create_new) {
@@ -77,13 +78,13 @@ export class ToonThermostat {
                     .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
                     .on("get", this.getTemperatureDisplayUnits);
             } else {  
-                this.log.info("ToonThermostat Const:Thermostat Update")
+                
          //   const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
                 const { thermostatInfo } = this.toon.connection.toonstatus;
                 
                 if (thermostatService) {
             //    this.thermostatService= thermostatService
-            
+                    this.log.info("ToonThermostat Const:Thermostat Update")
                     this.thermostatService.updateCharacteristic(
                         this.platform.Characteristic.CurrentTemperature,
                         thermostatInfo.currentDisplayTemp / 100
