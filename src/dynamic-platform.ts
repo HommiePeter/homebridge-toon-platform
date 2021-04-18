@@ -47,6 +47,11 @@ import { ToonAccessory} from "./ToonAccessorry";
 let hap: HAP;
 let Accessory: typeof PlatformAccessory;
 
+interface Registerd {
+  UUID: string;
+  DisplayName: string;
+}
+
 
 export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
@@ -183,7 +188,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
 
-        this.registered_accessories.push (registered);
+        this.registered_accessories.push(registered);
       }
     }
   } 
