@@ -188,7 +188,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
 
-        this.registered_accessories.push(registered);
+       // this.registered_accessories.push(registered);
       }
     }
   } 
