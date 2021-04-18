@@ -43,17 +43,20 @@ export class ToonConnection {
       private config: PlatformConfig,
       private platform : ToonHomebridgePlatform,
     ) {
-      this.token = config.apiToken;
-      this.log = platform.log;
+        this.token = config.apiToken;
+        this.log = platform.log;
 
-      // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
-      this.agreementIndex = this.config.agreementIndex
-        ? this.config.agreementIndex
-        : 0;
-      this.initialize().then(() => {
-        this.platform.discoverDevices()
+        // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
+        this.agreementIndex = this.config.agreementIndex
+         ? this.config.agreementIndex
+         : 0;
+       
+        this.initialize();
+
+    //  this.initialize().then(() => {
+    //    this.platform.discoverDevices()
      //   setInterval(this.getToonStatus, 10000);
-      });
+     // });
     }
   
     private async initialize() {
