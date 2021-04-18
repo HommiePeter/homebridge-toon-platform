@@ -106,7 +106,7 @@ export class ToonConnection {
 
       this.log.info(`toonPutRequest with url : ${url}`);
       this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
-      
+
       const fetch = require('node-fetch');
 
       try {
@@ -278,22 +278,23 @@ export class ToonConnection {
         let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`
         );
-        currentDeviceInfo.currentState = newState;
      //   currentDeviceInfo.currentState = newState;
-     //   if (currentDeviceInfo.currentState == true) {
-     //        newstate = false;
-     //   } else {
-     //       newstate = true;
-     //   }
+     //   currentDeviceInfo.currentState = newState;
+        if (newState == true) {
+            currentDeviceInfo.currentState = 1;       
+            //newstate = 1;
+        } else {
+            currentDeviceInfo.currentState = 0;       
+            //newstate = 0;
+        }
         
         const payload = {
-          ...currentDeviceInfo,
-          currentState: newState
+          ...currentDeviceInfo
         };
     
         const newDeviceInfo = await this.toonPUTRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`,
-          payload
+          currentDeviceInfo
         );
     
         this.log.info(`Successfully set Device ${device.name}`);
