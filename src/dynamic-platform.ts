@@ -104,7 +104,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.accessories.push(accessory);
   }
 
-  discoverDevices() {
+  async discoverDevices() {
  //   this.log.info ("discoverDevices: GetToonStatus");
     this.toon.connection.getToonStatus();
     
@@ -170,7 +170,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
         this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
         // link the accessory to your platform
-        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        await this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
     }
   } 
