@@ -30,7 +30,7 @@ export class ToonThermostat {
         private create_new: boolean,
     ) {
         this.log = platform.log;
-        this.devicename = accessory.context.device.devName;
+        //this.devicename = accessory.context.device.devName;
 
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -42,7 +42,7 @@ export class ToonThermostat {
             .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
 
         const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
-        
+        this.log.info("Thermostat Constr: Const Called")
         if (thermostatService) {
             this.log.info("Thermostat Constr: Passed of thermostatService")
             this.thermostatService = thermostatService
