@@ -29,7 +29,7 @@ export class ToonAccessory {
       // new ToonSmokeDetector (platform, accessory, devUuid, toon);
       }
       if (devType == DEV_TYPE_Thermostat) {
-        this.log.info("ToonAccessorry: New Thermostat");
+        this.platform.log.info("ToonAccessorry: New Thermostat");
         new ToonThermostat (platform, accessory, devUuid, toon, create_new);
      
       }

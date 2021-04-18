@@ -19,7 +19,7 @@ import {
 export class ToonThermostat {
     private thermostatService?: Service;
     private log : Logger;
-    private devicename: string;
+    //private devicename: string;
 
     constructor(
         private readonly platform: ToonHomebridgePlatform,
@@ -42,7 +42,7 @@ export class ToonThermostat {
             .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
 
         const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
-        this.log.info("Thermostat Constr: Const Called")
+        this.log.info("Thermostat Constr: Const Called");
         if (thermostatService) {
             this.log.info("Thermostat Constr: Passed of thermostatService")
             this.thermostatService = thermostatService
