@@ -58,7 +58,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
-  public readonly registered_accessories: Registered [] = [];
+  public readonly registered_accessories: PlatformAccessory[] = [];
   public readonly toon : ToonAPI;
   public toonconfig: PlatformConfig;  
   private toonstatus!: ToonStatus;
@@ -110,10 +110,10 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
     accessory.reachable = true;
 
-    UUID = accessory.UUID;
+    let restored = accessory;
     
     // add the restored accessory to the accessories cache so we can track if it has already been registered
-    this.registered_accessories.push({UUID});
+    this.registered_accessories.push(restored);
 
     this.accessories.push(accessory);
   }
@@ -183,8 +183,8 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         new ToonAccessory(this, accessory, device.devType, device.devUuid, this.toon, true);
         
         //let registered = accessory;
-        let UUID = accessory.UUID;
-        this.registered_accessories.push({UUID});
+        let registered = accessory;
+        this.registered_accessories.push(registered);
 
         this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
         // link the accessory to your platform
