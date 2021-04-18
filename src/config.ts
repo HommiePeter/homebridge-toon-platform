@@ -17,10 +17,4 @@ export default interface ToonConfig {
     // Switch to indicate if available connected wall plugs should be imported into the Toon-platform
     switch_wallplug: boolean;
    
-    },
-
-
-
-
-
   }
