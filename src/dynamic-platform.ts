@@ -109,7 +109,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.toon.connection.getToonStatus();
 
     this.toon.update_devicelist();
-    this.toon.update_showlist();
+    this.toon.show_devicelist();
   //  this.log.info("discover & update-devices: Update Thermostat")
   //  this.toon.thermostat.onUpdate;
 
