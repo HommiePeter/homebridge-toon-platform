@@ -253,7 +253,7 @@ export class ToonConnection {
           : undefined;
       }
 
-      public async setToonDeviceOn(devUuid: string) {
+      public async setToonDeviceOn(devUuid: string, newState: boolean) {
         var newstate: boolean;
 
         if (!this.agreement) {
@@ -274,16 +274,17 @@ export class ToonConnection {
         let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`
         );
-          
-        if (currentDeviceInfo.currentState == true) {
-             newstate = false;
-        } else {
-            newstate = true;
-        }
+        
+     //   currentDeviceInfo.currentState = newState;
+     //   if (currentDeviceInfo.currentState == true) {
+     //        newstate = false;
+     //   } else {
+     //       newstate = true;
+     //   }
         
         const payload = {
           ...currentDeviceInfo,
-          currentState: newstate,
+          currentState: newState,
         };
     
         const newDeviceInfo = await this.toonPUTRequest(

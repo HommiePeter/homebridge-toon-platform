@@ -91,7 +91,8 @@ export class ToonWallPlug {
         const newValue = value as boolean;
         this.log.info(`Triggered SET On handleOnSet ${newValue}`);
           
-       // const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === this.devUuid);
+        this.toon.connection.setToonDeviceOn (this.devUuid, newValue)
+
     
      //   return currentValue;
     }
