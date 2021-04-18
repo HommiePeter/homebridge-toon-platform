@@ -17,7 +17,7 @@ import {
   } from "homebridge";
 
 export class ToonThermostat {
-    private thermostatService: Service;
+    private thermostatService?: Service;
     private log : Logger;
 
     constructor(
