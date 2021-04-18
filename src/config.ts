@@ -12,7 +12,7 @@ export default interface ToonConfig {
     switch_hue: boolean;
    
     // Switch to indicate if available connected smoke sensors should be imported into the Toon-platform
-    switch_smoke:boolean;
+    switch_smoke: boolean;
     
     // Switch to indicate if available connected wall plugs should be imported into the Toon-platform
     switch_wallplug: boolean;
