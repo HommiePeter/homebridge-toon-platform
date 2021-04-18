@@ -41,7 +41,7 @@ export class ToonThermostat {
             .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())                
             .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
 
-            this.thermostatService = this.accessory.getService(this.platform.Service.ThermoStat) || this.accessory.addService(this.platform.Service.ThermoStat);
+            this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
 
 
    //     const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
