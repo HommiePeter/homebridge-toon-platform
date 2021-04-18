@@ -47,9 +47,8 @@ import { ToonAccessory} from "./ToonAccessorry";
 let hap: HAP;
 let Accessory: typeof PlatformAccessory;
 
-interface Registerd {
+interface Registered {
   UUID: string;
-  DisplayName: string;
 }
 
 
@@ -59,7 +58,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
-  public readonly registered_accessories: PlatformAccessory [] = [];
+  public readonly registered_accessories: Registered [] = [];
   public readonly toon : ToonAPI;
   public toonconfig: PlatformConfig;  
   private toonstatus!: ToonStatus;
@@ -104,16 +103,17 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
    */
    configureAccessory(accessory: PlatformAccessory) {
     //var devUuid: string;
-    // var devName: string;
+     var  UUID: string;
     //var devReg: boolean;
 
     this.log.info('Loading accessory from cache:', accessory.displayName);
 
     accessory.reachable = true;
 
-    let restored = accessory;
+    UUID = accessory.UUID;
+    
     // add the restored accessory to the accessories cache so we can track if it has already been registered
-    this.registered_accessories.push(restored);
+    this.registered_accessories.push({UUID});
 
     this.accessories.push(accessory);
   }
@@ -183,12 +183,14 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         new ToonAccessory(this, accessory, device.devType, device.devUuid, this.toon, true);
         
         //let registered = accessory;
+        let UUID = accessory.UUID;
+        this.registered_accessories.push({UUID});
 
         this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
 
-       // this.registered_accessories.push(registered);
+       
       }
     }
   } 
