@@ -25,7 +25,7 @@ export class ToonAPI {
         public Toonplatform : ToonHomebridgePlatform ) 
     {
         this.toonconfig = config;
-        this.connection = new ToonConnection (this.config, Toonplatform.log);
+        this.connection = new ToonConnection (this.config, Toonplatform);
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
 

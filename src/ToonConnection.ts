@@ -12,6 +12,7 @@ import {
     PlatformAccessoryEvent,
     PlatformConfig,
   } from "homebridge";
+import { ToonHomebridgePlatform } from "./dynamic-platform";
 
 import {
   API_URL,
@@ -34,20 +35,25 @@ export class ToonConnection {
     public devicelist! : ToonConnectedDevices;
     private device!: ToonConnectedDevice;  
     private agreementIndex: number;
+    private log: Logger;
     private token?: string;
     
  
     constructor(
       private config: PlatformConfig,
-      private log: Logger,
+      private platform : ToonHomebridgePlatform,
     ) {
       this.token = config.apiToken;
-  
+      this.log = platform.log;
+
       // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
       this.agreementIndex = this.config.agreementIndex
         ? this.config.agreementIndex
         : 0;
-      this.initialize()
+      this.initialize().then(() => {
+        this.platform.discoverDevices()
+     //   setInterval(this.getToonStatus, 10000);
+      });
     }
   
     private async initialize() {
