@@ -105,10 +105,13 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices() {
-    this.log.info ("discoverDevices: update devicelist");
+    this.log.info ("discoverDevices: GetToonStatus");
     this.toon.connection.getToonStatus();
-
+    
+    this.log.info ("discoverDevices: update_devicelist");
     this.toon.update_devicelist();
+    
+    this.log.info ("discoverDevices: show_devicelist");
     this.toon.show_devicelist();
   //  this.log.info("discover & update-devices: Update Thermostat")
   //  this.toon.thermostat.onUpdate;
@@ -124,7 +127,6 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
       // something globally unique, but constant, for example, the device serial
       // number or MAC address
       const device = this.toon.devicelist[i];
-
       const uuid = this.toon.devicelist[i].devUuid;
 
       // see if an accessory with the same uuid has already been registered and restored from
@@ -133,7 +135,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
       if (existingAccessory) {
         // the accessory already exists
-        this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+        this.log.info('discoverDevices: Updating existing accessory from cache:', existingAccessory.displayName);
 
         // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
         existingAccessory.context.device = device;
@@ -150,7 +152,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
       } else {
         // the accessory does not yet exist, so we need to create it
-        this.log.info('Adding new accessory:', device.devName, device.devType);
+        this.log.info('discoverDevices: Adding new accessory:', device.devName, device.devType);
 
         // create a new accessory
         const accessory = new this.api.platformAccessory(device.devName, uuid);
