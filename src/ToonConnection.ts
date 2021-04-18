@@ -103,6 +103,10 @@ export class ToonConnection {
       if (this.token === undefined) {
         throw Error("PUT not authorized");
       }
+
+      this.log.info(`toonPutRequest with url : ${url}`);
+      this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
+      
       const fetch = require('node-fetch');
 
       try {
