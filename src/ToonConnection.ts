@@ -232,6 +232,7 @@ export class ToonConnection {
       }
     
       public getCurrentTemperature() {
+        this.log.info("getCurrentTemperature: Method is called")
         return this.toonstatus
           ? this.toonstatus.thermostatInfo.currentDisplayTemp / 100
           : undefined;
