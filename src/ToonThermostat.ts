@@ -19,6 +19,7 @@ import {
 export class ToonThermostat {
     private thermostatService?: Service;
     private log : Logger;
+    private devicename: string;
 
     constructor(
         private readonly platform: ToonHomebridgePlatform,
@@ -29,7 +30,8 @@ export class ToonThermostat {
         private create_new: boolean,
     ) {
         this.log = platform.log;
-        
+        this.devicename = accessory.context.device.devName;
+
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
             .setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.devName)
@@ -110,6 +112,40 @@ export class ToonThermostat {
             }
         } 
     }
+
+    UpdateThermoStat () {
+         
+         const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
+         const { thermostatInfo } = this.toon.connection.toonstatus;
+                
+         if (thermostatService) {
+            this.thermostatService= thermostatService
+            this.log.info("ToonThermostat Const:Thermostat Update")
+            
+            this.thermostatService.updateCharacteristic(
+                this.platform.Characteristic.CurrentTemperature,
+                thermostatInfo.currentDisplayTemp / 100
+            );
+
+            this.thermostatService.updateCharacteristic(
+                this.platform.Characteristic.TargetTemperature,
+                thermostatInfo.currentSetpoint / 100
+            );
+       
+            var heatingCoolingState;
+            if (thermostatInfo.burnerInfo === "1") {
+                heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
+            } else {
+                heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
+            }
+
+            this.thermostatService.updateCharacteristic(
+                this.platform.Characteristic.CurrentHeatingCoolingState,
+                heatingCoolingState
+            );
+         }
+    }
+
 
     identify(callback: () => void) {
       callback();

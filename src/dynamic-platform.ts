@@ -54,11 +54,12 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
+  public readonly registered_accessories: PlatformAccessory [] = [];
   public readonly toon : ToonAPI;
   public toonconfig: PlatformConfig;  
   private toonstatus!: ToonStatus;
   private agreement!: ToonAgreement; 
-
+ 
   constructor (
     public readonly log: Logger,
     public readonly config: PlatformConfig,
@@ -97,10 +98,18 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
    * It should be used to setup event handlers for characteristics and update respective values.
    */
    configureAccessory(accessory: PlatformAccessory) {
+    //var devUuid: string;
+    // var devName: string;
+    //var devReg: boolean;
+
     this.log.info('Loading accessory from cache:', accessory.displayName);
 
     accessory.reachable = true;
+
+    let restored = accessory;
     // add the restored accessory to the accessories cache so we can track if it has already been registered
+    this.registered_accessories.push(restored);
+
     this.accessories.push(accessory);
   }
 
@@ -131,9 +140,9 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
       // see if an accessory with the same uuid has already been registered and restored from
       // the cached devices we stored in the `configureAccessory` method above
-      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);    
+      const existingAccessory = this.registered_accessories.find(accessory => accessory.Uuid === uuid);    
       
-      this.log.info(`Aantal accessories is ${this.accessories.length}`);
+      this.log.info(`Aantal accessories is ${this.registered_accessories.length}`);
 
       if (existingAccessory) {
         // the accessory already exists
@@ -168,11 +177,13 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this is imported from `platformAccessory.ts`
         new ToonAccessory(this, accessory, device.devType, device.devUuid, this.toon, true);
         
+        let registered = accessory;
+
         this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-        
-        this.accessories.push(accessory);
+
+        this.registered_accessories.push (registered);
       }
     }
   } 
