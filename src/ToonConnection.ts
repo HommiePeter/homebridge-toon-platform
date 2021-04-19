@@ -106,6 +106,7 @@ export class ToonConnection {
 
       this.log.info(`toonPutRequest with url : ${url}`);
       this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
+      this.log.info(`toonPutRequest with body : ${this.getHeader}`);
 
       const fetch = require('node-fetch');
 
@@ -113,7 +114,7 @@ export class ToonConnection {
         const response = await fetch (url, { 
           'method': 'PUT', 
           'body': JSON.stringify(body), 
-          'headers': this.getHeader
+          'headers': this.getHeader()
         })
         
         const {data, errors} = await response.json()
@@ -122,6 +123,7 @@ export class ToonConnection {
             const result = data?.currentState;
             return result;
         } 
+        this.log.info ('PUT went wrong')
         //return await response.json();
       }
       catch(err) {
@@ -296,12 +298,12 @@ export class ToonConnection {
         }
         
         const payload = {
-          ...currentDeviceInfo
+          currentDeviceInfo
         };
     
         const newDeviceInfo = await this.toonPUTRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`,
-          currentDeviceInfo
+          payload
         );
     
         this.log.info(`Successfully set Device ${device.name}`);
