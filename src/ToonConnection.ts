@@ -104,9 +104,9 @@ export class ToonConnection {
         throw Error("PUT not authorized");
       }
 
-      this.log.info(`toonPutRequest with url : ${url}`);
-      this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
-      this.log.info(`toonPutRequest with body : ${this.getHeader}`);
+ //     this.log.info(`toonPutRequest with url : ${url}`);
+ //     this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
+ //     this.log.info(`toonPutRequest with body : ${this.getHeader}`);
 
       const fetch = require('node-fetch');
 
@@ -117,14 +117,14 @@ export class ToonConnection {
           'headers': this.getHeader()
         })
         
-        const {data, errors} = await response.json()
-        if (response.ok) {
-            this.log.info ('PUT succeeded')
-            const result = data?.currentState;
-            return result;
-        } 
-        this.log.info ('PUT went wrong')
-        //return await response.json();
+//        const {data, errors} = await response.json()
+//        if (response.ok) {
+//            this.log.info ('PUT succeeded')
+//            const result = data?.currentState;
+//            return result;
+//        } 
+//        this.log.info ('PUT went wrong')
+        return await response.json();
       }
       catch(err) {
         this.log.info(`Oeps PUT went wrong ${err}`) // Maybe present some error/failure UI to the user here
@@ -266,8 +266,8 @@ export class ToonConnection {
           : undefined;
       }
 
-      public async setToonDeviceOn(devUuid: string, newState: boolean) {
-       // var newstate: boolean;
+      public async setToonDeviceOn(devUuid: string, switched_on: boolean) {
+       //var switch_on: boolean;
 
         if (!this.agreement) {
           throw Error("Setting Device, but there is no agreement.");
@@ -282,19 +282,20 @@ export class ToonConnection {
             throw Error (`Device with DevUuid ${devUuid} was not found in Toonstatus`)
         }
         
-        this.log.info(`Setting Device ${device.name} to On`);
+        
     
         let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`
         );
-     //   currentDeviceInfo.currentState = newState;
-     //   currentDeviceInfo.currentState = newState;
-        if (newState == false) {
-            currentDeviceInfo.currentState = 1;       
-            //newstate = 1;
+    
+        if (currentDeviceInfo.currentState == 1) {     
+            currentDeviceInfo.currentState = 0;
+            this.log.info(`Setting Device ${device.name} to Off`);
+            switched_on = false;
         } else {
-            currentDeviceInfo.currentState = 0;       
-            //newstate = 0;
+            currentDeviceInfo.currentState = 1;
+            switched_on = true;   
+            this.log.info(`Setting Device ${device.name} to On`);    
         }
         
         const payload = {
@@ -308,6 +309,7 @@ export class ToonConnection {
     
         this.log.info(`Successfully set Device ${device.name}`);
     
+        return switched_on;
 // NOG TO DO: Interne data nog updaten
        // this.toonstatus.thermostatInfo = newThermostatInfo;
        // this.onUpdate(this.toonStatus);
