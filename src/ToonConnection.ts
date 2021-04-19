@@ -105,7 +105,7 @@ export class ToonConnection {
       }
 
       this.log.info(`toonPutRequest with url : ${url}`);
-      this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
+      this.log.info(`toonPutRequest with body : ${body}`);
 
       const fetch = require('node-fetch');
 
