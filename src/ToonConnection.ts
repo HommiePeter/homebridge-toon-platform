@@ -105,17 +105,24 @@ export class ToonConnection {
       }
 
       this.log.info(`toonPutRequest with url : ${url}`);
-      this.log.info(`toonPutRequest with body : ${body}`);
+      this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
 
       const fetch = require('node-fetch');
 
       try {
         const response = await fetch (url, { 
           'method': 'PUT', 
-          'body': body, 
+          'body': JSON.stringify(body), 
           'headers': this.getHeader
         })
-        return await response.json();
+        
+        const {data, errors} = await response.json()
+        if (response.ok) {
+            this.log.info ('PUT succeeded')
+            const result = data?.currentState;
+            return result;
+        } 
+        //return await response.json();
       }
       catch(err) {
         this.log.info(`Oeps PUT went wrong ${err}`) // Maybe present some error/failure UI to the user here
@@ -134,7 +141,7 @@ export class ToonConnection {
             'method': 'GET',
             'headers': this.getHeader()
         })
-        return await response.json();
+        return response.json();
       }
       catch(err) {
         this.log.info(`Oeps GET went wrong ${err}`) // Maybe present some error/failure UI to the user here
