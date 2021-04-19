@@ -112,7 +112,7 @@ export class ToonConnection {
       try {
         const response = await fetch (url, { 
           'method': 'PUT', 
-          'body': JSON.stringify(body), 
+          'body': body, 
           'headers': this.getHeader
         })
         return await response.json();
