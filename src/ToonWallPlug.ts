@@ -96,8 +96,6 @@ export class ToonWallPlug {
           
         this.toon.connection.setToonDeviceOn (this.devUuid, newValue)
     
-        this.service.setCharacteristic(this.platform.Characteristic.On, newValue);
-    
      //   return currentValue;
     }
 

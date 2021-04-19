@@ -194,7 +194,7 @@ export class ToonConnection {
         
       }; 
 
-      private async setToonTemperature(temperature: number) {
+      public async setToonTemperature(temperature: number) {
         if (!this.agreement) {
           throw Error("Setting temperature but there is no agreement.");
         }

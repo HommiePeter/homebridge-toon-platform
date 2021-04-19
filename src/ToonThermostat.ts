@@ -72,12 +72,12 @@ export class ToonThermostat {
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
-                    .on("get", this.getCurrentTemperature);
+                    .onGet(this.getCurrentTemperature);
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TargetTemperature)
-                    .on("set", this.setTargetTemperature)
-                    .on("get", this.getTargetTemperature);
+                    .onSet(this.setTargetTemperature)
+                    .onGet(this.getTargetTemperature);
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
@@ -123,7 +123,6 @@ export class ToonThermostat {
                 
          if (thermostatService) {
             this.thermostatService= thermostatService
-            this.log.info("ToonThermostat Const:Thermostat Update")
             
             this.thermostatService.updateCharacteristic(
                 this.platform.Characteristic.CurrentTemperature,
@@ -186,7 +185,7 @@ export class ToonThermostat {
     ) => {
       callback(null, this.platform.Characteristic.TargetHeatingCoolingState.AUTO);
     };
-  
+/* Old Method
     getCurrentTemperature = (
       callback: (err: Error | null, value?: any) => void
     ) => {
@@ -194,30 +193,53 @@ export class ToonThermostat {
   
       this.log.info("Current Temperature: ", currentTemp);
       callback(null, currentTemp);
-    };
+    }; */
+
+    getCurrentTemperature = () => {
+        const currentTemp = this.toon.connection.getCurrentTemperature();
+    
+        this.log.info("Current Temperature: ", currentTemp);
+        return currentTemp;
+      };
+
   
-    getTargetTemperature = (
-      callback: (err: Error | null, value?: any) => void
-    ) => {
+    getTargetTemperature = () => {
       const currentSetpoint = this.toon.connection.getCurrentSetpoint();
   
       this.log.info("Current Target Temperature: ", currentSetpoint);
-      callback(null, currentSetpoint);
+      return currentSetpoint;
     };
   
-    setTargetTemperature = (
-      value: any,
-      callback: (err?: Error | null, value?: any) => void
-    ) => {
+    setTargetTemperature = (value: any) => {
       if (value === this.toon.connection.getCurrentSetpoint()) {
-        callback();
         return;
       }
-  
       this.toon.connection.setTemperature(value);
-      callback();
     };
   
+/* ol methods
+    getTargetTemperature = (
+        callback: (err: Error | null, value?: any) => void
+      ) => {
+        const currentSetpoint = this.toon.connection.getCurrentSetpoint();
+    
+        this.log.info("Current Target Temperature: ", currentSetpoint);
+        callback(null, currentSetpoint);
+      };
+    
+      setTargetTemperature = (
+        value: any,
+        callback: (err?: Error | null, value?: any) => void
+      ) => {
+        if (value === this.toon.connection.getCurrentSetpoint()) {
+          callback();
+          return;
+        }
+    
+        this.toon.connection.setTemperature(value);
+        callback();
+      }; */
+
     getTemperatureDisplayUnits = (
       callback: (err: Error | null, value?: any) => void
     ) => {
