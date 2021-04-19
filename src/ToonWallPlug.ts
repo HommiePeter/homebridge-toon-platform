@@ -4,6 +4,7 @@ import { ToonHomebridgePlatform } from './dynamic-platform';
 import {
     API,
     APIEvent,
+    Characteristic,
     CharacteristicEventTypes,
     CharacteristicSetCallback,
     CharacteristicValue,
@@ -51,6 +52,8 @@ export class ToonWallPlug {
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug?.name);
                 this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
+              //  this.service.getCharacteristic(CurrentPowerConsumption).getValue(null);
+		      //  this.service.getCharacteristic(TotalConsumption).getValue(null);
             } else {
                 this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
             }
@@ -92,7 +95,8 @@ export class ToonWallPlug {
         this.log.info(`Triggered SET On handleOnSet ${newValue}`);
           
         this.toon.connection.setToonDeviceOn (this.devUuid, newValue)
-
+    
+        this.service.setCharacteristic(this.platform.Characteristic.On, newValue);
     
      //   return currentValue;
     }
@@ -105,5 +109,4 @@ export class ToonWallPlug {
       
         return isOn; 
     } 
-
 } 
