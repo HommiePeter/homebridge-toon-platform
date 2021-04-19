@@ -298,7 +298,7 @@ export class ToonConnection {
         }
         
         const payload = {
-          currentDeviceInfo
+          ...currentDeviceInfo
         };
     
         const newDeviceInfo = await this.toonPUTRequest(
