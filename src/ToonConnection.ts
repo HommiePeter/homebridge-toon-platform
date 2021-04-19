@@ -289,7 +289,7 @@ export class ToonConnection {
         );
      //   currentDeviceInfo.currentState = newState;
      //   currentDeviceInfo.currentState = newState;
-        if (newState == true) {
+        if (newState == false) {
             currentDeviceInfo.currentState = 1;       
             //newstate = 1;
         } else {
