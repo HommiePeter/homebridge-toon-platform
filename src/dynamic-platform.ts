@@ -105,7 +105,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
    */
    configureAccessory(restored_accessory: PlatformAccessory) {
 
-    this.log.info('Loading accessory from cache:', accessory.displayName);
+    this.log.info('Loading accessory from cache:', restored_accessory.displayName);
 
     restored_accessory.reachable = true;
 
