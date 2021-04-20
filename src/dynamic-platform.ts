@@ -17,7 +17,7 @@ import {
 
 import { PLATFORM_NAME, PLUGIN_NAME } from "./settings";
 import { ToonThermostat } from "./ToonThermostat"
-import { ToonStatus, ThermostatInfo, ToonAgreement } from "./ToonAPI-Definitions"
+import { ToonStatus, ThermostatInfo, ToonAgreement, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions"
 import { ToonAPI } from "./ToonObject";
 import { ToonAccessory} from "./ToonAccessorry";
 
@@ -103,8 +103,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
    * This function is invoked when homebridge restores cached accessories from disk at startup.
    * It should be used to setup event handlers for characteristics and update respective values.
    */
-   configureAccessory(restored_accessory: PlatformAccessory) {
-
+  configureAccessory(restored_accessory: PlatformAccessory) {
     this.log.info('Loading accessory from cache:', restored_accessory.displayName);
 
     restored_accessory.reachable = true;
@@ -116,8 +115,11 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     // add the restored accessory to the accessories cache so we can track if it has already been registered
     this.registered_accessories.push(restored);
    
-    new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
-   // this.accessories.push(accessory);
+    if (devType) == DEV_TYPE_Thermostat {
+        new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
+    } else{
+      this.accessories.push(restored_accessory);
+    }
   }
 
   async discoverDevices() {
