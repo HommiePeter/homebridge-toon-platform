@@ -160,7 +160,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
         new ToonAccessory(this, existingAccessory, device.devType, device.devUuid, this.toon, false);
         
-        this.api.updatePlatformAccessories([existingAccessory]);
+        //this.api.updatePlatformAccessories([existingAccessory]);
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`

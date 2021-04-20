@@ -83,10 +83,10 @@ export class ToonThermostat {
                     .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
                     .on("get", this.getTemperatureDisplayUnits);
             } else {  
-                //const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);  
+                  const ThermoService = this.accessory.getService(this.platform.Service.Thermostat);  
                 
-                if (this.thermostatService) {
-                    //this.thermostatService = thermostatService
+                if (ThermoService) {
+                    this.thermostatService = ThermoService
                     
                     const { thermostatInfo } = this.toon.connection.toonstatus;
                     this.log.info("ToonThermostat Const:Thermostat Update")
