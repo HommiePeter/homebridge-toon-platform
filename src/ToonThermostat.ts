@@ -72,36 +72,36 @@ export class ToonThermostat {
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
-                    .onGet(this.getCurrentTemperature);
+                    .on("get", this.getCurrentTemperature);
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TargetTemperature)
-                    .onSet(this.setTargetTemperature)
-                    .onGet(this.getTargetTemperature);
+                    .on("set", this.setTargetTemperature)
+                    .on("get", this.getTargetTemperature);
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
                     .on("get", this.getTemperatureDisplayUnits);
             } else {  
-                
-             //   const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
-              //  const { thermostatInfo } = this.toon.connection.toonstatus;
+                //const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);  
                 
                 if (this.thermostatService) {
-                   // this.thermostatService= thermostatService
+                    //this.thermostatService = thermostatService
+                    
+                    const { thermostatInfo } = this.toon.connection.toonstatus;
                     this.log.info("ToonThermostat Const:Thermostat Update")
                     this.thermostatService.updateCharacteristic(
                         this.platform.Characteristic.CurrentTemperature,
-                        this.thermostatService.currentDisplayTemp / 100
+                        thermostatInfo.currentDisplayTemp / 100
                     );
 
                     this.thermostatService.updateCharacteristic(
                         this.platform.Characteristic.TargetTemperature,
-                        this.thermostatService.currentSetpoint / 100
+                        thermostatInfo.currentSetpoint / 100
                     );
               
                     var heatingCoolingState;
-                    if (this.thermostatService.burnerInfo === "1") {
+                    if (thermostatInfo.burnerInfo === "1") {
                         heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
                     } else {
                         heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
@@ -185,7 +185,7 @@ export class ToonThermostat {
     ) => {
       callback(null, this.platform.Characteristic.TargetHeatingCoolingState.AUTO);
     };
-/* Old Method
+
     getCurrentTemperature = (
       callback: (err: Error | null, value?: any) => void
     ) => {
@@ -193,14 +193,7 @@ export class ToonThermostat {
   
       this.log.info("Current Temperature: ", currentTemp);
       callback(null, currentTemp);
-    }; */
-
-    getCurrentTemperature = () => {
-        const currentTemp = this.toon.connection.getCurrentTemperature();
-    
-        this.log.info("Current Temperature: ", currentTemp);
-        return currentTemp;
-      };
+    }; 
 
   
     getTargetTemperature = () => {
