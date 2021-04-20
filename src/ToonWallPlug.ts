@@ -82,7 +82,7 @@ export class ToonWallPlug {
     }
 
     async handleOutletInUseGet():Promise<CharacteristicValue> { 
-        this.log.info('Triggered GET On OutletInUseGet');
+       // this.log.info('Triggered GET On OutletInUseGet');
         
         const response = await this.toon.connection.getToonDevice(this.devUuid);
         const isOn = response.currentState !== 0;
@@ -95,12 +95,10 @@ export class ToonWallPlug {
         this.log.info(`Triggered SET On handleOnSet ${newValue}`);
           
         this.toon.connection.setToonDeviceOn (this.devUuid, newValue)
-    
-     //   return currentValue;
     }
 
     async handleOnGet():Promise<CharacteristicValue> { 
-        this.log.info('Triggered GET On handleOnGet');
+       // this.log.info('Triggered GET On handleOnGet');
 
         const response = await this.toon.connection.getToonDevice(this.devUuid);
         const isOn = response.currentState !== 0;
