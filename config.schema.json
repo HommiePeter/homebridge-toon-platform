@@ -30,7 +30,7 @@
         },
         "Enable Wall Plugs": {
           "title": "switch_wallplug",
-          "type": "Number",
+          "type": "boolean",
           "required": true,
           "default": true 
         },
