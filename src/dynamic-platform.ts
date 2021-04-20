@@ -72,6 +72,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.toonconfig = this.config; 
 
     this.toonconfig.switch_wallplug= true;
+    this.toonconfig.switch_smoke= true;
 
     this.log.info('Finished initializing Toon platform:', this.toonconfig.name);
   
