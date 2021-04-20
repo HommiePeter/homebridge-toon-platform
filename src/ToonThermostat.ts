@@ -76,7 +76,7 @@ export class ToonThermostat {
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TargetTemperature)
-                    .onSet(this.setTargetTemperature.bind(this))
+                    .onSet(this.getTargetTemperature.bind(this))
                     .onGet(this.getTargetTemperature.bind(this));
     
                 this.thermostatService
@@ -194,23 +194,7 @@ export class ToonThermostat {
       this.log.info("Current Temperature: ", currentTemp);
       callback(null, currentTemp);
     }; 
-
   
-    getTargetTemperature = () => {
-      const currentSetpoint = this.toon.connection.getCurrentSetpoint();
-  
-      this.log.info("Current Target Temperature: ", currentSetpoint);
-      return currentSetpoint;
-    };
-  
-    setTargetTemperature = (value: any) => {
-      if (value === this.toon.connection.getCurrentSetpoint()) {
-        return;
-      }
-      this.toon.connection.setTemperature(value);
-    };
-  
-/* ol methods
     getTargetTemperature = (
         callback: (err: Error | null, value?: any) => void
       ) => {
@@ -231,7 +215,7 @@ export class ToonThermostat {
     
         this.toon.connection.setTemperature(value);
         callback();
-      }; */
+      }; 
 
     getTemperatureDisplayUnits = (
       callback: (err: Error | null, value?: any) => void
