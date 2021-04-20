@@ -16,20 +16,20 @@
           "type": "string",
           "required": true
         },
-        "Enable Hue Lights": {
-          "title": "switch_hue",
+        "switch_hue": {
+          "title": "Enable Hue Lights",
           "type": "Boolean",
           "required": true,
           "default": true
         },
-        "Enable Fibare Smoke Sensors": {
-          "title": "switch_smoke",
+        "switch_smoke": {
+          "title": "Enable Fibare Smoke Sensors",
           "type": "Boolean",
           "required": true,
           "default": true    
         },
-        "Enable Wall Plugs": {
-          "title": "switch_wallplug",
+        "switch_wallplug": {
+          "title": "Enable Wall plugs",
           "type": "boolean",
           "required": true,
           "default": true 
