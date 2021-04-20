@@ -103,21 +103,21 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
    * This function is invoked when homebridge restores cached accessories from disk at startup.
    * It should be used to setup event handlers for characteristics and update respective values.
    */
-   configureAccessory(accessory: PlatformAccessory) {
-    //var devUuid: string;
-     var  UUID: string;
-    //var devReg: boolean;
+   configureAccessory(restored_accessory: PlatformAccessory) {
 
     this.log.info('Loading accessory from cache:', accessory.displayName);
 
-    accessory.reachable = true;
+    restored_accessory.reachable = true;
 
-    let restored = accessory;
-    
+    let restored = restored_accessory;
+    let devType = restored_accessory.context.device.devType;
+    let devUuid  = restored_accessory.context.device.devUuid;
+      
     // add the restored accessory to the accessories cache so we can track if it has already been registered
     this.registered_accessories.push(restored);
-
-    this.accessories.push(accessory);
+   
+    new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
+   // this.accessories.push(accessory);
   }
 
   async discoverDevices() {
@@ -160,7 +160,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
 
         new ToonAccessory(this, existingAccessory, device.devType, device.devUuid, this.toon, false);
         
-        //this.api.updatePlatformAccessories([existingAccessory]);
+        this.api.updatePlatformAccessories([existingAccessory]);
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
@@ -193,45 +193,6 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
       }
     }
   } 
-
-  // --------------------------- CUSTOM METHODS ---------------------------
-
-/* Nog oude code bekijken wat er mee moet 
-  addThermostat() {
-    if (this.Thermostat !== undefined) {
-      this.log.info("addThermostat: Thermostat already existing");
-      return;
-    }
-    this.log.info("addThermostat: Adding accessory Thermostat");
-
-    const accessory = new Accessory( "Toon Thermostaat", hap.uuid.generate("Toon Thermostaat") );
-   
-    this.log.info("addThermostat: Added accessory Thermostat");
-
-    this.log.info("addThermostat: Setup new Toon Thermostat");
-
-    this.Thermostat = new ToonThermostat(accessory, this.config, this.Service, this.log);
-
-    this.log.info("addThermostat: new Toon Thermostat was Setup");
-
-    this.log.info("addThermostat: registerPlaformAccessories")
-
-    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-  }
-  /* Original
-  addAccessory(name: string) {
-    this.log.info("Adding new accessory with name %s", name);
-
-    // uuid must be generated from a unique but not changing data source, name should not be used in the most cases. But works in this specific example.
-    const uuid = hap.uuid.generate(name);
-    const accessory = new Accessory(name, uuid);
-
-    accessory.addService(hap.Service.Lightbulb, "Test Light");
-
-    this.configureAccessory(accessory); // abusing the configureAccessory here
-
-    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-  } */
 
   removeAccessory(device : any) {
     // we don't have any special identifiers, we just remove all our accessories
