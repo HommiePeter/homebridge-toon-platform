@@ -76,8 +76,8 @@ export class ToonThermostat {
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TargetTemperature)
-                    .onSet(this.getTargetTemperature.bind(this))
-                    .onGet(this.getTargetTemperature.bind(this));
+                    .on("set",this.setTargetTemperature)
+                    .on("get", this.getTargetTemperature);
     
                 this.thermostatService
                     .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
