@@ -87,7 +87,7 @@ export class ToonWallPlug {
        // this.log.info('Triggered GET On OutletInUseGet');
         
         const response = await this.toon.connection.getToonDevice(this.devUuid);
-        const isOn = response.currentState !== 0;
+        const isOn = response.currentState !== 1;
         
         return isOn; 
     } 
