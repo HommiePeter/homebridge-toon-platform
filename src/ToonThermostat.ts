@@ -89,7 +89,7 @@ export class ToonThermostat {
                     this.thermostatService = ThermoService
                     
                     const { thermostatInfo } = this.toon.connection.toonstatus;
-                    this.log.info("ToonThermostat Const:Thermostat Update")
+             //       this.log.info("ToonThermostat Const:Thermostat Update")
                     this.thermostatService.updateCharacteristic(
                         this.platform.Characteristic.CurrentTemperature,
                         thermostatInfo.currentDisplayTemp / 100

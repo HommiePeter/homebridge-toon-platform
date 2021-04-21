@@ -254,7 +254,7 @@ export class ToonConnection {
       }
     
       public getCurrentTemperature() {
-        this.log.info("getCurrentTemperature: Method is called")
+    //    this.log.info("getCurrentTemperature: Method is called")
         return this.toonstatus
           ? this.toonstatus.thermostatInfo.currentDisplayTemp / 100
           : undefined;
@@ -280,9 +280,7 @@ export class ToonConnection {
         
         if(!device) {
             throw Error (`Device with DevUuid ${devUuid} was not found in Toonstatus`)
-        }
-        
-        
+        }  
     
         let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`
@@ -307,7 +305,7 @@ export class ToonConnection {
           payload
         );
     
-        this.log.info(`Successfully set Device ${device.name}`);
+ //      this.log.info(`Successfully set Device ${device.name}`);
     
         return switched_on;
 // NOG TO DO: Interne data nog updaten
