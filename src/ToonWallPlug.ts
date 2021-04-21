@@ -52,10 +52,12 @@ export class ToonWallPlug {
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug?.name);
                 this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
+                this.service.setCharacteristic(this.platform.Characteristic.On, this.wallplug_status?.currentState);
               //  this.service.getCharacteristic(CurrentPowerConsumption).getValue(null);
 		      //  this.service.getCharacteristic(TotalConsumption).getValue(null);
             } else {
                 this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
+                this.service.updateCharacteristic(this.platform.Characteristic.On, this.wallplug_status?.currentState);
             }
         } else {
             this.log.info(`Plug Wall or Status with DEVUUID ${devUuid} not found`);
@@ -95,7 +97,6 @@ export class ToonWallPlug {
         this.log.info(`Triggered SET On handleOnSet ${newValue}`);
           
         this.toon.connection.setToonDeviceOn (this.devUuid, newValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.On, newValue);
     }
 
     async handleOnGet():Promise<CharacteristicValue> { 

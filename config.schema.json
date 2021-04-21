@@ -23,7 +23,7 @@
           "default": true
         },
         "switch_smoke": {
-          "title": "Enable Fibare Smoke Sensors",
+          "title": "Enable Fibaro Smoke Sensors",
           "type": "boolean",
           "required": true,
           "default": true    
@@ -35,7 +35,7 @@
           "default": true 
         },
         "AgreementIndex": {
-          "title": "agreementIndex",
+          "title": "Toon Agreement Index number",
           "type": "number",
           "required": false
         }
