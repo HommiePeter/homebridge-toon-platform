@@ -94,7 +94,8 @@ export class ToonWallPlug {
         const newValue = value as boolean;
         this.log.info(`Triggered SET On handleOnSet ${newValue}`);
           
-        this.toon.connection.setToonDeviceOn (this.devUuid, newValue)
+        this.toon.connection.setToonDeviceOn (this.devUuid, newValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.On, newValue);
     }
 
     async handleOnGet():Promise<CharacteristicValue> { 

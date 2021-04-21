@@ -18,13 +18,13 @@
         },
         "switch_hue": {
           "title": "Enable Hue Lights",
-          "type": "Boolean",
+          "type": "boolean",
           "required": true,
           "default": true
         },
         "switch_smoke": {
           "title": "Enable Fibare Smoke Sensors",
-          "type": "Boolean",
+          "type": "boolean",
           "required": true,
           "default": true    
         },
@@ -36,7 +36,7 @@
         },
         "AgreementIndex": {
           "title": "agreementIndex",
-          "type": "Number",
+          "type": "number",
           "required": false
         }
       }
