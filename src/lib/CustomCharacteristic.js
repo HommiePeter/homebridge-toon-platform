@@ -13,7 +13,7 @@ module.exports = function (homebridge) {
     var CustomCharacteristic = {};
 
 	CustomCharacteristic.CurrentPowerConsumption = function () {
-//		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
+//		Characteristic.call(this, 'Consumption', CustomCharacteristic.CurrentPowerConsumption.UUID);
 		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.UINT16,
@@ -25,11 +25,11 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	CustomCharacteristic.CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
+//	CustomCharacteristic.CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
 	inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
 
-	CustomCharacteristic.TotalConsumption = function () {
-//		Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
+	CustomCharacteristic.DailyConsumption = function () {
+//		Characteristic.call(this, 'Energy', CustomCharacteristic.DailyConsumption.UUID);
         Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.FLOAT,
@@ -41,7 +41,7 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	CustomCharacteristic.DailyConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52';
+//	CustomCharacteristic.DailyConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52';
 	inherits(CustomCharacteristic.DailyConsumption, Characteristic);
 
 	CustomCharacteristic.ResetTotal = function () {
@@ -52,7 +52,7 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	CustomCharacteristic.ResetTotal.UUID = 'E863F112-079E-48FF-8F27-9C2605A29F52';
+	//CustomCharacteristic.ResetTotal.UUID = 'E863F112-079E-48FF-8F27-9C2605A29F52';
 	inherits(CustomCharacteristic.ResetTotal, Characteristic);
 
 	PowerMeterService = function (displayName, subtype) {
@@ -61,5 +61,7 @@ module.exports = function (homebridge) {
 		this.addCharacteristic(DailyConsumption);
 		this.addCharacteristic(ResetTotal);
 	};	inherits(PowerMeterService, Service);
+
+    return CustomCharacteristic;
 
 }
