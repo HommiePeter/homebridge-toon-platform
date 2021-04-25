@@ -17,6 +17,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "src"
-,   "src/config.ts"  ]
+    "src",   
+    "src/lib",
+    "src/config.ts"  ]
 }
