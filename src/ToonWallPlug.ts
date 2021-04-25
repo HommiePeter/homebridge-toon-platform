@@ -39,6 +39,8 @@ export class ToonWallPlug {
         const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid);
         const status = this.toon.connection.toonstatus.deviceStatusInfo.device.find(device => device.devUUID === devUuid);
     
+        this.cust_service = this.accessory.addService (this.platform.CustomService.PowerMeterService);
+        
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
@@ -53,7 +55,6 @@ export class ToonWallPlug {
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug.name);
                 this.service.setCharacteristic(this.platform.Characteristic.On, this.wallplug_status.currentState);
-                this.cust_service = this.accessory.addService (this.platform.CustomService.PowerMeterService);
                 //this.service.addCharacteristic(this.platform.CustomCharacteristic.CurrentPowerConsumption);
                 //this.service.addCharacteristic(this.platform.CustomCharacteristic.DailyPowerConsumption)
                 //this.service.setCharacteristic(this.platform.CustomCharacteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
