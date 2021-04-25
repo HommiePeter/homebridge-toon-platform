@@ -21,7 +21,7 @@ import {
  
 export class ToonWallPlug {
     private service: Service;
-    private cust_service: Service;
+    // private cust_service: Service;
     private wallplug?: DeviceConfigInfo;
     private wallplug_status?:DeviceStatusInfo;
     private log : Logger;
@@ -59,7 +59,7 @@ export class ToonWallPlug {
                 this.service.addCharacteristic(this.platform.Cust_Characteristic.DailyPowerConsumption)
                 this.service.setCharacteristic(this.platform.Cust_Characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
                 this.service.setCharacteristic(this.platform.Cust_Characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
-                this.service.addLinkedService(this.cust_service);
+               // this.service.addLinkedService(this.cust_service);
                 if (this.wallplug_status.currentUsage !== 0) {
                     this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, 1);   
                 } else {
