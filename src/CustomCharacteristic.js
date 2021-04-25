@@ -12,7 +12,7 @@ module.exports = function (homebridge) {
 
     var CustomCharacteristic = {};
 
-	CustomCharacteristic.CurrentPowerConsumption = function () {
+	CurrentPowerConsumption = function () {
 //		Characteristic.call(this, 'Consumption', CustomCharacteristic.CurrentPowerConsumption.UUID);
 		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
@@ -25,10 +25,10 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-//	CustomCharacteristic.CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
-	inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
+	CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
+	inherits(CurrentPowerConsumption, Characteristic);
 
-	CustomCharacteristic.DailyConsumption = function () {
+	DailyConsumption = function () {
 //		Characteristic.call(this, 'Energy', CustomCharacteristic.DailyConsumption.UUID);
         Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
@@ -42,9 +42,9 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 //	CustomCharacteristic.DailyConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52';
-	inherits(CustomCharacteristic.DailyConsumption, Characteristic);
+	inherits(DailyConsumption, Characteristic);
 
-	CustomCharacteristic.ResetTotal = function () {
+	ResetTotal = function () {
 		Characteristic.call(this, 'Reset', 'E863F112-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.UINT32,
@@ -53,13 +53,13 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	//CustomCharacteristic.ResetTotal.UUID = 'E863F112-079E-48FF-8F27-9C2605A29F52';
-	inherits(CustomCharacteristic.ResetTotal, Characteristic);
+	inherits(ResetTotal, Characteristic);
 
 	PowerMeterService = function (displayName, subtype) {
 		Service.call(this, displayName, '00000001-0000-1777-8000-775D67EC4377', subtype);
-		this.addCharacteristic(CustomCharacteristic.PowerConsumption);
-		this.addCharacteristic(CustomCharacteristic.DailyConsumption);
-		this.addCharacteristic(CustomCharacteristic.ResetTotal);
+		this.addCharacteristic(PowerConsumption);
+		this.addCharacteristic(DailyConsumption);
+		this.addCharacteristic(ResetTotal);
 	};	inherits(PowerMeterService, Service);
 
    // return CustomCharacteristic;

@@ -55,7 +55,7 @@ interface Registered {
 export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
-  public readonly CustomService = require("./CustomCharacteristic");
+  public readonly Cust_Characteristic = require("./CustomCharacteristic");
 
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
