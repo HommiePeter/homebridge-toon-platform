@@ -53,6 +53,8 @@ export class ToonWallPlug {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug?.name);
                 this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, this.wallplug_status?.currentState);
                 this.service.setCharacteristic(this.platform.Characteristic.On, this.wallplug_status?.currentState);
+                
+
               //  this.service.getCharacteristic(CurrentPowerConsumption).getValue(null);
 		      //  this.service.getCharacteristic(TotalConsumption).getValue(null);
             } else {

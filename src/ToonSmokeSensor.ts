@@ -50,8 +50,11 @@ export class ToonSmokeDetector {
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
                 this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
+                this.service.addCharacteristic(this.platform.Characteristic.BatteryLevel)
+                //this.service = this.accessory.addService(this.platform.Service.Battery);
 
-                if (this.smokedetector.batteryLevel < 10) {
+                this.service.setCharacteristic(this.platform.Characteristic.BatteryLevel, this.smokedetector.batteryLevel);
+                if (this.smokedetector.batteryLevel < 20) {
                     this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
                 } else {
                     this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal
