@@ -13,7 +13,7 @@ export = (api: API) => {
   Service = api.hap.Service;
 	Characteristic = api.hap.Characteristic;
 	UUIDGen = api.hap.uuid;
-  CustomCharacteristic  = require('./CustomCharacteristic.js');
+  CustomCharacteristic = require("./CustomCharacteristic");
   
     api.registerPlatform(PLATFORM_NAME, ToonHomebridgePlatform);
   };
