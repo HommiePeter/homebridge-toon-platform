@@ -346,7 +346,7 @@ export class ToonConnection {
         }
         const deviceStatus = this.toonstatus.deviceStatusInfo.device.find(device => device.devUUID === devUuid)
         
-        if(!device) {
+        if(!deviceStatus) {
             throw Error (`Device with DevUuid ${devUuid} was not found in ToonStatus`)
         }
 
