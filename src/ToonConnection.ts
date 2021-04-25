@@ -334,4 +334,22 @@ export class ToonConnection {
 
         return currentDeviceInfo;
       }
+
+      public async getToonDeviceStatus(devUuid: string) {
+
+        if (!this.agreement) {
+          throw Error("Setting Device, but there is no agreement.");
+        }
+    
+        if (!this.toonstatus) {
+          throw Error("Setting Device, but there is no status information.");
+        }
+        const deviceStatus = this.toonstatus.deviceStatusInfo.device.find(device => device.devUUID === devUuid)
+        
+        if(!device) {
+            throw Error (`Device with DevUuid ${devUuid} was not found in ToonStatus`)
+        }
+
+        return deviceStatus;
+      }
   }

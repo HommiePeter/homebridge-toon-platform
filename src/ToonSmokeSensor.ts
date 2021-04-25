@@ -62,8 +62,8 @@ export class ToonSmokeDetector {
 
             } else {
                 this.service.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
-
-                if (this.smokedetector.batteryLevel < 10) {
+                this.service.updateCharacteristic(this.platform.Characteristic.BatteryLevel, this.smokedetector.batteryLevel);
+                if (this.smokedetector.batteryLevel < 20) {
                     this.service.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
                 } else {
                     this.service.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, 0); // Battery Level is Normal

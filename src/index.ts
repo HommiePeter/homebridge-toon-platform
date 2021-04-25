@@ -2,7 +2,7 @@ import { API } from 'homebridge';
 import { PLATFORM_NAME } from './settings';
 import { ToonHomebridgePlatform } from './dynamic-platform';
 
-var Service, Characteristic, UUIDGen, FakeGatoHistoryService; 
+var Service, Characteristic, UUIDGen, CustomCharacteristic; 
 
 
 /**
@@ -13,6 +13,7 @@ export = (api: API) => {
   Service = api.hap.Service;
 	Characteristic = api.hap.Characteristic;
 	UUIDGen = api.hap.uuid;
+ // CustomCharacteristic  = require('./lib/CustomCharacteristic.js')(API);
   
     api.registerPlatform(PLATFORM_NAME, ToonHomebridgePlatform);
   };
