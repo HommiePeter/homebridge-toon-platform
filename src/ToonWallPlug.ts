@@ -62,8 +62,8 @@ export class ToonWallPlug {
                     this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, 0);  
                 }
             } else {
-                this.service.setCharacteristic(this.platform.CustomCharacteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
-                this.service.setCharacteristic(this.platform.CustomCharacteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
+               // this.service.setCharacteristic(this.platform.CustomCharacteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
+               // this.service.setCharacteristic(this.platform.CustomCharacteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
                 if (this.wallplug_status.currentUsage !== 0) {
                     this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, 1);   
                 } else {
