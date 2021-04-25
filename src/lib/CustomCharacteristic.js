@@ -14,7 +14,7 @@ module.exports = function (homebridge) {
 
 	CustomCharacteristic.CurrentPowerConsumption = function () {
 //		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
-		Characteristic.call(this, 'Consumption', CustomCharacteristic.CurrentPowerConsumption.UUID);
+		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.UINT16,
 			unit: "Watt",
@@ -30,7 +30,7 @@ module.exports = function (homebridge) {
 
 	CustomCharacteristic.TotalConsumption = function () {
 //		Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
-        Characteristic.call(this, 'Energy', CustomCharacteristic.DailyConsumption.UUID);
+        Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.FLOAT,
 			unit: "kWh",
@@ -45,7 +45,7 @@ module.exports = function (homebridge) {
 	inherits(CustomCharacteristic.DailyConsumption, Characteristic);
 
 	CustomCharacteristic.ResetTotal = function () {
-		Characteristic.call(this, 'Reset', CustomCharacteristic.ResetTotal.UUID);
+		Characteristic.call(this, 'Reset', 'E863F112-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.UINT32,
 			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY, Characteristic.Perms.WRITE]
