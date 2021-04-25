@@ -1,7 +1,7 @@
 var Service, Characteristic
-var sprintf = require("sprintf-js").sprintf;
+//var sprintf = require("sprintf-js").sprintf;
 var inherits = require('util').inherits;
-var correctingInterval = require('correcting-interval');
+//var correctingInterval = require('correcting-interval');
 
 //Initialize
 module.exports = function (homebridge) {
@@ -57,11 +57,11 @@ module.exports = function (homebridge) {
 
 	PowerMeterService = function (displayName, subtype) {
 		Service.call(this, displayName, '00000001-0000-1777-8000-775D67EC4377', subtype);
-		this.addCharacteristic(CurrentPowerConsumption);
-		this.addCharacteristic(DailyConsumption);
-		this.addCharacteristic(ResetTotal);
+		this.addCharacteristic(CustomCharacteristic.PowerConsumption);
+		this.addCharacteristic(CustomCharacteristic.DailyConsumption);
+		this.addCharacteristic(CustomCharacteristic.ResetTotal);
 	};	inherits(PowerMeterService, Service);
 
-    return CustomCharacteristic;
+   // return CustomCharacteristic;
 
 }
