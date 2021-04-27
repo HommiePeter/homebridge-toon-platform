@@ -11,10 +11,10 @@ var Service, Characteristic, UUIDGen, CustomCharacteristic;
 
 // export = (api: API) => {
   export default function(homebridge: any) {
-  Service = homebridge.hap.Service;
-	Characteristic = homebridge.hap.Characteristic;
-	UUIDGen = homebridge.api.hap.uuid;
-  CustomCharacteristic = require("./CustomCharacteristic")(homebridge);
+    Service = homebridge.hap.Service;
+	  Characteristic = homebridge.hap.Characteristic;
+	  UUIDGen = homebridge.hap.uuid;
+    CustomCharacteristic = require("./CustomCharacteristic")(homebridge);
   
-  homebridge.registerPlatform(PLATFORM_NAME, ToonHomebridgePlatform);
+    homebridge.registerPlatform(PLATFORM_NAME, ToonHomebridgePlatform);
   };
