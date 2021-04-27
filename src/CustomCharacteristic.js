@@ -4,8 +4,9 @@ var inherits = require('util').inherits;
 
 //Initialize
 module.exports = function (homebridge) {
-	Service = homebridge.Service;
-	Characteristic = homebridge.Characteristic;
+	Service: typeof Service = homebridge.Service;
+	Characteristic= homebridge.Characteristic
+	
 
     var CustomCharacteristic = {};
 
