@@ -1,22 +1,19 @@
 var Service, Characteristic
-//var sprintf = require("sprintf-js").sprintf;
 var inherits = require('util').inherits;
-//var correctingInterval = require('correcting-interval');
+
+var CustomCharacteristic = {};
 
 //Initialize
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
-//	UUIDGen = homebridge.hap.uuid;
-//	FakeGatoHistoryService = require('fakegato-history')(homebridge);
 
     var CustomCharacteristic = {};
 
-	CurrentPowerConsumption = function () {
-//		Characteristic.call(this, 'Consumption', CustomCharacteristic.CurrentPowerConsumption.UUID);
+	CustomCharacteristic.CurrentPowerConsumption = function () {
 		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
-			format: Characteristic.Formats.UINT16,
+			format: Characteristic.Formats.UINT32,
 			unit: "Watt",
 			maxValue: 100000,
 			minValue: 0,
@@ -25,11 +22,9 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
-	inherits(CurrentPowerConsumption, Characteristic);
+	inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
 
-	DailyConsumption = function () {
-//		Characteristic.call(this, 'Energy', CustomCharacteristic.DailyConsumption.UUID);
+	CustomCharacteristic.DailyPowerConsumption = function () {
         Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.FLOAT,
@@ -41,10 +36,9 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-//	CustomCharacteristic.DailyConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52';
-	inherits(DailyConsumption, Characteristic);
+	inherits(CustomCharacteristic.DailyPowerConsumption, Characteristic);
 
-	ResetTotal = function () {
+	CustomCharacteristic.ResetTotal = function () {
 		Characteristic.call(this, 'Reset', 'E863F112-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.UINT32,
@@ -52,16 +46,15 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	//CustomCharacteristic.ResetTotal.UUID = 'E863F112-079E-48FF-8F27-9C2605A29F52';
-	inherits(ResetTotal, Characteristic);
+	inherits(CustomCharacteristic.ResetTotal, Characteristic);
 
 	PowerMeterService = function (displayName, subtype) {
 		Service.call(this, displayName, '00000001-0000-1777-8000-775D67EC4377', subtype);
-		this.addCharacteristic(PowerConsumption);
-		this.addCharacteristic(DailyConsumption);
-		this.addCharacteristic(ResetTotal);
+		this.addCharacteristic(CustomCharacteristic.CurrentPowerConsumption);
+		this.addCharacteristic(CustomCharacteristic.DailyPowerConsumption);
+		this.addCharacteristic(CustomCharacteristic.ResetTotal);
 	};	inherits(PowerMeterService, Service);
 
-   // return CustomCharacteristic;
+return CustomCharacteristic;
 
 }
