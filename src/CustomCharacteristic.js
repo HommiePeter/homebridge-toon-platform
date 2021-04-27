@@ -1,5 +1,3 @@
-import {Characteristic,Service } from "homebridge";
-
 
 var Service, Characteristic;
 var inherits = require('util').inherits;
@@ -8,8 +6,8 @@ var CustomCharacteristic = {};
 
 //Initialize
 module.exports = function (homebridge) {
-//	PowerService: Service;
-//	Characteristic: Characteristic;
+	PowerService = homebridge.Service;
+	Characteristic = homebridge.Characteristic;
 
     var CustomCharacteristic = {};
 
