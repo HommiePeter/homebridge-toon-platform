@@ -5,8 +5,8 @@ var CustomCharacteristic = {};
 
 //Initialize
 module.exports = function (homebridge) {
-	PowerService = homebridge.hap.Service;
-	Characteristic = homebridge.hap.Characteristic;
+	PowerService = homebridge.Service;
+	Characteristic = homebridge.Characteristic;
 
     var CustomCharacteristic = {};
 
