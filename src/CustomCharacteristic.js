@@ -1,12 +1,12 @@
 
-var PowerService, Characteristic
+var Service, Characteristic
 var inherits = require('util').inherits;
 
 var CustomCharacteristic = {};
 
 //Initialize
 module.exports = function (homebridge) {
-	PowerService = homebridge.hap.Service;
+	Service = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
 
     var CustomCharacteristic = {};
