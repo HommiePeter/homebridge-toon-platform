@@ -1,5 +1,5 @@
 
-var PowerService, PowerCharacteristic, Characteristic;
+var PowerService, Characteristic;
 var inherits = require('util').inherits;
 
 var CustomCharacteristic = {};
@@ -7,19 +7,19 @@ var CustomCharacteristic = {};
 //Initialize
 module.exports = function (homebridge) {
 	PowerService = homebridge.Service;
-	PowerCharacteristic = homebridge.Characteristic;
+	Characteristic = homebridge.Characteristic;
 
     var CustomCharacteristic = {};
 
 	CustomCharacteristic.CurrentPowerConsumption = function () {
-		PowerCharacteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
+		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
-			format: PowerCharacteristic.Formats.UINT32,
+			format: Characteristic.Formats.UINT32,
 			unit: "Watt",
 			maxValue: 100000,
 			minValue: 0,
 			minStep: 1,
-			perms: [PowerCharacteristic.Perms.READ, PowerCharacteristic.Perms.NOTIFY]
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
 		});
 		this.value = this.getDefaultValue();
 	};
