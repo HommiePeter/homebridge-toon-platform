@@ -22,7 +22,7 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	CustomCharacteristic.CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
-	inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
+	inherits(CustomCharacteristic.CurrentPowerConsumption(), Characteristic);
 
 	CustomCharacteristic.DailyPowerConsumption = function () {
         Characteristic.call(this, 'Energy', CustomCharacteristic.DailyPowerConsumption.UUID);
