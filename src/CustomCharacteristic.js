@@ -1,5 +1,5 @@
 
-var PowerService, Characteristic
+var PowerService, Characteristic;
 var inherits = require('util').inherits;
 
 var CustomCharacteristic = {};
