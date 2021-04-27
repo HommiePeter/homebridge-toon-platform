@@ -23,7 +23,7 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	inherits(CustomCharacteristic.CurrentPowerConsumption, PowerCharacteristic);
+	inherits(CustomCharacteristic.CurrentPowerConsumption(), PowerCharacteristic);
 
 	CustomCharacteristic.DailyPowerConsumption = function () {
         Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
@@ -37,7 +37,7 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	inherits(CustomCharacteristic.DailyPowerConsumption, Characteristic);
+	inherits(CustomCharacteristic.DailyPowerConsumption(), Characteristic);
 
 	CustomCharacteristic.ResetTotal = function () {
 		Characteristic.call(this, 'Reset', 'E863F112-079E-48FF-8F27-9C2605A29F52');
