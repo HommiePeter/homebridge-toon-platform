@@ -1,11 +1,11 @@
-var Service, Characteristic
+var PowerService, Characteristic
 var inherits = require('util').inherits;
 
 var CustomCharacteristic = {};
 
 //Initialize
 module.exports = function (homebridge) {
-	Service = homebridge.hap.Service;
+	PowerService = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
 
     var CustomCharacteristic = {};
@@ -49,7 +49,7 @@ module.exports = function (homebridge) {
 	inherits(CustomCharacteristic.ResetTotal, Characteristic);
 
 	PowerMeterService = function (displayName, subtype) {
-		Service.call(this, displayName, '00000001-0000-1777-8000-775D67EC4377', subtype);
+		PowerService.call(this, displayName, '00000001-0000-1777-8000-775D67EC4377', subtype);
 		this.addCharacteristic(CustomCharacteristic.CurrentPowerConsumption);
 		this.addCharacteristic(CustomCharacteristic.DailyPowerConsumption);
 		this.addCharacteristic(CustomCharacteristic.ResetTotal);
