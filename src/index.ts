@@ -14,7 +14,7 @@ var Service, Characteristic, UUIDGen, CustomCharacteristic;
     Service = api.hap.Service;
 	  Characteristic = api.hap.Characteristic;
 	  UUIDGen = api.hap.uuid;
-    CustomCharacteristic = require('./CustomCharacteristic.js')(api);
+    //CustomCharacteristic = require('./CustomCharacteristic.js')(api);
   
     api.registerPlatform(PLATFORM_NAME, ToonHomebridgePlatform);
   };
