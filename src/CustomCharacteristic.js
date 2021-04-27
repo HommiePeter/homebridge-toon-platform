@@ -23,7 +23,7 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	inherits(CustomCharacteristic.CurrentPowerConsumption(), PowerCharacteristic);
+	inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
 
 	CustomCharacteristic.DailyPowerConsumption = function () {
         Characteristic.call(this, 'Energy', 'E863F10C-079E-48FF-8F27-9C2605A29F52');
