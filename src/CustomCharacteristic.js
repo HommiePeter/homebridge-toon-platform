@@ -10,7 +10,7 @@ module.exports = function (homebridge) {
 
     var CustomCharacteristic = {};
 
-	CustomCharacteristic.CurrentPowerConsumption = function () {
+	function CustomCharacteristic.CurrentPowerConsumption() {
 		Characteristic.call(this, 'Consumption', CustomCharacteristic.CurrentPowerConsumption.UUID);
 		this.setProps({
 			format: Characteristic.Formats.UINT32,
