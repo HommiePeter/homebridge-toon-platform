@@ -1,6 +1,6 @@
 
 var Service, Characteristic;
-var inherits = require('util').inherits;
+var Util = require('util');
 
 //Initialize
 module.exports = function (homebridge) {
@@ -23,7 +23,7 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	CustomCharacteristic.CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
-	inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
+	Util.inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
 
 	CustomCharacteristic.DailyPowerConsumption = function () {
         Characteristic.call(this, 'Energy', CustomCharacteristic.DailyPowerConsumption.UUID);
@@ -38,7 +38,7 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	CustomCharacteristic.DailyPowerConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52'
-	inherits(CustomCharacteristic.DailyPowerConsumption(), Characteristic);
+	Util.inherits(CustomCharacteristic.DailyPowerConsumption(), Characteristic);
 
 	CustomCharacteristic.PowerMeterService = function (displayName, subtype) {
 		Service.call(this, displayName, CustomCharacteristic.PowerMeterService.UUID, subtype);
@@ -49,7 +49,7 @@ module.exports = function (homebridge) {
 
 	};	
 	CustomCharacteristic.PowerMeterService.UUID = '00000001-0000-1777-8000-775D67EC4377'
-	inherits(CustomCharacteristic.PowerMeterService, Service);
+	Util.inherits(CustomCharacteristic.PowerMeterService, Service);
 
 	CustomCharacteristic.ResetTotal = function () {
 		Characteristic.call(this, 'Reset', 'E863F112-079E-48FF-8F27-9C2605A29F52');
@@ -60,7 +60,7 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	//CustomCharacteristic.ResetTotal.UUID = 'E863F112-079E-48FF-8F27-9C2605A29F52'
-	inherits(CustomCharacteristic.ResetTotal, Characteristic);
+	Util.inherits(CustomCharacteristic.ResetTotal, Characteristic);
 
 	
 
