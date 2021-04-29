@@ -5,7 +5,7 @@ var Util = require('util');
 //Initialize
 module.exports = function (homebridge) {
 	Service= homebridge.Service;
-	Characteristic= homebridge.Characteristic
+	Characteristic= this.hap.Characteristic;
 	
 
     //var CustomCharacteristic = {};
