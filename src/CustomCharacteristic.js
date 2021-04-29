@@ -5,7 +5,7 @@ var Util = require('util');
 //Initialize
 module.exports = function (homebridge) {
 	Service= homebridge.Service;
-	Characteristic= this.Characteristic;
+	Characteristic= homebridge.Characteristic;
 	
 
     //var CustomCharacteristic = {};
@@ -23,7 +23,7 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
-	Util.inherits(CurrentPowerConsumption, Characteristic);
+	Util.inherits(CurrentPowerConsumption, homebridge.Characteristic);
 
 	DailyPowerConsumption = function () {
         Characteristic.call(this, 'Energy', DailyPowerConsumption.UUID);
