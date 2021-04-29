@@ -18,7 +18,6 @@ import {
   } from 'homebridge';
 
 
- 
 export class ToonWallPlug {
     private service: Service;
     // private cust_service: Service;
@@ -55,10 +54,10 @@ export class ToonWallPlug {
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug.name);
                 this.service.setCharacteristic(this.platform.Characteristic.On, this.wallplug_status.currentState);
-                this.service.addCharacteristic(this.platform.Cust_Characteristic.CurrentPowerConsumption)
-                this.service.addCharacteristic(this.platform.Cust_Characteristic.DailyPowerConsumption)
-                this.service.setCharacteristic(this.platform.Cust_Characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
-                this.service.setCharacteristic(this.platform.Cust_Characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
+                this.service.addCharacteristic(this.platform.Cust_Characteristic.characteristic.CurrentPowerConsumption)
+                this.service.addCharacteristic(this.platform.Cust_Characteristic.characteristic.DailyPowerConsumption)
+                this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
+                this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
                // this.service.addLinkedService(this.cust_service);
                 if (this.wallplug_status.currentUsage !== 0) {
                     this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, 1);   
@@ -66,8 +65,8 @@ export class ToonWallPlug {
                     this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, 0);  
                 }
             } else {
-               this.service.setCharacteristic(this.platform.Cust_Characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
-               this.service.setCharacteristic(this.platform.Cust_Characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
+               this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
+               this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
                 if (this.wallplug_status.currentUsage !== 0) {
                     this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, 1);   
                 } else {

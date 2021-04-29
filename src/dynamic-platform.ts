@@ -20,6 +20,7 @@ import { ToonThermostat } from "./ToonThermostat"
 import { ToonStatus, ThermostatInfo, ToonAgreement, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions"
 import { ToonAPI } from "./ToonObject";
 import { ToonAccessory} from "./ToonAccessorry";
+import {CustomCharacteristic} from './CustomCharacteristic';
 
 
 /*
@@ -55,7 +56,7 @@ interface Registered {
 export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public Characteristic: typeof Characteristic = this.api.hap.Characteristic;
-  public readonly Cust_Characteristic = require('./CustomCharacteristic.js') (ToonHomebridgePlatform);
+  public readonly Cust_Characteristic : CustomCharacteristic;
 
 // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
@@ -71,7 +72,10 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.toonconfig = this.config; 
+    
+    this.Cust_Characteristic = new CustomCharacteristic(this.api);
 
+  // TO DO ONDERSTAAND VERWIJDEREN
     this.toonconfig.switch_wallplug= true;
     this.toonconfig.switch_smoke= true;
 
