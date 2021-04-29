@@ -8,10 +8,10 @@ module.exports = function (homebridge) {
 	Characteristic= homebridge.Characteristic
 	
 
-    var CustomCharacteristic = {};
+    //var CustomCharacteristic = {};
 
-	function CustomCharacteristic.CurrentPowerConsumption() {
-		Characteristic.call(this, 'Consumption', CustomCharacteristic.CurrentPowerConsumption.UUID);
+	CurrentPowerConsumption = function() {
+		Characteristic.call(this, 'Consumption', CurrentPowerConsumption.UUID);
 		this.setProps({
 			format: Characteristic.Formats.UINT32,
 			unit: "Watt",
@@ -22,11 +22,11 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	CustomCharacteristic.CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
-	Util.inherits(CustomCharacteristic.CurrentPowerConsumption, Characteristic);
+	CurrentPowerConsumption.UUID = 'E863F10D-079E-48FF-8F27-9C2605A29F52';
+	Util.inherits(CurrentPowerConsumption, Characteristic);
 
-	CustomCharacteristic.DailyPowerConsumption = function () {
-        Characteristic.call(this, 'Energy', CustomCharacteristic.DailyPowerConsumption.UUID);
+	DailyPowerConsumption = function () {
+        Characteristic.call(this, 'Energy', DailyPowerConsumption.UUID);
 		this.setProps({
 			format: Characteristic.Formats.FLOAT,
 			unit: "kWh",
@@ -37,21 +37,21 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	CustomCharacteristic.DailyPowerConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52'
-	Util.inherits(CustomCharacteristic.DailyPowerConsumption(), Characteristic);
+	DailyPowerConsumption.UUID = 'E863F10C-079E-48FF-8F27-9C2605A29F52'
+	Util.inherits(DailyPowerConsumption, Characteristic);
 
-	CustomCharacteristic.PowerMeterService = function (displayName, subtype) {
-		Service.call(this, displayName, CustomCharacteristic.PowerMeterService.UUID, subtype);
+	PowerMeterService = function (displayName, subtype) {
+		Service.call(this, displayName, PowerMeterService.UUID, subtype);
 		
 		this.addCharacteristic(CustomCharacteristic.CurrentPowerConsumption);
 		this.addCharacteristic(CustomCharacteristic.DailyPowerConsumption);
 		this.addCharacteristic(CustomCharacteristic.ResetTotal);
 
 	};	
-	CustomCharacteristic.PowerMeterService.UUID = '00000001-0000-1777-8000-775D67EC4377'
-	Util.inherits(CustomCharacteristic.PowerMeterService, Service);
+	PowerMeterService.UUID = '00000001-0000-1777-8000-775D67EC4377'
+	Util.inherits(PowerMeterService, Service);
 
-	CustomCharacteristic.ResetTotal = function () {
+	ResetTotal = function () {
 		Characteristic.call(this, 'Reset', 'E863F112-079E-48FF-8F27-9C2605A29F52');
 		this.setProps({
 			format: Characteristic.Formats.UINT32,
@@ -60,10 +60,9 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	//CustomCharacteristic.ResetTotal.UUID = 'E863F112-079E-48FF-8F27-9C2605A29F52'
-	Util.inherits(CustomCharacteristic.ResetTotal, Characteristic);
+	Util.inherits(ResetTotal, Characteristic);
 
-	
 
-return CustomCharacteristic;
+//eturn CustomCharacteristic;
 
 }
