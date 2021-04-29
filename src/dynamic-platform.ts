@@ -20,7 +20,7 @@ import { ToonThermostat } from "./ToonThermostat"
 import { ToonStatus, ThermostatInfo, ToonAgreement, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions"
 import { ToonAPI } from "./ToonObject";
 import { ToonAccessory} from "./ToonAccessorry";
-import {CustomCharacteristic} from './CustomCharacteristic';
+import {CustomCharacteristic} from './CustomCharacteristics';
 
 
 /*
@@ -72,7 +72,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.toonconfig = this.config; 
-    
+
     this.Cust_Characteristic = new CustomCharacteristic(this.api);
 
   // TO DO ONDERSTAAND VERWIJDEREN
