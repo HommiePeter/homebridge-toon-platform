@@ -1,10 +1,8 @@
-import { ToonStatus, ToonAgreement ,DEV_TYPE_SmokeSensor, DEV_TYPE_HueLight, DEV_TYPE_SmartPlug, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions";
+import { DEV_TYPE_SmokeSensor, DEV_TYPE_HueLight, DEV_TYPE_SmartPlug, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions";
 import { ToonConnection } from './ToonConnection';
-import { ToonHomebridgePlatform } from './dynamic-platform';
-import { ToonThermostat } from "./ToonThermostat";
-import { PlatformConfig, Logger, PlatformAccessory } from "homebridge";
+import { ToonHomebridgePlatform } from './toon-platform';
+import { PlatformConfig, Logger } from "homebridge";
 
-// Nog uitzoeken waarom dit niet  via de import interface werkt. 
 
 interface ConnectedDevice {
     devUuid: string;
@@ -14,25 +12,21 @@ interface ConnectedDevice {
 
 export class ToonAPI {
     public connection: ToonConnection;
-  //  public thermostat!: ToonThermostat;
     public devicelist: ConnectedDevice[] = [];
     private log: Logger;
     private toonconfig: PlatformConfig;
-    
     
     constructor(
         public readonly config: PlatformConfig, 
         public Toonplatform : ToonHomebridgePlatform ) 
     {
         this.toonconfig = config;
-        this.connection = new ToonConnection (this.config, Toonplatform);
+        this.connection = new ToonConnection (this.toonconfig, Toonplatform);
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
-
     }
 
     public async update_devicelist () {
-       // await this.connection.getToonStatus();
         var devUuid: string;
         var devName: string;
         var devType: string;

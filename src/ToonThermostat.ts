@@ -1,36 +1,19 @@
-import { ToonStatus } from './ToonAPI-Definitions';
 import { ToonAPI } from  './ToonObject';
-import { ToonHomebridgePlatform } from './dynamic-platform';
-import {
-    API,
-    APIEvent,
-    CharacteristicEventTypes,
-    CharacteristicSetCallback,
-    CharacteristicValue,
-    DynamicPlatformPlugin,
-    HAP,
-    Logger,
-    Service,
-    PlatformAccessory,
-    PlatformAccessoryEvent,
-    PlatformConfig,
-  } from "homebridge";
+import { ToonHomebridgePlatform } from './toon-platform';
+import { Logger, Service, PlatformAccessory } from "homebridge";
 
 export class ToonThermostat {
     private thermostatService?: Service;
     private log : Logger;
-    //private devicename: string;
 
     constructor(
         private readonly platform: ToonHomebridgePlatform,
         private readonly accessory: PlatformAccessory,
-  //      private devType: string,
         private devUuid: string,
         private toon: ToonAPI,
         private create_new: boolean,
     ) {
         this.log = platform.log;
-        //this.devicename = accessory.context.device.devName;
 
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -41,112 +24,70 @@ export class ToonThermostat {
             .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())                
             .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
 
-            this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
+        this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
 
-
-   //     const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
-   //     this.log.info("Thermostat Constr: Const Called");
-   //     if (thermostatService !== undefined) {
-   //         this.log.info("Thermostat Constr: Passed of thermostatService")
-   //         this.thermostatService = thermostatService
-
-            if (create_new) {
-            
-     //           this.log.info("ToonThermostat Const: Thermostat Create")
-    //           this.accessory.addService(this.platform.Service.Thermostat);
-            
-                this.thermostatService
-                    .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
-                    .setProps({
-                        validValues: [this.platform.Characteristic.TargetHeatingCoolingState.AUTO]
-                    });
+        if (this.create_new) {    
+          this.thermostatService
+            .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
+            .setProps({
+              validValues: [this.platform.Characteristic.TargetHeatingCoolingState.AUTO]
+            });
     
-                this.thermostatService
-                    .getCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState)
-                    .on("get", this.getCurrentHeatingCoolingState);
+          this.thermostatService
+            .getCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState)
+            .on("get", this.getCurrentHeatingCoolingState);
     
-                this.thermostatService
-                    .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
-                    .on("set", this.setTargetHeatingCoolingState)
-                    .on("get", this.getTargetHeatingCoolingState);
+          this.thermostatService
+            .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
+            .on("set", this.setTargetHeatingCoolingState)
+            .on("get", this.getTargetHeatingCoolingState);
     
-                this.thermostatService
-                    .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
-                    .on("get", this.getCurrentTemperature);
+          this.thermostatService
+            .getCharacteristic(this.platform.Characteristic.CurrentTemperature)
+            .on("get", this.getCurrentTemperature);
     
-                this.thermostatService
-                    .getCharacteristic(this.platform.Characteristic.TargetTemperature)
-                    .on("set",this.setTargetTemperature)
-                    .on("get", this.getTargetTemperature);
+          this.thermostatService
+            .getCharacteristic(this.platform.Characteristic.TargetTemperature)
+            .on("set",this.setTargetTemperature)
+            .on("get", this.getTargetTemperature);
     
-                this.thermostatService
-                    .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
-                    .on("get", this.getTemperatureDisplayUnits);
-            } else {  
-                  const ThermoService = this.accessory.getService(this.platform.Service.Thermostat);  
+          this.thermostatService
+            .getCharacteristic(this.platform.Characteristic.TemperatureDisplayUnits)
+            .on("get", this.getTemperatureDisplayUnits);
+        
+        } else {  
+          const ThermoService = this.accessory.getService(this.platform.Service.Thermostat);  
                 
-                if (ThermoService) {
-                    this.thermostatService = ThermoService
-                    
-                    const { thermostatInfo } = this.toon.connection.toonstatus;
-             //       this.log.info("ToonThermostat Const:Thermostat Update")
-                    this.thermostatService.updateCharacteristic(
-                        this.platform.Characteristic.CurrentTemperature,
-                        thermostatInfo.currentDisplayTemp / 100
-                    );
+          if (ThermoService) {
+            this.thermostatService = ThermoService 
 
-                    this.thermostatService.updateCharacteristic(
-                        this.platform.Characteristic.TargetTemperature,
-                        thermostatInfo.currentSetpoint / 100
-                    );
+            const { thermostatInfo } = this.toon.connection.toonstatus;
+        
+            this.thermostatService.updateCharacteristic(
+              this.platform.Characteristic.CurrentTemperature,
+              thermostatInfo.currentDisplayTemp / 100
+            );
+
+            this.thermostatService.updateCharacteristic(
+              this.platform.Characteristic.TargetTemperature,
+              thermostatInfo.currentSetpoint / 100
+            );
               
-                    var heatingCoolingState;
-                    if (thermostatInfo.burnerInfo === "1") {
-                        heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
-                    } else {
-                        heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
-                    }
-  
-                    this.thermostatService.updateCharacteristic(
-                        this.platform.Characteristic.CurrentHeatingCoolingState,
-                        heatingCoolingState
-                    );
-                }
-            }
-    //    } 
-    }
-
-    UpdateThermoStat () {
-         
-         const thermostatService = this.accessory.getService(this.platform.Service.Thermostat);
-         const { thermostatInfo } = this.toon.connection.toonstatus;
-                
-         if (thermostatService) {
-            this.thermostatService= thermostatService
-            
-            this.thermostatService.updateCharacteristic(
-                this.platform.Characteristic.CurrentTemperature,
-                thermostatInfo.currentDisplayTemp / 100
-            );
-
-            this.thermostatService.updateCharacteristic(
-                this.platform.Characteristic.TargetTemperature,
-                thermostatInfo.currentSetpoint / 100
-            );
-       
             var heatingCoolingState;
             if (thermostatInfo.burnerInfo === "1") {
-                heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
+              heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.HEAT;
             } else {
-                heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
+              heatingCoolingState = this.platform.Characteristic.CurrentHeatingCoolingState.OFF;
             }
-
+  
             this.thermostatService.updateCharacteristic(
-                this.platform.Characteristic.CurrentHeatingCoolingState,
-                heatingCoolingState
+              this.platform.Characteristic.CurrentHeatingCoolingState, heatingCoolingState 
             );
-         }
-    }
+          }
+        }
+      }
+
+
 
 
     identify(callback: () => void) {

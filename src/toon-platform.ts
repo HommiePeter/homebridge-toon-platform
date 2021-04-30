@@ -1,27 +1,10 @@
 
-import {
-  API,
-  APIEvent,
-  CharacteristicEventTypes,
-  CharacteristicSetCallback,
-  CharacteristicValue,
-  Characteristic,
-  DynamicPlatformPlugin,
-  Service,
-  HAP,
-  Logger,
-  PlatformAccessory,
-  PlatformAccessoryEvent,
-  PlatformConfig,
-} from "homebridge";
-
+import { API, Characteristic, DynamicPlatformPlugin, Service, HAP, Logger, PlatformAccessory, PlatformConfig } from "homebridge";
 import { PLATFORM_NAME, PLUGIN_NAME } from "./settings";
-import { ToonThermostat } from "./ToonThermostat"
-import { ToonStatus, ThermostatInfo, ToonAgreement, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions"
+import { ToonStatus, ToonAgreement, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions"
 import { ToonAPI } from "./ToonObject";
 import { ToonAccessory} from "./ToonAccessorry";
 import {CustomCharacteristic} from './CustomCharacteristics';
-
 
 /*
  * IMPORTANT NOTICE
@@ -97,8 +80,6 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
         this.log.info('Executed didFinishLaunching callback');
       
-
-  //    this.discoverDevices(); 
         setInterval(() => {
             this.discoverDevices()
         }, 10000);
@@ -129,22 +110,13 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices() {
- //   this.log.info ("discoverDevices: GetToonStatus");
+
     this.toon.connection.getToonStatus();
     
- //   this.log.info ("discoverDevices: update_devicelist");
     this.toon.update_devicelist();
-    
- //   this.log.info ("discoverDevices: show_devicelist");
- //   this.toon.show_devicelist();
-
-   // this.toon.connection.getToonStatus();
 
     const Nrdevices = this.toon.devicelist.length;
 
-  //  this.log.info(`Entering loop for NrDevices is ${Nrdevices}`);
-
-    // loop over the discovered devices and register each one if it has not already been registered
     for ( let i=0; i < Nrdevices; i++) {
 
       // generate a unique id for the accessory this should be generated from
@@ -156,13 +128,9 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
       // see if an accessory with the same uuid has already been registered and restored from
       // the cached devices we stored in the `configureAccessory` method above
       const existingAccessory = this.registered_accessories.find(accessory => accessory.UUID === uuid);    
-      
- //     this.log.info(`Aantal accessories is ${this.registered_accessories.length}`);
 
       if (existingAccessory) {
-        // the accessory already exists
- //       this.log.info('discoverDevices: Updating existing accessory from cache:', existingAccessory.displayName);
-
+ 
         // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
         existingAccessory.context.device = device;
 
@@ -179,7 +147,6 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
       } else {
         // the accessory does not yet exist, so we need to create it
-  //      this.log.info('discoverDevices: Adding new accessory:', device.devName, device.devType);
 
         // create a new accessory
         const accessory = new this.api.platformAccessory(device.devName, uuid);
@@ -195,8 +162,6 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         let registered = accessory;
         this.registered_accessories.push(registered);
 
-  //      this.log.info('discoverDevices: Registering new accessory:', device.devName, device.devType);
-        // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
     }

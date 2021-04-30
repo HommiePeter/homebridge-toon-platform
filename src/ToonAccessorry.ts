@@ -1,8 +1,8 @@
 import { DEV_TYPE_HueLight, DEV_TYPE_SmartPlug, DEV_TYPE_SmokeSensor, DEV_TYPE_Thermostat } from "./ToonAPI-Definitions";
-import { ToonHomebridgePlatform } from './dynamic-platform';
+import { ToonHomebridgePlatform } from './toon-platform';
 import { ToonThermostat } from "./ToonThermostat";
-import {ToonSmokeDetector} from "./ToonSmokeSensor";
-import { PlatformConfig, Logger, PlatformAccessory } from "homebridge";
+import { ToonSmokeDetector} from "./ToonSmokeSensor";
+import { PlatformAccessory } from "homebridge";
 import { ToonAPI } from "./ToonObject";
 import { ToonWallPlug } from "./ToonWallPlug";
 

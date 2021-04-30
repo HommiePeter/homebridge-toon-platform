@@ -1,33 +1,9 @@
 
-import {
-    API,
-    APIEvent,
-    CharacteristicEventTypes,
-    CharacteristicSetCallback,
-    CharacteristicValue,
-    DynamicPlatformPlugin,
-    HAP,
-    Logger,
-    PlatformAccessory,
-    PlatformAccessoryEvent,
-    PlatformConfig,
-  } from "homebridge";
-import { ToonHomebridgePlatform } from "./dynamic-platform";
-
-import {
-  API_URL,
-  BASE_URL,
-  ThermostatInfo,
-  DeviceConfigInfo,
-  Token,
-  ToonAgreement,
-  ToonStatus,
-  ToonConnectedDevices,
-  ToonConnectedDevice,
-  DEV_TYPE_SmokeSensor,
-  DEV_TYPE_HueLight,
-  DEV_TYPE_SmartPlug, 
-} from "./ToonAPI-Definitions";
+import {Logger,PlatformConfig } from "homebridge";
+import {ToonHomebridgePlatform } from "./toon-platform";
+import {API_URL, ThermostatInfo, DeviceConfigInfo, ToonAgreement, 
+       ToonStatus, ToonConnectedDevices, ToonConnectedDevice, 
+       DEV_TYPE_HueLight, DEV_TYPE_SmartPlug } from "./ToonAPI-Definitions";
 
 export class ToonConnection {
     public agreement?: ToonAgreement; 
@@ -38,7 +14,6 @@ export class ToonConnection {
     private log: Logger;
     private token?: string;
     
- 
     constructor(
       private config: PlatformConfig,
       private platform : ToonHomebridgePlatform,
@@ -52,11 +27,6 @@ export class ToonConnection {
          : 0;
        
         this.initialize();
-
-    //  this.initialize().then(() => {
-    //    this.platform.discoverDevices()
-     //   setInterval(this.getToonStatus, 10000);
-     // });
     }
   
     private async initialize() {
@@ -103,11 +73,6 @@ export class ToonConnection {
       if (this.token === undefined) {
         throw Error("PUT not authorized");
       }
-
- //     this.log.info(`toonPutRequest with url : ${url}`);
- //     this.log.info(`toonPutRequest with body : ${JSON.stringify(body)}`);
- //     this.log.info(`toonPutRequest with body : ${this.getHeader}`);
-
       const fetch = require('node-fetch');
 
       try {
@@ -116,14 +81,6 @@ export class ToonConnection {
           'body': JSON.stringify(body), 
           'headers': this.getHeader()
         })
-        
-//        const {data, errors} = await response.json()
-//        if (response.ok) {
-//            this.log.info ('PUT succeeded')
-//            const result = data?.currentState;
-//            return result;
-//        } 
-//        this.log.info ('PUT went wrong')
         return await response.json();
       }
       catch(err) {
@@ -224,7 +181,6 @@ export class ToonConnection {
         this.log.info(`Successfully set Toon Temperature to ${temperature / 100}`);
     
         this.toonstatus.thermostatInfo = newThermostatInfo;
-       // this.onUpdate(this.toonStatus);
       }
     
       public async setTemperature(temperature: number) {
@@ -254,7 +210,6 @@ export class ToonConnection {
       }
     
       public getCurrentTemperature() {
-    //    this.log.info("getCurrentTemperature: Method is called")
         return this.toonstatus
           ? this.toonstatus.thermostatInfo.currentDisplayTemp / 100
           : undefined;
@@ -267,7 +222,6 @@ export class ToonConnection {
       }
 
       public async setToonDeviceOn(devUuid: string, switched_on: boolean) {
-       //var switch_on: boolean;
 
         if (!this.agreement) {
           throw Error("Setting Device, but there is no agreement.");
@@ -305,12 +259,7 @@ export class ToonConnection {
           payload
         );
     
- //      this.log.info(`Successfully set Device ${device.name}`);
-    
         return switched_on;
-// NOG TO DO: Interne data nog updaten
-       // this.toonstatus.thermostatInfo = newThermostatInfo;
-       // this.onUpdate(this.toonStatus);
       }
 
       public async getToonDevice(devUuid: string) {

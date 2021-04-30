@@ -1,26 +1,11 @@
 import { DeviceConfigInfo, DeviceStatusInfo, ToonStatus } from './ToonAPI-Definitions';
 import { ToonAPI } from  './ToonObject';
-import { ToonHomebridgePlatform } from './dynamic-platform';
-import {
-    API,
-    APIEvent,
-    Characteristic,
-    CharacteristicEventTypes,
-    CharacteristicSetCallback,
-    CharacteristicValue,
-    DynamicPlatformPlugin,
-    HAP,
-    Service,
-    Logger,
-    PlatformAccessory,
-    PlatformAccessoryEvent,
-    PlatformConfig,
-  } from 'homebridge';
+import { ToonHomebridgePlatform } from './toon-platform';
+import { CharacteristicValue, Service, Logger, PlatformAccessory } from 'homebridge';
 
 
 export class ToonWallPlug {
     private service: Service;
-    // private cust_service: Service;
     private wallplug?: DeviceConfigInfo;
     private wallplug_status?:DeviceStatusInfo;
     private log : Logger;
@@ -28,7 +13,6 @@ export class ToonWallPlug {
     constructor(
         private readonly platform: ToonHomebridgePlatform,
         private readonly accessory: PlatformAccessory,
-       // private devType: string,
         private devUuid: string,
         private toon: ToonAPI,
         private create_new: boolean,
@@ -38,8 +22,6 @@ export class ToonWallPlug {
         const device = this.toon.connection.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid);
         const status = this.toon.connection.toonstatus.deviceStatusInfo.device.find(device => device.devUUID === devUuid);
     
-        //this.cust_service = this.accessory.addService (this.platform.CustomService.DailyPowerConsumption);
-
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
@@ -54,11 +36,12 @@ export class ToonWallPlug {
             if (create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.wallplug.name);
                 this.service.setCharacteristic(this.platform.Characteristic.On, this.wallplug_status.currentState);
+                
                 this.service.addCharacteristic(this.platform.Cust_Characteristic.characteristic.CurrentPowerConsumption)
                 this.service.addCharacteristic(this.platform.Cust_Characteristic.characteristic.DailyPowerConsumption)
                 this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
                 this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
-               // this.service.addLinkedService(this.cust_service);
+          
                 if (this.wallplug_status.currentUsage !== 0) {
                     this.service.setCharacteristic(this.platform.Characteristic.OutletInUse, 1);   
                 } else {
@@ -67,11 +50,13 @@ export class ToonWallPlug {
             } else {
                this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.CurrentPowerConsumption,this.wallplug_status.currentUsage);
                this.service.setCharacteristic(this.platform.Cust_Characteristic.characteristic.DailyPowerConsumption,this.wallplug_status.dayUsage);
-                if (this.wallplug_status.currentUsage !== 0) {
+                
+               if (this.wallplug_status.currentUsage !== 0) {
                     this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, 1);   
                 } else {
                     this.service.updateCharacteristic(this.platform.Characteristic.OutletInUse, 0);  
                 }
+
                 this.service.updateCharacteristic(this.platform.Characteristic.On, this.wallplug_status.currentState);
             }
         } else {
@@ -98,7 +83,6 @@ export class ToonWallPlug {
     }
 
     async handleOutletInUseGet():Promise<CharacteristicValue> { 
-       // this.log.info('Triggered GET On OutletInUseGet');
         
         const response = await this.toon.connection.getToonDeviceStatus(this.devUuid);
         if (response) {
@@ -112,13 +96,11 @@ export class ToonWallPlug {
 
     handleOnSet(value: CharacteristicValue) {
         const newValue = value as boolean;
-        this.log.info(`Triggered SET On handleOnSet ${newValue}`);
           
         this.toon.connection.setToonDeviceOn (this.devUuid, newValue);
     }
 
     async handleOnGet():Promise<CharacteristicValue> { 
-       // this.log.info('Triggered GET On handleOnGet');
 
         const response = await this.toon.connection.getToonDevice(this.devUuid);
         const isOn = response.currentState !== 0;

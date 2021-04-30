@@ -1,20 +1,7 @@
 import { SmokeDetector, ToonStatus } from './ToonAPI-Definitions';
 import { ToonAPI } from  './ToonObject';
-import { ToonHomebridgePlatform } from './dynamic-platform';
-import {
-    API,
-    APIEvent,
-    CharacteristicEventTypes,
-    CharacteristicSetCallback,
-    CharacteristicValue,
-    DynamicPlatformPlugin,
-    HAP,
-    Service,
-    Logger,
-    PlatformAccessory,
-    PlatformAccessoryEvent,
-    PlatformConfig,
-  } from 'homebridge';
+import { ToonHomebridgePlatform } from './toon-platform';
+import { Service, Logger, PlatformAccessory } from 'homebridge';
 
 
  
@@ -26,17 +13,14 @@ export class ToonSmokeDetector {
     constructor(
         private readonly platform: ToonHomebridgePlatform,
         private readonly accessory: PlatformAccessory,
-       // private devType: string,
         private devUuid: string,
         private toon: ToonAPI,
         private create_new: boolean,
     ) {
         this.log = platform.log;
     
-
         const result = this.toon.connection.toonstatus.smokeDetectors.device.find(device => device.devUuid === this.devUuid);
 
-    
         // setup new homekit accessory
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Fibaro')
@@ -47,11 +31,10 @@ export class ToonSmokeDetector {
         if (result) {
             this.smokedetector = result;
 
-            if (create_new) {
+            if (this.create_new) {
                 this.service.setCharacteristic(this.platform.Characteristic.Name, this.smokedetector.name);
                 this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
                 this.service.addCharacteristic(this.platform.Characteristic.BatteryLevel)
-                //this.service = this.accessory.addService(this.platform.Service.Battery);
 
                 this.service.setCharacteristic(this.platform.Characteristic.BatteryLevel, this.smokedetector.batteryLevel);
                 if (this.smokedetector.batteryLevel < 20) {
@@ -78,7 +61,6 @@ export class ToonSmokeDetector {
     }
 
     handleSmokeDetected() {
-        this.log.info('Triggered GET SmokeDetected');
     
         // set this to a valid value for SmokeDetected
         const currentValue = this.platform.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED;
