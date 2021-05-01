@@ -281,14 +281,11 @@ export class ToonConnection {
             throw Error (`Device with DevUuid ${devUuid} was not found in ToonStatus`)
         }
     
-  //      let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
-  //        `${API_URL}${this.agreement.agreementId}/device/${devUuid}`
-  //      );
 
         if (DeviceInfo.currentState == 1) {     
-          this.log.info(`ToonConnect.getToonDevice: Device ${DeviceInfo.name} is On currentState is ${DeviceInfo.currentState}`);
+          this.log.debug(`ToonConnect.getToonDevice: Device ${DeviceInfo.name} is On currentState is ${DeviceInfo.currentState}`);
         } else {
-          this.log.info(`ToonConnect.getToonDevice: Device ${DeviceInfo.name} is Off currentState is ${DeviceInfo.currentState}`);   
+          this.log.debug(`ToonConnect.getToonDevice: Device ${DeviceInfo.name} is Off currentState is ${DeviceInfo.currentState}`);   
         }
 
         return DeviceInfo;

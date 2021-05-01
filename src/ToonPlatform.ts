@@ -59,8 +59,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.Cust_Characteristic = new CustomCharacteristic(this.api);
 
   // TO DO ONDERSTAAND VERWIJDEREN
-    this.toonconfig.switch_wallplug= true;
-    this.toonconfig.switch_smoke= true;
+    this.toonconfig.switch_hue= false;
 
     this.log.info('Finished initializing Toon platform:', this.toonconfig.name);
   
