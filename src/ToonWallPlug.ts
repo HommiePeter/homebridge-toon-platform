@@ -96,15 +96,15 @@ export class ToonWallPlug {
 
     handleOnSet(value: CharacteristicValue) {
         const newValue = value as boolean;
-          
+        this.log.info(`Triggered SET On ${newValue} for ${this.devUuid};`);  
         this.toon.connection.setToonDeviceOn (this.devUuid, newValue);
     }
 
     async handleOnGet():Promise<CharacteristicValue> { 
-
+        this.log.info(`Triggered GET Onfor ${this.devUuid}`);
         const response = await this.toon.connection.getToonDevice(this.devUuid);
         const isOn = response.currentState !== 0;
-      
+        this.log.info(`Triggered GET Onfor ${this.devUuid}, with isOn ${isOn}`);
         return isOn; 
     } 
 } 
