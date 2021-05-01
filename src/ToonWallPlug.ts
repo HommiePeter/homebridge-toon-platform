@@ -104,7 +104,7 @@ export class ToonWallPlug {
         this.log.info(`Triggered GET Onfor ${this.devUuid}`);
         const response = await this.toon.connection.getToonDevice(this.devUuid);
         const isOn = response.currentState !== 0;
-        this.log.info(`Triggered GET Onfor ${this.devUuid}, with isOn ${isOn}`);
+        this.log.info(`Triggered GET Onfor ${this.devUuid}, with isOn ${isOn}, and state ${response.currentState}`);
         return isOn; 
     } 
 } 
