@@ -286,6 +286,12 @@ export class ToonConnection {
   //        `${API_URL}${this.agreement.agreementId}/device/${devUuid}`
   //      );
 
+        if (DeviceInfo.currentState == 1) {     
+          this.log.info(`Device ${DeviceInfo.name} is On ${DeviceInfo.currentState}`);
+        } else {
+          this.log.info(`Device ${DeviceInfo.name} is Off ${DeviceInfo.currentState}`);   
+        }
+
         return DeviceInfo;
       }
 
