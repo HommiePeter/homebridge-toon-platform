@@ -142,7 +142,7 @@ export interface DeviceStatusInfo {
   currentUsage: number,
   dayUsage: number,
   avgUsage: number,
-  currentState: boolean,
+  currentState: number,
   isConnected: boolean,
   networkHealthState: number,
   rgbColor:number,

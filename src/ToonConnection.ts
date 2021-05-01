@@ -147,7 +147,6 @@ export class ToonConnection {
 
         this.toonstatus = status;
         this.log.debug("getToonStatus: Toon status data is retrieved");
-    // TO DO: Moet nog uitbreiden met actuele infor
         
       }; 
 
@@ -287,9 +286,9 @@ export class ToonConnection {
   //      );
 
         if (DeviceInfo.currentState == 1) {     
-          this.log.info(`Device ${DeviceInfo.name} is On ${DeviceInfo.currentState}`);
+          this.log.info(`ToonConnect.getToonDevice: Device ${DeviceInfo.name} is On currentState is ${DeviceInfo.currentState}`);
         } else {
-          this.log.info(`Device ${DeviceInfo.name} is Off ${DeviceInfo.currentState}`);   
+          this.log.info(`ToonConnect.getToonDevice: Device ${DeviceInfo.name} is Off currentState is ${DeviceInfo.currentState}`);   
         }
 
         return DeviceInfo;
