@@ -276,17 +276,17 @@ export class ToonConnection {
         if (!this.toonstatus) {
           throw Error("Setting Device, but there is no status information.");
         }
-        const device = this.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid)
+        const DeviceInfo = this.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid)
         
-        if(!device) {
+        if(!DeviceInfo) {
             throw Error (`Device with DevUuid ${devUuid} was not found in ToonStatus`)
         }
     
-        let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
-          `${API_URL}${this.agreement.agreementId}/device/${devUuid}`
-        );
+  //      let currentDeviceInfo: DeviceConfigInfo = await this.toonGETRequest(
+  //        `${API_URL}${this.agreement.agreementId}/device/${devUuid}`
+  //      );
 
-        return currentDeviceInfo;
+        return DeviceInfo;
       }
 
       public async getToonDeviceStatus(devUuid: string) {
