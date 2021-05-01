@@ -18,6 +18,5 @@
   },
   "include": [
     "src",   
-    "src/CustomCharacteristic.js",
     "src/config.ts"  ]
 }

@@ -25,9 +25,8 @@
   "license": "ISC",
   "files": [
     "LICENSE",
-    "dist",
-    "dist/lib" 
-    
+    "dist"
+
   ],
   "repository": {
     "type": "git",
