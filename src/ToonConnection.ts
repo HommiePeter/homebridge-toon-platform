@@ -260,7 +260,7 @@ export class ToonConnection {
         
         //Updating also internal ToonStatus data
         const DeviceNr = this.toonstatus.deviceStatusInfo.device.findIndex(device => device.devUUID === devUuid)
-        this.toonstatus.deviceStatusInfo.device[DeviceNr]= newDeviceInfo; 
+        this.toonstatus.deviceStatusInfo.device[DeviceNr].currentState = currentDeviceInfo.currentState; 
         
         return switched_on;
 
@@ -275,7 +275,7 @@ export class ToonConnection {
         if (!this.toonstatus) {
           throw Error("Setting Device, but there is no status information.");
         }
-        const DeviceInfo = this.toonstatus.deviceConfigInfo.device.find(device => device.devUUID === devUuid)
+        const DeviceInfo = this.toonstatus.deviceStatusInfo.device.find(device => device.devUUID === devUuid)
         
         if(!DeviceInfo) {
             throw Error (`Device with DevUuid ${devUuid} was not found in ToonStatus`)
