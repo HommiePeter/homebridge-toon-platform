@@ -1,6 +1,6 @@
 
 import {Logger,PlatformConfig } from "homebridge";
-import {ToonHomebridgePlatform } from "./toon-platform";
+import {ToonHomebridgePlatform } from "./ToonPlatform";
 import {API_URL, ThermostatInfo, DeviceConfigInfo, ToonAgreement, 
        ToonStatus, ToonConnectedDevices, ToonConnectedDevice, 
        DEV_TYPE_HueLight, DEV_TYPE_SmartPlug } from "./ToonAPI-Definitions";
@@ -19,7 +19,7 @@ export class ToonConnection {
       private platform : ToonHomebridgePlatform,
     ) {
         this.token = config.apiToken;
-        this.log = platform.log;
+        this.log = this.platform.log;
 
         // Index selecting the agreement, if a user has multiple agreements (due to moving, etc.).
         this.agreementIndex = this.config.agreementIndex
@@ -146,7 +146,7 @@ export class ToonConnection {
         );
 
         this.toonstatus = status;
-        this.log.info("getToonStatus: Toon status data is retrieved");
+        this.log.debug("getToonStatus: Toon status data is retrieved");
     // TO DO: Moet nog uitbreiden met actuele infor
         
       }; 
@@ -258,8 +258,13 @@ export class ToonConnection {
           `${API_URL}${this.agreement.agreementId}/devices/${devUuid}`,
           payload
         );
-    
+        
+        //Updating also internal ToonStatus data
+        const DeviceNr = this.toonstatus.deviceStatusInfo.device.findIndex(device => device.devUUID === devUuid)
+        this.toonstatus.deviceStatusInfo.device[DeviceNr]= newDeviceInfo; 
+        
         return switched_on;
+
       }
 
       public async getToonDevice(devUuid: string) {

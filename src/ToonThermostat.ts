@@ -1,5 +1,5 @@
 import { ToonAPI } from  './ToonObject';
-import { ToonHomebridgePlatform } from './toon-platform';
+import { ToonHomebridgePlatform } from './ToonPlatform';
 import { Logger, Service, PlatformAccessory } from "homebridge";
 
 export class ToonThermostat {

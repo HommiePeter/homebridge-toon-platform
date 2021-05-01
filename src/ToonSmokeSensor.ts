@@ -1,6 +1,6 @@
 import { SmokeDetector, ToonStatus } from './ToonAPI-Definitions';
 import { ToonAPI } from  './ToonObject';
-import { ToonHomebridgePlatform } from './toon-platform';
+import { ToonHomebridgePlatform } from './ToonPlatform';
 import { Service, Logger, PlatformAccessory } from 'homebridge';
 
 
