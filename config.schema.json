@@ -1,44 +1,50 @@
 {
-    "pluginAlias": "Toon-Platform",
-    "pluginType": "platform",
-    "singular": true,
-    "schema": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "title": "Name",
-          "type": "string",
-          "required": true,
-          "default": "Toon"
+  "pluginAlias": "Toon-Platform",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+      "title": "Name",
+        "type": "string",
+        "required": true,
+        "default": "Toon"
         },
-        "apiToken": {
-          "title": "apiToken",
-          "type": "string",
-          "required": true
-        },
-        "switch_hue": {
-          "title": "Enable Hue Lights",
-          "type": "boolean",
-          "required": true,
-          "default": true
-        },
-        "switch_smoke": {
-          "title": "Enable Fibaro Smoke Sensors",
-          "type": "boolean",
-          "required": true,
-          "default": true    
-        },
-        "switch_wallplug": {
-          "title": "Enable Wall plugs",
-          "type": "boolean",
-          "required": true,
-          "default": true 
-        },
-        "AgreementIndex": {
-          "title": "Toon Agreement Index number",
-          "type": "number",
-          "required": false
-        }
+      "apiToken": {
+        "title": "apiToken",
+        "type": "string",
+        "required": true
+      },
+      "switch_hue": {
+        "title": "Enable Hue Lights",
+        "type": "boolean",
+        "required": true,
+        "default": true
+      },
+      "switch_smoke": {
+        "title": "Enable Fibaro Smoke Sensors",
+        "type": "boolean",
+        "required": true,
+        "default": true    
+      },
+      "switch_wallplug": {
+        "title": "Enable Wall plugs",
+        "type": "boolean",
+        "required": true,
+        "default": true 
+      },
+      "AgreementIndex": {
+        "title": "Toon Agreement Index number",
+        "type": "number",
+        "required": false
+      },
+      "refresRate": {
+        "title": "How often to refresh Toon data",
+        "type": "number",
+        "required": false,
+        "default": 20000 
       }
     }
   }
+}

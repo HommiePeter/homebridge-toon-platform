@@ -81,7 +81,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
       
         setInterval(() => {
             this.discoverDevices()
-        }, 10000);
+        }, this.toonconfig.refreshRate);
      });
   }
   
