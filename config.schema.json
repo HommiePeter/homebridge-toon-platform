@@ -39,7 +39,7 @@
         "type": "number",
         "required": false
       },
-      "refresRate": {
+      "refreshRate": {
         "title": "How often to refresh Toon data",
         "type": "number",
         "required": false,
