@@ -40,9 +40,9 @@
         "required": false
       },
       "refreshRate": {
-        "title": "How often to refresh Toon data",
+        "title": "How often to refresh Toon data (milli seconds)",
         "type": "number",
-        "required": false,
+        "required": true,
         "default": 20000 
       }
     }
