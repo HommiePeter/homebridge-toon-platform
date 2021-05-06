@@ -78,10 +78,15 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
      */
     this.api.on('didFinishLaunching', () => {
         this.log.info('Executed didFinishLaunching callback');
-        this.log.info(`RefreshRate = ${this.toonconfig.refreshRate}`)
-        setInterval(() => {
-            this.discoverDevices()
-        }, 20000);
+        
+        if (this.toonconfig.refreshRate == undefined)  {
+          setInterval(() => { this.discoverDevices() }, 300000);
+          this.log.info(`Using default valies to set Toon status RefreshRate to ${this.toonconfig.refreshRate} milli secconds`)
+          // Default value for Toon is 300 seconds other wise time outs (limit rate errrors) will occur
+        } else {
+          setInterval(() => { this.discoverDevices() }, this.toonconfig.refreshRate);
+          this.log.info(`Using plugin config data to set Toon status RefreshRate to ${this.toonconfig.refreshRate} milli secconds`)
+        }        
      });
   }
   
