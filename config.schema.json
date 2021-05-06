@@ -40,10 +40,10 @@
         "required": false
       },
       "refreshRate": {
-        "title": "How often to refresh Toon data (milli seconds)",
+        "title": "How often to collect Toon data from eneco (milli seconds)",
         "type": "number",
         "required": true,
-        "default": 20000 
+        "default": 300000 
       }
     }
   }
