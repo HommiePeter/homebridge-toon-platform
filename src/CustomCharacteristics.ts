@@ -1,5 +1,5 @@
 import {API, Characteristic, CharacteristicProps, Formats, Perms, WithUUID} from 'homebridge';
-
+  
 export class CustomCharacteristic {
 
   private api: API;

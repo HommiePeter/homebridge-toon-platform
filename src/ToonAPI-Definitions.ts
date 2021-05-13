@@ -66,7 +66,7 @@ export interface Configinfo {
 export interface Statusinfo {
   device: Array<DeviceStatusInfo>,
 }
-
+   
 export interface SmokeDetector {
      intAddr: string; 
      devUuid: string; 

@@ -1,7 +1,7 @@
 import { API } from 'homebridge';
 import { PLATFORM_NAME } from './settings';
 import { ToonHomebridgePlatform } from './ToonPlatform';
-
+  
 var Service, Characteristic, UUIDGen, CustomCharacteristic; 
 
 /**

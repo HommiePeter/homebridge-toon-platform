@@ -13,7 +13,7 @@ export class ToonConnection {
     private agreementIndex: number;
     private log: Logger;
     private token?: string;
-    
+       
     constructor(
       private config: PlatformConfig,
       private platform : ToonHomebridgePlatform,

@@ -25,7 +25,7 @@ export class ToonAPI {
         this.log = Toonplatform.log;
         this.log.info(`Toon: Connection was setup up`);
     }
-
+  
     public async update_devicelist () {
         var devUuid: string;
         var devName: string;

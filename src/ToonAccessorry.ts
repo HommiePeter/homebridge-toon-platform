@@ -20,7 +20,7 @@ export class ToonAccessory {
       if (devType == DEV_TYPE_SmokeSensor) {
         new ToonSmokeDetector (platform, accessory, devUuid, toon, create_new);
       }
-
+  
       if (devType == DEV_TYPE_SmartPlug) {
         new ToonWallPlug (platform, accessory, devUuid, toon,create_new);
       }

@@ -169,7 +169,7 @@ export class ToonThermostat {
     ) => {
       callback(null, this.toon.connection.getDisplayCommonName());
     };
-  
+     
     getHardwareVersion = (callback: (err: Error | null, value?: any) => void) => {
       callback(null, this.toon.connection.getHardwareVersion());
     };
