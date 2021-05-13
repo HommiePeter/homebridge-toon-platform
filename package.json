@@ -1,5 +1,4 @@
 {
-  "private": true,
   "displayName": "Toon Platform",
   "name": "homebridge-toon-platform",
   "version": "0.9.5",
