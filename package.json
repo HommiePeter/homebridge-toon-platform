@@ -3,7 +3,7 @@
   "displayName": "Toon Platform",
   "name": "homebridge-toon-platform",
   "version": "1.0.0",
-  "description": "An example dynamic platform plugin for homebridge written in Typescript",
+  "description": "An platform plugin to disclose Toon and its connected devices to HomeKit",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist",
@@ -30,10 +30,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/homebridge/homebridge-examples.git"
+    "url": "git://github.com/HommiePeter/homebridge-toon-platform.git"
   },
   "bugs": {
-    "url": "http://github.com/homebridge/homebridge-examples/issues"
+    "url": "http://github.com/HommiePeter/homebridge-toon-platform/issues"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
