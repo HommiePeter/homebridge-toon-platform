@@ -1,7 +1,7 @@
 {
   "displayName": "Toon Platform",
   "name": "homebridge-toon-platform",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "An platform plugin to disclose Toon and its connected devices to HomeKit",
   "main": "dist/index.js",
   "scripts": {
@@ -42,6 +42,9 @@
     "@types/request": "^2.0.5",
     "@types/request-promise": "^4.1.38",
     "nodemon": "^2.0.7",
+    "node-fetch": "2.6.1"
+  },
+  "dependencies": {
     "node-fetch": "2.6.1"
   }
 }
