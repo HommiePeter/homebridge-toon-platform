@@ -7,8 +7,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "rimraf ./dist && tsc",
-    "prepublishOnly": "npm run build",
-    "postpublish": "npm run clean",
+    "prepublishOnly": "sudo npm run build",
+    "postpublish": "sudo npm run clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
