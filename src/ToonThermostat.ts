@@ -19,19 +19,18 @@ export class ToonThermostat {
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
             .setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.devName)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Eneco')
-            .setCharacteristic(this.platform.Characteristic.Model, 'Toon Thermostaat Model 1')
-            //Bugfix release 0.9.7. 12/02/2022
-            if (this.toon.connection.getDisplayCommonName() == undefined) {}
-            else {
-              .setCharacteristic(this.platform.Characteristic.SerialNumber, this.toon.connection.getDisplayCommonName() )
-            }
+            .setCharacteristic(this.platform.Characteristic.Model, 'Toon Thermostaat Model 1');
             
-            .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())                
-            .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
-
         this.thermostatService = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
 
-        if (this.create_new) {    
+        if (this.create_new) { 
+          // Bugfix 0.9.7. 12/02/2022
+          this.accessory.getService(this.platform.Service.AccessoryInformation)!
+            .setCharacteristic(this.platform.Characteristic.SerialNumber, this.toon.connection.getDisplayCommonName() )
+            .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())                
+            .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
+          
+
           this.thermostatService
             .getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
             .setProps({
