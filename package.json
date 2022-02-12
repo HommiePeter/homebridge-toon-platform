@@ -1,7 +1,7 @@
 {
   "displayName": "Toon Platform",
   "name": "homebridge-toon-platform",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "An platform plugin to disclose Toon and its connected devices to HomeKit",
   "main": "dist/index.js",
   "scripts": {
