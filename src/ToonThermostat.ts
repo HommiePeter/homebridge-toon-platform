@@ -20,7 +20,12 @@ export class ToonThermostat {
             .setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.devName)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Eneco')
             .setCharacteristic(this.platform.Characteristic.Model, 'Toon Thermostaat Model 1')
-            .setCharacteristic(this.platform.Characteristic.SerialNumber, this.toon.connection.getDisplayCommonName() )
+            //Bugfix release 0.9.7. 12/02/2022
+            if (this.toon.connection.getDisplayCommonName() == undefined) {}
+            else {
+              .setCharacteristic(this.platform.Characteristic.SerialNumber, this.toon.connection.getDisplayCommonName() )
+            }
+            
             .setCharacteristic(this.platform.Characteristic.FirmwareRevision, this.toon.connection.getSoftwareVersion())                
             .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.toon.connection.getHardwareVersion());
 

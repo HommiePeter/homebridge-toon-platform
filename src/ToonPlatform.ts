@@ -108,8 +108,8 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     // add the restored accessory to the accessories cache so we can track if it has already been registered
     this.registered_accessories.push(restored);
    
-    if (devType == DEV_TYPE_Thermostat ) {
-        new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
+    if (devType == DEV_TYPE_Thermostat ) { 
+      new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
     } else { 
       this.accessories.push(restored_accessory);
     }
