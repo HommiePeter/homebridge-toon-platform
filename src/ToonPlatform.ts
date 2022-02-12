@@ -109,7 +109,7 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
     this.registered_accessories.push(restored);
    
     if (devType == DEV_TYPE_Thermostat ) { 
-      new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
+      new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, false);
     } else { 
       this.accessories.push(restored_accessory);
     }
