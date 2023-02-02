@@ -62,7 +62,7 @@ export class ToonWallPlug {
         } else {
             this.log.info(`Plug Wall or Status with DEVUUID ${devUuid} not found`);
         }
-        
+        this.log.info(`Plug Wall Current PowerConsumption is ${this.wallplug_status?.currentUsage}with daily usage ${this.wallplug_status?.dayUsage}`);
         this.service.getCharacteristic(this.platform.Characteristic.OutletInUse)
         .onGet(this.handleOutletInUseGet.bind(this))
         .onSet(this.handleOutletInUseSet.bind(this));

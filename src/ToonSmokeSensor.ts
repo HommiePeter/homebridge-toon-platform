@@ -36,6 +36,13 @@ export class ToonSmokeDetector {
                 this.service.setCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
                 this.service.addCharacteristic(this.platform.Characteristic.BatteryLevel)
 
+                if (this.smokedetector.batteryLevel < 0) {
+                // Bug Fix 12/2/2022
+                // If Smoke detector is no longer found, batterylevel = -1, to avoid errors in logging reset to zero        
+                    this.log.info(`Smoke detector ${this.smokedetector.name} no longer connected to Toon`);
+                    this.smokedetector.batteryLevel = 0
+                }
+
                 this.service.setCharacteristic(this.platform.Characteristic.BatteryLevel, this.smokedetector.batteryLevel);
                 if (this.smokedetector.batteryLevel < 20) {
                     this.service.setCharacteristic(this.platform.Characteristic.StatusLowBattery, 1); // Battery Level is Low
@@ -44,6 +51,13 @@ export class ToonSmokeDetector {
                 }  
 
             } else {
+                if (this.smokedetector.batteryLevel < 0) {
+                // Bug Fix 12/2/2022
+                // If Smoke detector is no longer found, batterylevel = -1, to avoid errors in logging reset to zero        
+                    this.log.info(`Smoke detector ${this.smokedetector.name} no longer connected to Toon`);
+                    this.smokedetector.batteryLevel = 0
+                }
+                
                 this.service.updateCharacteristic(this.platform.Characteristic.StatusActive, this.smokedetector.connected);
                 this.service.updateCharacteristic(this.platform.Characteristic.BatteryLevel, this.smokedetector.batteryLevel);
                 if (this.smokedetector.batteryLevel < 20) {

@@ -81,7 +81,9 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
         
         if (this.toonconfig.refreshRate == undefined)  {
           setInterval(() => { this.discoverDevices() }, 300000);
-          this.log.info(`Using default valies to set Toon status RefreshRate to ${this.toonconfig.refreshRate} milli secconds`)
+          // Bugfix release 0.9.7. 12/2/2022 
+          this.log.info(`No refresh defined in plugin config, Using default value instead 300000 milli secconds`)
+          
           // Default value for Toon is 300 seconds other wise time outs (limit rate errrors) will occur
         } else {
           setInterval(() => { this.discoverDevices() }, this.toonconfig.refreshRate);
@@ -105,12 +107,13 @@ export class ToonHomebridgePlatform implements DynamicPlatformPlugin {
       
     // add the restored accessory to the accessories cache so we can track if it has already been registered
     this.registered_accessories.push(restored);
-   
-    if (devType == DEV_TYPE_Thermostat ) {
-        new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
-    } else { 
-      this.accessories.push(restored_accessory);
-    }
+    this.accessories.push(restored_accessory);
+// 0.9.7. BugFix Release
+//    if (devType == DEV_TYPE_Thermostat ) { 
+//      new ToonAccessory(this, restored_accessory, devType, devUuid, this.toon, true);
+//    } else { 
+//      this.accessories.push(restored_accessory);
+//    }
   }
 
   async discoverDevices() {
